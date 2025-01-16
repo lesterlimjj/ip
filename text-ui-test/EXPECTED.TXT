@@ -1,7 +1,40 @@
-Hello from
- ____        _        
-|  _ \ _   _| | _____ 
-| | | | | | | |/ / _ \
-| |_| | |_| |   <  __/
-|____/ \__,_|_|\_\___|
+In echo mode!
 
+Message1
+
+Message2
+
+Exited current mode!
+
+In tasklist mode!
+
+added: eat apples
+
+A quick check reviews we have 1 tasks!
+The following is now done:
+[X] eat apples
+Friend, here is your list of tasks:
+1.[X] eat apples
+The following is now no longer done:
+[ ] eat apples
+Friend, here is your list of tasks:
+1.[ ] eat apples
+The following Todo has been added:
+[T][ ] drink lemonade
+
+A quick check reviews we have 2 tasks!
+The following deadline has been added:
+[D][ ] fulfil slayer oath (by: 13 Jan)
+
+A quick check reviews we have 3 tasks!
+The following deadline has been added:
+[E][ ] play games (from: Mon 10am to: 1pm)
+
+A quick check reviews we have 4 tasks!
+The following is now done:
+[T][X] drink lemonade
+Friend, here is your list of tasks:
+1.[ ] eat apples
+2.[T][X] drink lemonade
+3.[D][ ] fulfil slayer oath (by: 13 Jan)
+4.[E][ ] play games (from: Mon 10am to: 1pm)

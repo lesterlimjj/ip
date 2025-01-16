@@ -1,0 +1,15 @@
+echo
+Message1
+Message2
+exit
+tasklist
+eat apples
+mark 1
+list
+unmark 1
+list
+todo drink lemonade
+deadline fulfil slayer oath /by 13 Jan
+event play games /from Mon 10am /to 1pm
+mark 2
+list
