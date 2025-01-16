@@ -113,6 +113,11 @@ public class Owen {
                                     processUnmark(index);
                                 } else if (action.equals("todo")) {
                                     String[] parts = taskMessage.split(" ");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("You forgot your description. Try again.");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many parameters for a Todo. Limit it to just description.");
+                                    }
                                     String description = parts[1];
                                     createTodo(description);
                                     showNumberOfTasks();
@@ -120,6 +125,11 @@ public class Owen {
                                     String truncated = taskMessage.replaceFirst(action + " ", "");
                                     truncated = truncated.replaceFirst("by ", "");
                                     String[] parts = truncated.split("/");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("We cannot find a date. Please add 1 / and follow it with a date.");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many /s specified. Limit it to just one /.");
+                                    }
                                     createDeadline(parts);
                                     showNumberOfTasks();
                                 } else if (action.equals("event")) {
@@ -127,6 +137,13 @@ public class Owen {
                                     truncated = truncated.replaceFirst("from ", "");
                                     truncated = truncated.replaceFirst("to ", "");
                                     String[] parts = truncated.split("/");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("Missing start and end date. Please add 2 /s and follow each with a date");
+                                    } else if (parts.length == 2) {
+                                        throw new OwenException("Missing end date. Please add 1 / and follow it with a date");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many /s specified. Correct it to 2 /s.");
+                                    }
                                     createEvent(parts);
                                     showNumberOfTasks();
                                 } else {
