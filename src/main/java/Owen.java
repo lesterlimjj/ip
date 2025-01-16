@@ -89,6 +89,7 @@ public class Owen {
                             System.out.println(echoMessage + "\n");
                         }
                     }
+                    break;
 
                 case "tasklist":
                     System.out.println("In tasklist mode!\n");
@@ -101,7 +102,6 @@ public class Owen {
                             break;
                         } else if (action.equals("list")) {
                             showTaskList();
-                            break;
                         } else if (action.equals("mark")) {
                             int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                             processMark(index);
@@ -114,11 +114,14 @@ public class Owen {
                             showNumberOfTasks();
                         } else if (action.equals("deadline")) {
                             String truncated = taskMessage.replaceFirst(action + " ","");
+                            truncated = truncated.replaceFirst( "by ","");
                             String [] parts = truncated.split("/");
                             createDeadline(parts);
                             showNumberOfTasks();
                         } else if (action.equals("event")) {
                             String truncated = taskMessage.replaceFirst(action + " ","");
+                            truncated = truncated.replaceFirst( "from ","");
+                            truncated = truncated.replaceFirst( "to ","");
                             String [] parts = truncated.split("/");
                             createEvent(parts);
                             showNumberOfTasks();
