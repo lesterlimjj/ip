@@ -106,9 +106,21 @@ public class Owen {
                                 } else if (action.equals("list")) {
                                     showTaskList();
                                 } else if (action.equals("mark")) {
+                                    String[] parts = taskMessage.split(" ");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("Please specify an index. Try again.");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many parameters for a mark. Limit it to just one index.");
+                                    }
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processMark(index);
                                 } else if (action.equals("unmark")) {
+                                    String[] parts = taskMessage.split(" ");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("Please specify an index. Try again.");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many parameters for an unmark. Limit it to just one index.");
+                                    }
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processUnmark(index);
                                 } else if (action.equals("todo")) {
@@ -141,7 +153,7 @@ public class Owen {
                                         throw new OwenException("Missing start and end date. Please add 2 /s and follow each with a date");
                                     } else if (parts.length == 2) {
                                         throw new OwenException("Missing end date. Please add 1 / and follow it with a date");
-                                    } else if (parts.length > 2) {
+                                    } else if (parts.length > 3) {
                                         throw new OwenException("Too many /s specified. Correct it to 2 /s.");
                                     }
                                     createEvent(parts);
