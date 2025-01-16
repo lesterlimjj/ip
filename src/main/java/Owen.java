@@ -34,10 +34,12 @@ public class Owen {
                             System.out.println(exitMessage + "\n");
                             break;
                         } else if (taskMessage.equals("list")) {
+                            System.out.println("Here are the tasks in your list:");
                             for (int i = 0; i < taskList.size(); i++) {
                                 int index = i + 1;
                                 Task currentTask = taskList.get(i);
-                                System.out.println(index + ". " + currentTask.getDescription());
+                                System.out.println(index + "." + currentTask.getDoneIcon() + " "
+                                        + currentTask.getDescription());
                             }
                         } else {
                             Task newTask = new Task(taskMessage);
