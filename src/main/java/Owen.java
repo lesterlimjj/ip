@@ -9,7 +9,7 @@ public class Owen {
         Scanner scanner = new Scanner(System.in);
         System.out.println(greetMessage);
         String currentCommand = "";
-        ArrayList<String> taskList = new ArrayList<>();
+        ArrayList<Task> taskList = new ArrayList<>();
 
         while (!currentCommand.equals("bye")) {
             currentCommand = scanner.nextLine();
@@ -36,14 +36,18 @@ public class Owen {
                         } else if (taskMessage.equals("list")) {
                             for (int i = 0; i < taskList.size(); i++) {
                                 int index = i + 1;
-                                System.out.println(index + ". " + taskList.get(i));
+                                Task currentTask = taskList.get(i);
+                                System.out.println(index + ". " + currentTask.getDescription());
                             }
                         } else {
-                            System.out.println("added: " + taskMessage + "\n");
-                            taskList.add(taskMessage);
+                            Task newTask = new Task(taskMessage);
+                            taskList.add(newTask);
+                            System.out.println("added: " + newTask.getDescription() + "\n");
                         }
                     }
+
                 case "bye":
+                    System.out.println(exitMessage + "\n");
                     break;
 
             }
