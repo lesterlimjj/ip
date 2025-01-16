@@ -66,10 +66,10 @@ public class Owen {
         System.out.println("The following deadline has been added: \n" + newEvent.toString() + "\n");
     }
 
-    public static void createTask(String description) {
-        Task newTask = new Task(description);
-        taskList.add(newTask);
-        System.out.println("added: " + newTask.getDescription() + "\n");
+    public static void processDelete(int index) {
+        Task currentTask = taskList.get(index);
+        System.out.println("The following task has been deleted: \n" + currentTask.toString() + "\n");
+        taskList.remove(index);
     }
 
     public static void main(String[] args) {
@@ -127,8 +127,6 @@ public class Owen {
                                     String[] parts = taskMessage.split(" ");
                                     if (parts.length == 1) {
                                         throw new OwenException("You forgot your description. Try again.");
-                                    } else if (parts.length > 2) {
-                                        throw new OwenException("Too many parameters for a Todo. Limit it to just description.");
                                     }
                                     String description = parts[1];
                                     createTodo(description);
@@ -157,6 +155,16 @@ public class Owen {
                                         throw new OwenException("Too many /s specified. Correct it to 2 /s.");
                                     }
                                     createEvent(parts);
+                                    showNumberOfTasks();
+                                } else if (action.equals("delete")) {
+                                    String[] parts = taskMessage.split(" ");
+                                    if (parts.length == 1) {
+                                        throw new OwenException("Please specify an index. Try again.");
+                                    } else if (parts.length > 2) {
+                                        throw new OwenException("Too many parameters for an unmark. Limit it to just one index.");
+                                    }
+                                    int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
+                                    processDelete(index);
                                     showNumberOfTasks();
                                 } else {
                                     throw new OwenException("I have not seen that command before. Maybe in another life?");
