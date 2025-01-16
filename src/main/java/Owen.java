@@ -5,7 +5,8 @@ public class Owen {
     public static void main(String[] args) {
         String greetMessage = "Greetings! I am Owen.\n" +
                 "What would you ask of me? \n";
-        String exitMessage = "\nI am sure we will see each other soon. Goodbye.";
+        String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
+        String exitMessage = "Exited current mode!";
         Scanner scanner = new Scanner(System.in);
         System.out.println(greetMessage);
         String currentCommand = "";
@@ -18,7 +19,7 @@ public class Owen {
                     System.out.println("In echo mode!\n");
                     while (true) {
                         String echoMessage = scanner.nextLine();
-                        if (echoMessage.equals("bye")) {
+                        if (echoMessage.equals("exit")) {
                             System.out.println(exitMessage + "\n");
                             break;
                         } else {
@@ -31,7 +32,8 @@ public class Owen {
                     while (true) {
                         String taskMessage = scanner.nextLine();
                         String action = taskMessage.split(" ")[0];
-                        if (action.equals("bye")) {
+
+                        if (action.equals("exit")) {
                             System.out.println(exitMessage + "\n");
                             break;
                         } else if (action.equals("list")) {
@@ -48,6 +50,12 @@ public class Owen {
                             currentTask.setAsDone();
                             System.out.println("The following is now done: \n"
                                     + currentTask.getDoneIcon() + " " + currentTask.getDescription());
+                        } else if (action.equals("unmark")) {
+                            int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
+                            Task currentTask = taskList.get(index);
+                            currentTask.setAsNotDone();
+                            System.out.println("The following is now no longer done: \n"
+                                    + currentTask.getDoneIcon() + " " + currentTask.getDescription());
                         } else {
                             Task newTask = new Task(taskMessage);
                             taskList.add(newTask);
@@ -57,7 +65,7 @@ public class Owen {
                     break;
 
                 case "bye":
-                    System.out.println(exitMessage + "\n");
+                    System.out.println(byeMessage + "\n");
                     break;
 
             }

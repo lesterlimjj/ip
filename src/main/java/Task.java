@@ -18,5 +18,8 @@ public class Task {
     public void setAsDone() {
         this.isDone = true;
     }
-    
+
+    public void setAsNotDone() {
+        this.isDone = false;
+    }
 }
