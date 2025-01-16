@@ -14,5 +14,9 @@ public class Task {
     public String getDoneIcon() {
         return isDone ? "[X]" : "[ ]";
     }
+
+    public void setAsDone() {
+        this.isDone = true;
+    }
     
 }
