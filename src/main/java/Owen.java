@@ -41,21 +41,20 @@ public class Owen {
                             for (int i = 0; i < taskList.size(); i++) {
                                 int index = i + 1;
                                 Task currentTask = taskList.get(i);
-                                System.out.println(index + "." + currentTask.getDoneIcon() + " "
-                                        + currentTask.getDescription());
+                                System.out.println(index + "." + currentTask.toString());
                             }
                         } else if (action.equals("mark")) {
                             int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                             Task currentTask = taskList.get(index);
                             currentTask.setAsDone();
                             System.out.println("The following is now done: \n"
-                                    + currentTask.getDoneIcon() + " " + currentTask.getDescription());
+                                    + currentTask.toString());
                         } else if (action.equals("unmark")) {
                             int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                             Task currentTask = taskList.get(index);
                             currentTask.setAsNotDone();
                             System.out.println("The following is now no longer done: \n"
-                                    + currentTask.getDoneIcon() + " " + currentTask.getDescription());
+                                    + currentTask.toString());
                         } else {
                             Task newTask = new Task(taskMessage);
                             taskList.add(newTask);
