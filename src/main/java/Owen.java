@@ -128,7 +128,7 @@ public class Owen {
                                     if (parts.length == 1) {
                                         throw new OwenException("You forgot your description. Try again.");
                                     }
-                                    String description = parts[1];
+                                    String description = taskMessage.replaceFirst(action + " ", "");
                                     createTodo(description);
                                     showNumberOfTasks();
                                 } else if (action.equals("deadline")) {
