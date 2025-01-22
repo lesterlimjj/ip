@@ -133,26 +133,38 @@ public class Owen {
                                     showNumberOfTasks();
                                 } else if (action.equals("deadline")) {
                                     String truncated = taskMessage.replaceFirst(action + " ", "");
-                                    truncated = truncated.replaceFirst("by ", "");
-                                    String[] parts = truncated.split("/");
-                                    if (parts.length == 1) {
-                                        throw new OwenException("We cannot find a date. Please add 1 / and follow it with a date.");
-                                    } else if (parts.length > 2) {
-                                        throw new OwenException("Too many /s specified. Limit it to just one /.");
+                                    String[] parts = truncated.split(" ");
+                                    Boolean byPresent = false;
+                                    for (int i = 0; i < parts.length; i++) {
+                                        if (parts[i].equals("/by")) {
+                                            byPresent = true;
+                                            break;
+                                        }
+                                    }
+                                    if (byPresent == false) {
+                                        throw new OwenException("We cannot find a date. Please add a /by <date/time>");
                                     }
                                     createDeadline(parts);
                                     showNumberOfTasks();
                                 } else if (action.equals("event")) {
                                     String truncated = taskMessage.replaceFirst(action + " ", "");
-                                    truncated = truncated.replaceFirst("from ", "");
-                                    truncated = truncated.replaceFirst("to ", "");
-                                    String[] parts = truncated.split("/");
-                                    if (parts.length == 1) {
-                                        throw new OwenException("Missing start and end date. Please add 2 /s and follow each with a date");
-                                    } else if (parts.length == 2) {
-                                        throw new OwenException("Missing end date. Please add 1 / and follow it with a date");
-                                    } else if (parts.length > 3) {
-                                        throw new OwenException("Too many /s specified. Correct it to 2 /s.");
+                                    String[] parts = truncated.split(" ");
+                                    Boolean fromPresent = false;
+                                    Boolean toPresent = false;
+                                    for (int i = 0; i < parts.length; i++) {
+                                        if (parts[i].equals("/from")) {
+                                            fromPresent = true;
+                                        }
+                                        if (parts[i].equals("/to")) {
+                                            toPresent = true;
+                                        }
+                                    }
+                                    if (fromPresent == false && toPresent == false) {
+                                        throw new OwenException("Missing start and end date. Please add a /from <date/time> and add a /to <date/time>");
+                                    } else if (fromPresent == false) {
+                                        throw new OwenException("Missing start date. Please add a /from <date/time>");
+                                    } else if (toPresent == false) {
+                                        throw new OwenException("Missing end date. Please add a /to <date/time>");
                                     }
                                     createEvent(parts);
                                     showNumberOfTasks();
