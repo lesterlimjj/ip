@@ -3,13 +3,24 @@ Message1
 Message2
 exit
 tasklist
-eat apples
+todo eat apples
 mark 1
 list
 unmark 1
-list
-todo drink lemonade
 deadline fulfil slayer oath /by 13 Jan
 event play games /from Mon 10am /to 1pm
-mark 2
+delete 2
 list
+todo
+deadline fulfil slayer oath by 13 Jan
+event play games from Mon 10am to 1pm
+event play games /from Mon 10am to 1pm
+event play games from Mon 10am /to 1pm
+delete 3
+mark 3
+mark 1 2
+unmark 1 2
+delete 1 2
+trello
+exit
+trello

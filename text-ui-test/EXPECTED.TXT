@@ -1,3 +1,6 @@
+Greetings! I am Owen.
+What would you ask of me?
+
 In echo mode!
 
 Message1
@@ -8,33 +11,42 @@ Exited current mode!
 
 In tasklist mode!
 
-added: eat apples
+The following Todo has been added:
+[T][ ] eat apples
 
 A quick check reviews we have 1 tasks!
 The following is now done:
-[X] eat apples
+[T][X] eat apples
 Friend, here is your list of tasks:
-1.[X] eat apples
+1.[T][X] eat apples
 The following is now no longer done:
-[ ] eat apples
-Friend, here is your list of tasks:
-1.[ ] eat apples
-The following Todo has been added:
-[T][ ] drink lemonade
-
-A quick check reviews we have 2 tasks!
+[T][ ] eat apples
 The following deadline has been added:
 [D][ ] fulfil slayer oath (by: 13 Jan)
 
-A quick check reviews we have 3 tasks!
+A quick check reviews we have 2 tasks!
 The following deadline has been added:
 [E][ ] play games (from: Mon 10am to: 1pm)
 
-A quick check reviews we have 4 tasks!
-The following is now done:
-[T][X] drink lemonade
+A quick check reviews we have 3 tasks!
+The following task has been deleted:
+[D][ ] fulfil slayer oath (by: 13 Jan)
+
+A quick check reviews we have 2 tasks!
 Friend, here is your list of tasks:
-1.[ ] eat apples
-2.[T][X] drink lemonade
-3.[D][ ] fulfil slayer oath (by: 13 Jan)
-4.[E][ ] play games (from: Mon 10am to: 1pm)
+1.[T][ ] eat apples
+2.[E][ ] play games (from: Mon 10am to: 1pm)
+You forgot your description. Try again.
+We cannot find a date. Please add a /by <date/time>
+Missing start and end date. Please add a /from <date/time> and add a /to <date/time>
+Missing end date. Please add a /to <date/time>
+Missing start date. Please add a /from <date/time>
+The given index does not exist in the task list. Use list command to review the valid indexes.
+The given index does not exist in the task list. Use list command to review the valid indexes.
+Too many parameters for a mark. Limit it to just one index.
+Too many parameters for an unmark. Limit it to just one index.
+Too many parameters for a delete. Limit it to just one index.
+I have not seen that command before. Maybe in another life?
+Exited current mode!
+
+I have not seen that command before. Maybe in another life?

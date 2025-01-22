@@ -178,7 +178,7 @@ public class Owen {
                                     if (parts.length == 1) {
                                         throw new OwenException("Please specify an index. Try again.");
                                     } else if (parts.length > 2) {
-                                        throw new OwenException("Too many parameters for an unmark. Limit it to just one index.");
+                                        throw new OwenException("Too many parameters for a delete. Limit it to just one index.");
                                     }
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processDelete(index);
@@ -189,7 +189,7 @@ public class Owen {
                             } catch (OwenException exception) {
                                 System.out.println(exception.getMessage());
                             } catch (NumberFormatException exception) {
-                                System.out.println("please use a number for the index when performing mark or delete.");
+                                System.out.println("please use a number for the index when performing mark, unmark or delete.");
                             } catch (IndexOutOfBoundsException exception) {
                                 System.out.println("The given index does not exist in the task list. Use list command to review the valid indexes.");
                             }
