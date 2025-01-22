@@ -144,6 +144,8 @@ public class Owen {
                                     if (byPresent == false) {
                                         throw new OwenException("We cannot find a date. Please add a /by <date/time>");
                                     }
+                                    truncated = truncated.replaceFirst("by ", "");
+                                    parts = truncated.split("/");
                                     createDeadline(parts);
                                     showNumberOfTasks();
                                 } else if (action.equals("event")) {
@@ -166,6 +168,9 @@ public class Owen {
                                     } else if (toPresent == false) {
                                         throw new OwenException("Missing end date. Please add a /to <date/time>");
                                     }
+                                    truncated = truncated.replaceFirst("from ", "");
+                                    truncated = truncated.replaceFirst("to ", "");
+                                    parts = truncated.split("/");
                                     createEvent(parts);
                                     showNumberOfTasks();
                                 } else if (action.equals("delete")) {
@@ -183,6 +188,10 @@ public class Owen {
                                 }
                             } catch (OwenException exception) {
                                 System.out.println(exception.getMessage());
+                            } catch (NumberFormatException exception) {
+                                System.out.println("please use a number for the index when performing mark or delete.");
+                            } catch (IndexOutOfBoundsException exception) {
+                                System.out.println("The given index does not exist in the task list. Use list command to review the valid indexes.");
                             }
                         }
                         break;
