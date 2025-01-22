@@ -5,7 +5,7 @@ public class Owen {
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<Task> taskList = new ArrayList<>();
     private static final String greetMessage = "Greetings! I am Owen.\n" +
-            "What would you ask of me? \n";
+            "What would you ask of me?";
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
 
@@ -18,7 +18,11 @@ public class Owen {
     }
 
     public static void exitMode() {
-        System.out.println(exitMessage + "\n");
+        System.out.println(exitMessage);
+    }
+
+    public static void showSeparator() {
+        System.out.println("<07=======================================================07>");
     }
 
     public static void showNumberOfTasks() {
@@ -74,6 +78,7 @@ public class Owen {
 
     public static void main(String[] args) {
         welcome();
+        showSeparator();
         String currentCommand = "";
 
         while (!currentCommand.equals("bye")) {
@@ -81,25 +86,27 @@ public class Owen {
                 currentCommand = scanner.nextLine();
                 switch (currentCommand) {
                     case "echo":
-                        System.out.println("In echo mode!\n");
+                        System.out.println("In echo mode!");
+                        showSeparator();
                         while (true) {
                             String echoMessage = scanner.nextLine();
                             if (echoMessage.equals("exit")) {
                                 exitMode();
                                 break;
                             } else {
-                                System.out.println(echoMessage + "\n");
+                                System.out.println(echoMessage);
                             }
+                            showSeparator();
                         }
                         break;
 
                     case "tasklist":
-                        System.out.println("In tasklist mode!\n");
+                        System.out.println("In tasklist mode!");
+                        showSeparator();
                         while (true) {
                             try {
                                 String taskMessage = scanner.nextLine();
                                 String action = taskMessage.split(" ")[0];
-
                                 if (action.equals("exit")) {
                                     exitMode();
                                     break;
@@ -186,12 +193,16 @@ public class Owen {
                                 } else {
                                     throw new OwenException("I have not seen that command before. Maybe in another life?");
                                 }
+                                showSeparator();
                             } catch (OwenException exception) {
                                 System.out.println(exception.getMessage());
+                                showSeparator();
                             } catch (NumberFormatException exception) {
                                 System.out.println("please use a number for the index when performing mark, unmark or delete.");
+                                showSeparator();
                             } catch (IndexOutOfBoundsException exception) {
                                 System.out.println("The given index does not exist in the task list. Use list command to review the valid indexes.");
+                                showSeparator();
                             }
                         }
                         break;
@@ -203,8 +214,10 @@ public class Owen {
                     default:
                         throw new OwenException("I have not seen that command before. Maybe in another life?");
                 }
+                showSeparator();
             } catch (OwenException exception) {
                 System.out.println(exception.getMessage());
+                showSeparator();
             }
         }
     }
