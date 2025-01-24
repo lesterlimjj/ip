@@ -20,8 +20,7 @@ public class Owen {
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
     private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
-    private static final String [] localDateTimePatterns = {"M/d/yyyy HHmm","d/M/yyyy HHmm", "M/d/yyyy", "d/M/yyyy"};
-    private static final String [] outputLocalDateTimePattern = {"MMM dd yyyy h:mma"};
+    private static final String [] localDateTimePatterns = {"M/d/yyyy HHmm","d/M/yyyy HHmm"};
 
     public static void welcome() {
         System.out.println(greetMessage);
@@ -75,6 +74,9 @@ public class Owen {
 
     public static Task createDeadline(String[] parts) throws OwenException {
         LocalDateTime date = processLocalDateTime(parts[1]);
+        if (date == null) {
+            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+        }
         Deadline newDeadline = new Deadline(parts[0], date);
         taskList.add(newDeadline);
         System.out.println("The following deadline has been added: \n" + newDeadline.toString() + "\n");
@@ -84,6 +86,9 @@ public class Owen {
     public static Task createEvent(String[] parts) throws OwenException{
         LocalDateTime date1 = processLocalDateTime(parts[1].trim());
         LocalDateTime date2 = processLocalDateTime(parts[2].trim());
+        if (date1 == null || date2 == null) {
+            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+        }
         Event newEvent = new Event(parts[0], date1, date2);
         taskList.add(newEvent);
         System.out.println("The following event has been added: \n" + newEvent.toString() + "\n");
@@ -185,13 +190,7 @@ public class Owen {
         for (int i = 0; i < localDateTimePatterns.length; i++) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(localDateTimePatterns[i]);
             try {
-                if (!localDateTimePatterns[i].contains("HHmm")) {
-                    // insert default 0000 to conform to localDateTime format
-                    date = LocalDateTime.parse(dateString + " 0000", dateFormatter);
-                } else {
-                    date = LocalDateTime.parse(dateString, dateFormatter);
-                }
-
+                date = LocalDateTime.parse(dateString, dateFormatter);
                 break;  // Exit the loop once the date is successfully parsed
             } catch (DateTimeParseException e) {
                 // do nothing and check for next pattern
