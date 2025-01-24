@@ -2,10 +2,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 
 public class Owen {
     private static Scanner scanner = new Scanner(System.in);
@@ -15,6 +20,8 @@ public class Owen {
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
     private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
+    private static final String [] localDateTimePatterns = {"M/d/yyyy HHmm","d/M/yyyy HHmm", "M/d/yyyy", "d/M/yyyy"};
+    private static final String [] outputLocalDateTimePattern = {"MMM dd yyyy h:mma"};
 
     public static void welcome() {
         System.out.println(greetMessage);
@@ -66,8 +73,9 @@ public class Owen {
         return newTodo;
     }
 
-    public static Task createDeadline(String[] parts) {
-        Deadline newDeadline = new Deadline(parts[0], parts[1]);
+    public static Task createDeadline(String[] parts) throws OwenException{
+        LocalDateTime date = processLocalDateTime(parts[1]);
+        Deadline newDeadline = new Deadline(parts[0], date);
         taskList.add(newDeadline);
         System.out.println("The following deadline has been added: \n" + newDeadline.toString() + "\n");
         return newDeadline;
@@ -107,11 +115,11 @@ public class Owen {
                             taskList.add(loadedTodo);
                             break;
                         case "D":
-                            isDone = parts[1].equals("1");
-                            description = parts[2];
-                            dateTime = parts[3];
-                            Deadline loadedDeadline = new Deadline(description, isDone, dateTime);
-                            taskList.add(loadedDeadline);
+//                            isDone = parts[1].equals("1");
+//                            description = parts[2];
+//                            dateTime = parts[3];
+//                            Deadline loadedDeadline = new Deadline(description, isDone, dateTime);
+//                            taskList.add(loadedDeadline);
                             break;
                         case "E":
                             isDone = parts[1].equals("1");
@@ -168,6 +176,26 @@ public class Owen {
         for (int j = 0; j < array.length; j++) {
             array[j] = array[j].trim();
         }
+    }
+
+    public static LocalDateTime processLocalDateTime(String dateString) {
+        LocalDateTime date = null;
+        for (int i = 0; i < localDateTimePatterns.length; i++) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(localDateTimePatterns[i]);
+            try {
+                if (!localDateTimePatterns[i].contains("HHmm")) {
+                    // insert default 0000 to conform to localDateTime format
+                    date = LocalDateTime.parse(dateString + " 0000", dateFormatter);
+                } else {
+                    date = LocalDateTime.parse(dateString, dateFormatter);
+                }
+
+                break;  // Exit the loop once the date is successfully parsed
+            } catch (DateTimeParseException e) {
+                // do nothing and check for next pattern
+            }
+        }
+        return date;
     }
 
     public static void main(String[] args) {
@@ -249,8 +277,7 @@ public class Owen {
                                     if (byPresent == false) {
                                         throw new OwenException("We cannot find a date. Please add a /by <date/time>");
                                     }
-                                    truncated = truncated.replaceFirst("by ", "");
-                                    parts = truncated.split("/");
+                                    parts = truncated.split("/by");
                                     trimStringArray(parts);
                                     Task task = createDeadline(parts);
                                     showNumberOfTasks();
