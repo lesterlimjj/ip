@@ -7,6 +7,11 @@ public class Task {
         this.isDone = false;
     }
 
+    public Task(String description, boolean isDone) {
+        this.description = description;
+        this.isDone = isDone;
+    }
+
     public String getDescription() {
         return this.description;
     }
@@ -26,5 +31,10 @@ public class Task {
     @Override
     public String toString() {
         return getDoneIcon() + " " + getDescription();
+    }
+
+    public String convertToDataFormat() {
+        String doneStatus = isDone ? "1" : "0";
+        return doneStatus + " | " +  getDescription();
     }
 }

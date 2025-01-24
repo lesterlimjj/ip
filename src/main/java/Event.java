@@ -7,6 +7,13 @@ public class Event extends Task {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+    public Event(String description, boolean isDone, String startDate, String endDate) {
+        super(description,isDone);
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getStartDate(){
         return startDate;
     }
@@ -17,6 +24,12 @@ public class Event extends Task {
 
     @Override
     public String toString() {
-        return "[E]" + super.toString() + "(from: " + getStartDate() + "to: " + getEndDate() + ")";
+        return "[E]" + super.toString() + " (from: " + getStartDate() + " to: " + getEndDate() + ")";
+    }
+
+    @Override
+    public String convertToDataFormat() {
+        String combinedDates = startDate + "-" + endDate;
+        return "E" + " | " + super.convertToDataFormat() + " | " + combinedDates;
     }
 }
