@@ -1,5 +1,9 @@
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.nio.file.*;
 
 public class Owen {
     private static Scanner scanner = new Scanner(System.in);
@@ -65,7 +69,7 @@ public class Owen {
     }
 
     public static void createEvent(String[] parts) {
-        Event newEvent = new Event(parts[0], parts[1], parts[2]);
+        Event newEvent = new Event(parts[0], parts[1].trim(), parts[2]);
         taskList.add(newEvent);
         System.out.println("The following deadline has been added: \n" + newEvent.toString() + "\n");
     }
@@ -76,8 +80,66 @@ public class Owen {
         taskList.remove(index);
     }
 
+    public static void loadTasklist() {
+        Path tasklistPath = Paths.get("./","data", "tasklist.txt");
+        try {
+            if (Files.exists(tasklistPath)){
+                List<String> lines = Files.readAllLines(tasklistPath);
+                for (int i = 0; i < lines.size(); i++) {
+                    String [] parts = lines.get(i).split("\\|");
+                    // remove all lead and trailing whitespaces
+                    for (int j = 0; j < parts.length; j++) {
+                        parts[j] = parts[j].trim();
+                    }
+                    boolean isDone;
+                    String description;
+                    String dateTime;
+                    String startDate;
+                    String endDate;
+
+                    switch (parts[0]) {
+                        case "T":
+                            isDone = parts[1].equals("1");
+                            description = parts[2];
+                            Todo loadedTodo = new Todo(description, isDone);
+                            taskList.add(loadedTodo);
+                            break;
+                        case "D":
+                            isDone = parts[1].equals("1");
+                            description = parts[2];
+                            dateTime = parts[3];
+                            Deadline loadedDeadline = new Deadline(description, isDone, dateTime);
+                            taskList.add(loadedDeadline);
+                            break;
+                        case "E":
+                            isDone = parts[1].equals("1");
+                            description = parts[2];
+                            startDate = parts[3].split("-")[0];
+                            endDate = parts[3].split("-")[1];
+                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
+                            taskList.add(loadedEvent);
+                            break;
+                    }
+                }
+            } else {
+                if (!Files.exists(tasklistPath.getParent())) {
+                    Files.createDirectory(tasklistPath.getParent());
+                }
+
+                if (!Files.exists(tasklistPath)) {
+                    Files.createFile(tasklistPath);
+                }
+
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public static void main(String[] args) {
         welcome();
+        loadTasklist();
         showSeparator();
         String currentCommand = "";
 
