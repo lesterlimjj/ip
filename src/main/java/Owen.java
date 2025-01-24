@@ -20,7 +20,7 @@ public class Owen {
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
     private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
-    private static final String [] localDateTimePatterns = {"M/d/yyyy HHmm","d/M/yyyy HHmm"};
+    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
     public static void welcome() {
         System.out.println(greetMessage);
