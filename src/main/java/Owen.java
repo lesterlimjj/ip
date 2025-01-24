@@ -73,7 +73,7 @@ public class Owen {
         return newTodo;
     }
 
-    public static Task createDeadline(String[] parts) throws OwenException{
+    public static Task createDeadline(String[] parts) throws OwenException {
         LocalDateTime date = processLocalDateTime(parts[1]);
         Deadline newDeadline = new Deadline(parts[0], date);
         taskList.add(newDeadline);
@@ -81,10 +81,12 @@ public class Owen {
         return newDeadline;
     }
 
-    public static Task createEvent(String[] parts) {
-        Event newEvent = new Event(parts[0], parts[1].trim(), parts[2]);
+    public static Task createEvent(String[] parts) throws OwenException{
+        LocalDateTime date1 = processLocalDateTime(parts[1].trim());
+        LocalDateTime date2 = processLocalDateTime(parts[2].trim());
+        Event newEvent = new Event(parts[0], date1, date2);
         taskList.add(newEvent);
-        System.out.println("The following deadline has been added: \n" + newEvent.toString() + "\n");
+        System.out.println("The following event has been added: \n" + newEvent.toString() + "\n");
         return newEvent;
     }
 
@@ -122,12 +124,12 @@ public class Owen {
 //                            taskList.add(loadedDeadline);
                             break;
                         case "E":
-                            isDone = parts[1].equals("1");
-                            description = parts[2];
-                            startDate = parts[3].split("-")[0];
-                            endDate = parts[3].split("-")[1];
-                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
-                            taskList.add(loadedEvent);
+//                            isDone = parts[1].equals("1");
+//                            description = parts[2];
+//                            startDate = parts[3].split("-")[0];
+//                            endDate = parts[3].split("-")[1];
+//                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
+//                            taskList.add(loadedEvent);
                             break;
                     }
                 }
@@ -302,9 +304,7 @@ public class Owen {
                                     } else if (toPresent == false) {
                                         throw new OwenException("Missing end date. Please add a /to <date/time>");
                                     }
-                                    truncated = truncated.replaceFirst("from ", "");
-                                    truncated = truncated.replaceFirst("to ", "");
-                                    parts = truncated.split("/");
+                                    parts = truncated.split("/from | /to");
                                     trimStringArray(parts);
                                     Task task = createEvent(parts);
                                     showNumberOfTasks();
