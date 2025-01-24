@@ -32,5 +32,9 @@ public class Task {
     public String toString() {
         return getDoneIcon() + " " + getDescription();
     }
-    
+
+    public String convertToDataFormat() {
+        String doneStatus = isDone ? "1" : "0";
+        return doneStatus + " | " +  getDescription();
+    }
 }

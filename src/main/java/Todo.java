@@ -13,4 +13,8 @@ public class Todo extends Task {
         return "[T]" + super.toString();
     }
 
+    @Override
+    public String convertToDataFormat() {
+        return "T" + " | " + super.convertToDataFormat();
+    }
 }

@@ -27,4 +27,9 @@ public class Event extends Task {
         return "[E]" + super.toString() + "(from: " + getStartDate() + " to: " + getEndDate() + ")";
     }
 
+    @Override
+    public String convertToDataFormat() {
+        String combinedDates = startDate + "-" + endDate;
+        return "E" + " | " + super.convertToDataFormat() + " | " + combinedDates;
+    }
 }
