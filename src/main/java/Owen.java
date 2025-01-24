@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +14,7 @@ public class Owen {
             "What would you ask of me?";
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
+    private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
 
     public static void welcome() {
         System.out.println(greetMessage);
@@ -56,22 +59,25 @@ public class Owen {
                 + currentTask.toString());
     }
 
-    public static void createTodo(String description) {
+    public static Task createTodo(String description) {
         Todo newTodo = new Todo(description);
         taskList.add(newTodo);
         System.out.println("The following Todo has been added: \n" + newTodo.toString() + "\n");
+        return newTodo;
     }
 
-    public static void createDeadline(String[] parts) {
+    public static Task createDeadline(String[] parts) {
         Deadline newDeadline = new Deadline(parts[0], parts[1]);
         taskList.add(newDeadline);
         System.out.println("The following deadline has been added: \n" + newDeadline.toString() + "\n");
+        return newDeadline;
     }
 
-    public static void createEvent(String[] parts) {
+    public static Task createEvent(String[] parts) {
         Event newEvent = new Event(parts[0], parts[1].trim(), parts[2]);
         taskList.add(newEvent);
         System.out.println("The following deadline has been added: \n" + newEvent.toString() + "\n");
+        return newEvent;
     }
 
     public static void processDelete(int index) {
@@ -81,16 +87,12 @@ public class Owen {
     }
 
     public static void loadTasklist() {
-        Path tasklistPath = Paths.get("./","data", "tasklist.txt");
         try {
             if (Files.exists(tasklistPath)){
                 List<String> lines = Files.readAllLines(tasklistPath);
                 for (int i = 0; i < lines.size(); i++) {
                     String [] parts = lines.get(i).split("\\|");
-                    // remove all lead and trailing whitespaces
-                    for (int j = 0; j < parts.length; j++) {
-                        parts[j] = parts[j].trim();
-                    }
+                    trimStringArray(parts);
                     boolean isDone;
                     String description;
                     String dateTime;
@@ -135,6 +137,37 @@ public class Owen {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static void overwriteTasklist() {
+        List <String> linesToWrite = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
+            String line = task.convertToDataFormat();
+            linesToWrite.add(line);
+        }
+
+        try {
+            Files.write(tasklistPath,linesToWrite);
+        } catch (IOException e) {
+            System.out.println("We encountered an error while saving...");
+        }
+    }
+
+    public static void appendToTasklist(Task task) {
+        String line = task.convertToDataFormat();
+        try {
+            Files.writeString(tasklistPath, line, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.out.println("We encountered an error while saving...");
+        }
+    }
+
+    public static void trimStringArray(String[] array) {
+        // remove all lead and trailing whitespaces
+        for (int j = 0; j < array.length; j++) {
+            array[j] = array[j].trim();
+        }
     }
 
     public static void main(String[] args) {
@@ -183,6 +216,7 @@ public class Owen {
                                     }
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processMark(index);
+                                    overwriteTasklist();
                                 } else if (action.equals("unmark")) {
                                     String[] parts = taskMessage.split(" ");
                                     if (parts.length == 1) {
@@ -192,14 +226,16 @@ public class Owen {
                                     }
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processUnmark(index);
+                                    overwriteTasklist();
                                 } else if (action.equals("todo")) {
                                     String[] parts = taskMessage.split(" ");
                                     if (parts.length == 1) {
                                         throw new OwenException("You forgot your description. Try again.");
                                     }
                                     String description = taskMessage.replaceFirst(action + " ", "");
-                                    createTodo(description);
+                                    Task task = createTodo(description);
                                     showNumberOfTasks();
+                                    appendToTasklist(task);
                                 } else if (action.equals("deadline")) {
                                     String truncated = taskMessage.replaceFirst(action + " ", "");
                                     String[] parts = truncated.split(" ");
@@ -215,8 +251,10 @@ public class Owen {
                                     }
                                     truncated = truncated.replaceFirst("by ", "");
                                     parts = truncated.split("/");
-                                    createDeadline(parts);
+                                    trimStringArray(parts);
+                                    Task task = createDeadline(parts);
                                     showNumberOfTasks();
+                                    appendToTasklist(task);
                                 } else if (action.equals("event")) {
                                     String truncated = taskMessage.replaceFirst(action + " ", "");
                                     String[] parts = truncated.split(" ");
@@ -240,8 +278,10 @@ public class Owen {
                                     truncated = truncated.replaceFirst("from ", "");
                                     truncated = truncated.replaceFirst("to ", "");
                                     parts = truncated.split("/");
-                                    createEvent(parts);
+                                    trimStringArray(parts);
+                                    Task task = createEvent(parts);
                                     showNumberOfTasks();
+                                    appendToTasklist(task);
                                 } else if (action.equals("delete")) {
                                     String[] parts = taskMessage.split(" ");
                                     if (parts.length == 1) {
@@ -252,6 +292,7 @@ public class Owen {
                                     int index = Integer.parseInt(taskMessage.split(" ")[1]) - 1;
                                     processDelete(index);
                                     showNumberOfTasks();
+                                    overwriteTasklist();
                                 } else {
                                     throw new OwenException("I have not seen that command before. Maybe in another life?");
                                 }
