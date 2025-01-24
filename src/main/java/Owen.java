@@ -2,10 +2,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 
 public class Owen {
     private static Scanner scanner = new Scanner(System.in);
@@ -15,6 +20,7 @@ public class Owen {
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
     private static final String exitMessage = "Exited current mode!";
     private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
+    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
     public static void welcome() {
         System.out.println(greetMessage);
@@ -66,17 +72,26 @@ public class Owen {
         return newTodo;
     }
 
-    public static Task createDeadline(String[] parts) {
-        Deadline newDeadline = new Deadline(parts[0], parts[1]);
+    public static Task createDeadline(String[] parts) throws OwenException {
+        LocalDateTime date = processLocalDateTime(parts[1]);
+        if (date == null) {
+            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+        }
+        Deadline newDeadline = new Deadline(parts[0], date);
         taskList.add(newDeadline);
         System.out.println("The following deadline has been added: \n" + newDeadline.toString() + "\n");
         return newDeadline;
     }
 
-    public static Task createEvent(String[] parts) {
-        Event newEvent = new Event(parts[0], parts[1].trim(), parts[2]);
+    public static Task createEvent(String[] parts) throws OwenException{
+        LocalDateTime date1 = processLocalDateTime(parts[1].trim());
+        LocalDateTime date2 = processLocalDateTime(parts[2].trim());
+        if (date1 == null || date2 == null) {
+            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+        }
+        Event newEvent = new Event(parts[0], date1, date2);
         taskList.add(newEvent);
-        System.out.println("The following deadline has been added: \n" + newEvent.toString() + "\n");
+        System.out.println("The following event has been added: \n" + newEvent.toString() + "\n");
         return newEvent;
     }
 
@@ -107,19 +122,19 @@ public class Owen {
                             taskList.add(loadedTodo);
                             break;
                         case "D":
-                            isDone = parts[1].equals("1");
-                            description = parts[2];
-                            dateTime = parts[3];
-                            Deadline loadedDeadline = new Deadline(description, isDone, dateTime);
-                            taskList.add(loadedDeadline);
+//                            isDone = parts[1].equals("1");
+//                            description = parts[2];
+//                            dateTime = parts[3];
+//                            Deadline loadedDeadline = new Deadline(description, isDone, dateTime);
+//                            taskList.add(loadedDeadline);
                             break;
                         case "E":
-                            isDone = parts[1].equals("1");
-                            description = parts[2];
-                            startDate = parts[3].split("-")[0];
-                            endDate = parts[3].split("-")[1];
-                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
-                            taskList.add(loadedEvent);
+//                            isDone = parts[1].equals("1");
+//                            description = parts[2];
+//                            startDate = parts[3].split("-")[0];
+//                            endDate = parts[3].split("-")[1];
+//                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
+//                            taskList.add(loadedEvent);
                             break;
                     }
                 }
@@ -168,6 +183,20 @@ public class Owen {
         for (int j = 0; j < array.length; j++) {
             array[j] = array[j].trim();
         }
+    }
+
+    public static LocalDateTime processLocalDateTime(String dateString) {
+        LocalDateTime date = null;
+        for (int i = 0; i < localDateTimePatterns.length; i++) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(localDateTimePatterns[i]);
+            try {
+                date = LocalDateTime.parse(dateString, dateFormatter);
+                break;  // Exit the loop once the date is successfully parsed
+            } catch (DateTimeParseException e) {
+                // do nothing and check for next pattern
+            }
+        }
+        return date;
     }
 
     public static void main(String[] args) {
@@ -249,8 +278,7 @@ public class Owen {
                                     if (byPresent == false) {
                                         throw new OwenException("We cannot find a date. Please add a /by <date/time>");
                                     }
-                                    truncated = truncated.replaceFirst("by ", "");
-                                    parts = truncated.split("/");
+                                    parts = truncated.split("/by");
                                     trimStringArray(parts);
                                     Task task = createDeadline(parts);
                                     showNumberOfTasks();
@@ -275,9 +303,7 @@ public class Owen {
                                     } else if (toPresent == false) {
                                         throw new OwenException("Missing end date. Please add a /to <date/time>");
                                     }
-                                    truncated = truncated.replaceFirst("from ", "");
-                                    truncated = truncated.replaceFirst("to ", "");
-                                    parts = truncated.split("/");
+                                    parts = truncated.split("/from | /to");
                                     trimStringArray(parts);
                                     Task task = createEvent(parts);
                                     showNumberOfTasks();
