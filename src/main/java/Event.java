@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Event extends Task {
     private LocalDateTime startDate;
@@ -34,8 +35,11 @@ public class Event extends Task {
 
     @Override
     public String convertToDataFormat() {
-        String combinedDates = startDate + "-" + endDate;
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("m/dd/yyyy HHmm");
+        String combinedDates = Parser.convertLocalDateToPattern(getStartDate()) + "-"
+                + Parser.convertLocalDateToPattern(getEndDate());
         return "E" + " | " + super.convertToDataFormat() + " | " + combinedDates;
     }
+
 
 }

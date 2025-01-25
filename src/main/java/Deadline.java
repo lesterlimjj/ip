@@ -1,10 +1,12 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
 
 public class Deadline extends Task{
     private LocalDateTime date;
+    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
     public Deadline(String description, LocalDateTime date){
         super(description);
@@ -23,12 +25,12 @@ public class Deadline extends Task{
     @Override
     public String toString() {
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy h:mma");
-        return "[D]" + super.toString() + "(by: " + getDate().format(outputFormatter) + ")";
+        return "[D]" + super.toString() + " (by: " + getDate().format(outputFormatter) + ")";
     }
 
     @Override
     public String convertToDataFormat() {
-        return "D" + " | " + super.convertToDataFormat() + " | " + getDate();
+        return "D" + " | " + super.convertToDataFormat() + " | " + Parser.convertLocalDateToPattern(getDate());
     }
 
 }
