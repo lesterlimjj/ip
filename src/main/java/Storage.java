@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private static final Path tasklistPath = Paths.get("./","data", "tasklist.txt");
+    private static final Path taskListPath = Paths.get("./","data", "taskList.txt");
 
-    public static void loadTasklist(List<Task> tasklist) {
+    public static void loadTasklistData(List<Task> taskList) {
         try {
-            if (Files.exists(tasklistPath)){
-                List<String> lines = Files.readAllLines(tasklistPath);
+            if (Files.exists(taskListPath)){
+                List<String> lines = Files.readAllLines(taskListPath);
                 for (int i = 0; i < lines.size(); i++) {
                     String [] parts = lines.get(i).split("\\|");
                     for (int j = 0; j < parts.length; j++) {
@@ -27,14 +27,14 @@ public class Storage {
                             isDone = parts[1].equals("1");
                             description = parts[2];
                             Todo loadedTodo = new Todo(description, isDone);
-                            tasklist.add(loadedTodo);
+                            taskList.add(loadedTodo);
                             break;
                         case "D":
                             isDone = parts[1].equals("1");
                             description = parts[2];
 
                             Deadline loadedDeadline = new Deadline(description, isDone, parts[3]);
-                            tasklist.add(loadedDeadline);
+                            taskList.add(loadedDeadline);
                             break;
                         case "E":
                             isDone = parts[1].equals("1");
@@ -42,17 +42,17 @@ public class Storage {
                             String startDate = parts[3].split("-")[0];
                             String endDate = parts[3].split("-")[1];
                             Event loadedEvent = new Event(description, isDone, startDate, endDate);
-                            tasklist.add(loadedEvent);
+                            taskList.add(loadedEvent);
                             break;
                     }
                 }
             } else {
-                if (!Files.exists(tasklistPath.getParent())) {
-                    Files.createDirectory(tasklistPath.getParent());
+                if (!Files.exists(taskListPath.getParent())) {
+                    Files.createDirectory(taskListPath.getParent());
                 }
 
-                if (!Files.exists(tasklistPath)) {
-                    Files.createFile(tasklistPath);
+                if (!Files.exists(taskListPath)) {
+                    Files.createFile(taskListPath);
                 }
 
             }
@@ -62,25 +62,25 @@ public class Storage {
 
     }
 
-    public static void overwriteTasklist(List<Task> tasklist) {
+    public static void overwriteTasklistData(List<Task> taskList) {
         List <String> linesToWrite = new ArrayList<>();
-        for (int i = 0; i < tasklist.size(); i++) {
-            Task task = tasklist.get(i);
+        for (int i = 0; i < taskList.size(); i++) {
+            Task task = taskList.get(i);
             String line = task.convertToDataFormat();
             linesToWrite.add(line);
         }
 
         try {
-            Files.write(tasklistPath,linesToWrite);
+            Files.write(taskListPath,linesToWrite);
         } catch (IOException e) {
             System.out.println("We encountered an error while saving...");
         }
     }
 
-    public static void appendToTasklist(Task task, List<Task> tasklist) {
+    public static void appendToTasklistData(Task task, List<Task> taskList) {
         String line = task.convertToDataFormat();
         try {
-            Files.writeString(tasklistPath, line, StandardOpenOption.APPEND);
+            Files.writeString(taskListPath, line, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("We encountered an error while saving...");
         }
