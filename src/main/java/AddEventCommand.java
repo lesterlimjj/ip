@@ -1,5 +1,5 @@
 public class AddEventCommand extends Command {
-    public static final String keyWord = "event";
+    public static final String KEY_WORD = "event";
     private Event pendingEvent;
 
     public AddEventCommand(Event event) {
@@ -7,11 +7,11 @@ public class AddEventCommand extends Command {
     }
 
     @Override
-    public void execute(UI ui, Storage storage, TaskList taskList) {
+    public void execute(Ui ui, Storage storage, TaskList taskList) {
         taskList.addTask(pendingEvent);
-        storage.appendToTasklistData(pendingEvent, taskList.getTaskList());
+        storage.appendToTasklistData(pendingEvent);
         ui.showMessage("The following event has been added: \n" + pendingEvent.toString() + "\n");
-        ui.showSeparator();
+        ui.showNumberOfTasks(taskList.getTaskList());
     }
 
 }
