@@ -5,18 +5,17 @@ import java.time.format.DateTimeParseException;
 public class Event extends Task {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
-    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
-    public Event(String description, String startDate, String endDate) {
+    public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
         super(description);
-        this.startDate = processLocalDateTime(startDate);
-        this.endDate = processLocalDateTime(endDate);
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public Event(String description, boolean isDone, String startDate, String endDate) {
+    public Event(String description, boolean isDone, LocalDateTime startDate, LocalDateTime endDate) {
         super(description,isDone);
-        this.startDate = processLocalDateTime(startDate);
-        this.endDate = processLocalDateTime(endDate);
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public LocalDateTime getStartDate(){
@@ -36,22 +35,11 @@ public class Event extends Task {
 
     @Override
     public String convertToDataFormat() {
-        String combinedDates = startDate + "-" + endDate;
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("m/dd/yyyy HHmm");
+        String combinedDates = Parser.convertLocalDateToPattern(getStartDate()) + "-"
+                + Parser.convertLocalDateToPattern(getEndDate());
         return "E" + " | " + super.convertToDataFormat() + " | " + combinedDates;
     }
 
-    public LocalDateTime processLocalDateTime(String dateString) {
-        LocalDateTime date = null;
-        for (int i = 0; i < localDateTimePatterns.length; i++) {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(localDateTimePatterns[i]);
-            try {
-                date = LocalDateTime.parse(dateString, dateFormatter);
-                break;  // Exit the loop once the date is successfully parsed
-            } catch (DateTimeParseException e) {
-                // do nothing and check for next pattern
-            }
-        }
-        return date;
-    }
 
 }

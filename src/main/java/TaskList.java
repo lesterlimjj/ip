@@ -15,6 +15,10 @@ public class TaskList {
         return new ArrayList<>(tasks);
     }
 
+    public String getTaskStatus(int index) {
+        return tasks.get(index).toString();
+    }
+
     public void markTaskAsDone(int index) {
         tasks.get(index).setAsDone();
     }
