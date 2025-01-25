@@ -9,8 +9,9 @@ import java.util.List;
 
 public class Storage {
     private static final Path taskListPath = Paths.get("./","data", "taskList.txt");
+    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
-    public static void loadTasklistData(List<Task> taskList) {
+    public void loadTasklistData(TaskList taskList) {
         try {
             if (Files.exists(taskListPath)){
                 List<String> lines = Files.readAllLines(taskListPath);
@@ -21,28 +22,29 @@ public class Storage {
                     }
                     boolean isDone;
                     String description;
-
                     switch (parts[0]) {
                         case "T":
                             isDone = parts[1].equals("1");
                             description = parts[2];
                             Todo loadedTodo = new Todo(description, isDone);
-                            taskList.add(loadedTodo);
+                            taskList.addTask(loadedTodo);
                             break;
                         case "D":
                             isDone = parts[1].equals("1");
                             description = parts[2];
-
-                            Deadline loadedDeadline = new Deadline(description, isDone, parts[3]);
-                            taskList.add(loadedDeadline);
+                            LocalDateTime date = Parser.processLocalDateTime(parts[3]);
+                            Deadline loadedDeadline = new Deadline(description, isDone, date);
+                            taskList.addTask(loadedDeadline);
                             break;
                         case "E":
                             isDone = parts[1].equals("1");
                             description = parts[2];
                             String startDate = parts[3].split("-")[0];
                             String endDate = parts[3].split("-")[1];
-                            Event loadedEvent = new Event(description, isDone, startDate, endDate);
-                            taskList.add(loadedEvent);
+                            LocalDateTime startDateTime = Parser.processLocalDateTime(startDate);
+                            LocalDateTime endDateTime = Parser.processLocalDateTime(endDate);
+                            Event loadedEvent = new Event(description, isDone, startDateTime, endDateTime);
+                            taskList.addTask(loadedEvent);
                             break;
                     }
                 }
@@ -62,25 +64,28 @@ public class Storage {
 
     }
 
-    public static void overwriteTasklistData(List<Task> taskList) {
-        List <String> linesToWrite = new ArrayList<>();
+    public void overwriteTasklistData(List<Task> taskList) {
+        StringBuilder linesToWrite = new StringBuilder();
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
             String line = task.convertToDataFormat();
-            linesToWrite.add(line);
+            linesToWrite.append(line);
+            if (i != taskList.size() - 1) {
+                linesToWrite.append(System.lineSeparator());
+            }
         }
 
         try {
-            Files.write(taskListPath,linesToWrite);
+            Files.writeString(taskListPath,linesToWrite);
         } catch (IOException e) {
             System.out.println("We encountered an error while saving...");
         }
     }
 
-    public static void appendToTasklistData(Task task, List<Task> taskList) {
+    public void appendToTasklistData(Task task) {
         String line = task.convertToDataFormat();
         try {
-            Files.writeString(taskListPath, line, StandardOpenOption.APPEND);
+            Files.writeString(taskListPath,"\n" + line, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("We encountered an error while saving...");
         }

@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class UI {
+public class Ui {
     private static final String greetMessage = "Greetings! I am Owen.\n" +
             "What would you ask of me?";
     private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
