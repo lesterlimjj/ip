@@ -1,3 +1,10 @@
+package command;
+
+import storage.Storage;
+import task.Event;
+import task.TaskList;
+import ui.Ui;
+
 public class AddEventCommand extends Command {
     public static final String KEY_WORD = "event";
     private Event pendingEvent;

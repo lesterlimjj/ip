@@ -1,3 +1,10 @@
+package command;
+
+import storage.Storage;
+import task.Deadline;
+import task.TaskList;
+import ui.Ui;
+
 public class AddDeadlineCommand extends Command {
     public static final String KEY_WORD = "deadline";
     private Deadline pendingDeadline;

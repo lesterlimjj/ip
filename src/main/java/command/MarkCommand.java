@@ -1,3 +1,9 @@
+package command;
+
+import storage.Storage;
+import task.TaskList;
+import ui.Ui;
+
 public class MarkCommand extends Command {
     public static final String KEY_WORD = "mark";
     private int pendingTaskIndex;
