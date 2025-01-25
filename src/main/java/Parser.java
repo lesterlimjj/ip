@@ -40,9 +40,11 @@ public class Parser {
                 AddEventCommand addEventCommand = new AddEventCommand(event);
                 return addEventCommand;
             case MarkCommand.KEY_WORD:
+                checkValidMark(parts);
                 MarkCommand markCommand = new MarkCommand(Integer.parseInt(parts[1]) - 1);
                 return markCommand;
             case UnmarkCommand.KEY_WORD:
+                checkValidMark(parts);
                 UnmarkCommand unmarkCommand = new UnmarkCommand(Integer.parseInt(parts[1]) - 1);
                 return unmarkCommand;
             case DeleteCommand.KEY_WORD:
@@ -92,6 +94,14 @@ public class Parser {
         }
         if (byPresent == false) {
             throw new OwenException("We cannot find a date. Please add a /by <date/time>");
+        }
+    }
+
+    public static void checkValidMark(String [] parts) throws OwenException {
+        if (parts.length == 1) {
+            throw new OwenException("Please specify an index. Try again.");
+        } else if (parts.length > 2) {
+            throw new OwenException("Too many parameters for a mark. Limit it to just one index.");
         }
     }
 

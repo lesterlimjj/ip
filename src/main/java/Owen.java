@@ -40,6 +40,10 @@ public class Owen {
 
             } catch (OwenException exception) {
                 ui.showMessage(exception.getMessage());
+            }  catch (NumberFormatException exception) {
+                ui.showMessage("please use a number for the index when performing mark, unmark or delete.");
+            } catch (IndexOutOfBoundsException exception) {
+                ui.showMessage("The given index does not exist in the task list. Use list command to review the valid indexes.");
             } finally {
                 ui.showSeparator();
             }
