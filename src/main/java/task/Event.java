@@ -1,9 +1,10 @@
 package task;
 
-import parser.Parser;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import parser.Parser;
+
 
 public class Event extends Task {
     private LocalDateTime startDate;
@@ -16,16 +17,16 @@ public class Event extends Task {
     }
 
     public Event(String description, boolean isDone, LocalDateTime startDate, LocalDateTime endDate) {
-        super(description,isDone);
+        super(description, isDone);
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public LocalDateTime getStartDate(){
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDateTime getEndDate(){
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 

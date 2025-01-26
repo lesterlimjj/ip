@@ -1,30 +1,30 @@
 package ui;
 
-import task.Task;
-
 import java.util.List;
 
+import task.Task;
+
 public class Ui {
-    private static final String greetMessage = "Greetings! I am Owen.\n" +
-            "What would you ask of me?";
-    private static final String byeMessage = "\nI am sure we will see each other soon. Goodbye.";
-    private static final String exitMessage = "Exited current mode!";
-    private static final String separator = "<07=======================================================07>";
+    private static final String GREET_MESSAGE = "Greetings! I am Owen.\n"
+            + "What would you ask of me?";
+    private static final String BYE_MESSAGE = "\nI am sure we will see each other soon. Goodbye.";
+    private static final String EXIT_MESSAGE = "Exited current mode!";
+    private static final String SEPARATOR = "<07=======================================================07>";
 
     public void welcome() {
-        System.out.println(greetMessage);
+        System.out.println(GREET_MESSAGE);
     }
 
     public void goodbye() {
-        System.out.println(byeMessage);
+        System.out.println(BYE_MESSAGE);
     }
 
     public void exitMode() {
-        System.out.println(exitMessage);
+        System.out.println(EXIT_MESSAGE);
     }
 
     public void showSeparator() {
-        System.out.println(separator);
+        System.out.println(SEPARATOR);
     }
 
     public void showNumberOfTasks(List<Task> tasklist) {

@@ -6,7 +6,7 @@ public class Task {
 
     public Task(String description) {
         this.description = description;
-        this.isDone = false;
+        isDone = false;
     }
 
     public Task(String description, boolean isDone) {
@@ -37,6 +37,6 @@ public class Task {
 
     public String convertToDataFormat() {
         String doneStatus = isDone ? "1" : "0";
-        return doneStatus + " | " +  getDescription();
+        return doneStatus + " | " + getDescription();
     }
 }

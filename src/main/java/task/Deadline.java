@@ -1,25 +1,26 @@
 package task;
 
-import parser.Parser;
+
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Deadline extends Task{
-    private LocalDateTime date;
-    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
+import parser.Parser;
 
-    public Deadline(String description, LocalDateTime date){
+public class Deadline extends Task {
+    private LocalDateTime date;
+
+    public Deadline(String description, LocalDateTime date) {
         super(description);
         this.date = date;
     }
 
-    public Deadline(String description, boolean isDone, LocalDateTime date){
+    public Deadline(String description, boolean isDone, LocalDateTime date) {
         super(description, isDone);
         this.date = date;
     }
 
-    public LocalDateTime getDate(){
+    public LocalDateTime getDate() {
         return date;
     }
 

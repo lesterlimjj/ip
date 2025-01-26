@@ -4,7 +4,7 @@ import storage.Storage;
 import task.TaskList;
 import ui.Ui;
 
-public class DeleteCommand extends Command{
+public class DeleteCommand extends Command {
     public static final String KEY_WORD = "delete";
     private int pendingTaskIndex;
 
