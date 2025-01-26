@@ -96,7 +96,7 @@ public class StorageTest {
     }
 
     @Test
-    public void loadTasklistData_invalidFileContent_runtimeExceptionThrown() throws IOException {
+    public void loadTasklistData_invalidFileContent_throwsRuntimeException() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
         String invalidData = "Invalid | Data | Format";

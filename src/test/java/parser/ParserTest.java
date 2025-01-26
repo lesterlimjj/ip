@@ -62,7 +62,7 @@ public class ParserTest {
     }
 
     @Test
-    public void parse_invalidCommand_exception() {
+    public void parse_invalidCommand_throwsException() {
         Exception exception = assertThrows(OwenException.class, () -> {
             Parser.parse("gibber");
         });
@@ -72,15 +72,15 @@ public class ParserTest {
 
     @Test
     public void checkValidTodo_validTodo_success() throws OwenException {
-        String [] parts = "todo eat".split(" ");
+        String[] parts = "todo eat".split(" ");
         assertDoesNotThrow(() -> {
             Parser.checkValidTodo(parts);
         });
     }
 
     @Test
-    public void checkValidTodo_invalidTodo_exception() throws OwenException {
-        String [] parts = "todo".split(" ");
+    public void checkValidTodo_invalidTodo_throwsException() throws OwenException {
+        String[] parts = "todo".split(" ");
         Exception exception = assertThrows(OwenException.class, () -> {
             Parser.checkValidTodo(parts);
         });
@@ -92,17 +92,17 @@ public class ParserTest {
     public void checkValidDeadline_validDeadline_success() throws OwenException {
         String input = "deadline dream /by 10/3/2020 2000";
         String truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         assertDoesNotThrow(() -> {
             Parser.checkValidDeadline(parts);
         });
     }
 
     @Test
-    public void checkValidDeadline_invalidDeadline_exception() throws OwenException {
+    public void checkValidDeadline_invalidDeadline_throwsException() throws OwenException {
         String input = "deadline dream 10/3/2020 2000";
         String truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         Exception exception = assertThrows(OwenException.class, () -> {
             Parser.checkValidDeadline(parts);
         });
@@ -114,17 +114,17 @@ public class ParserTest {
     public void checkValidEvent_validEvent_success() throws OwenException {
         String input = "event eat death /from 2/12/2019 1800 /to 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         assertDoesNotThrow(() -> {
             Parser.checkValidEvent(parts);
         });
     }
 
     @Test
-    public void checkValidEvent_invalidEvent_exception() throws OwenException {
+    public void checkValidEvent_invalidEvent_throwsException() throws OwenException {
         String input = "event eat death  2/12/2019 1800 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts1 = truncated.split(" ");
+        String[] parts1 = truncated.split(" ");
         Exception exception = assertThrows(OwenException.class, () -> {
             Parser.checkValidEvent(parts1);
         });
@@ -133,7 +133,7 @@ public class ParserTest {
 
         input = "event eat death /from 2/12/2019 1800 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts2 = truncated.split(" ");
+        String[] parts2 = truncated.split(" ");
         exception = assertThrows(OwenException.class, () -> {
             Parser.checkValidEvent(parts2);
         });
@@ -142,7 +142,7 @@ public class ParserTest {
 
         input = "event eat death  2/12/2019 1800 /to 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts3 = truncated.split(" ");
+        String[] parts3 = truncated.split(" ");
         exception = assertThrows(OwenException.class, () -> {
             Parser.checkValidEvent(parts3);
         });
@@ -154,7 +154,7 @@ public class ParserTest {
     public void createDeadline_validDateFormat_success() throws OwenException{
         String input = "deadline dream /by 10/3/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         parts = truncated.split("/by");
         trimStringArray(parts);
         Deadline deadline = Parser.createDeadline(parts);
@@ -162,13 +162,13 @@ public class ParserTest {
     }
 
     @Test
-    public void createDeadline_invalidDateFormat_exception() throws OwenException{
+    public void createDeadline_invalidDateFormat_throwsException() throws OwenException{
         String input = "deadline dream /by 10 Mar 2020 8pm";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         parts = truncated.split("/by");
         trimStringArray(parts);
-        String [] failedParts = parts;
+        String[] failedParts = parts;
         Exception exception = assertThrows(OwenException.class, () -> {
             Deadline deadline = Parser.createDeadline(failedParts);
         });
@@ -180,7 +180,7 @@ public class ParserTest {
     public void createEvent_validDateFormat_success() throws OwenException{
         String input = "event eat death /from 2/12/2019 1800 /to 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         parts = truncated.split("/from | /to");
         trimStringArray(parts);
         Event event = Parser.createEvent(parts);
@@ -188,13 +188,13 @@ public class ParserTest {
     }
 
     @Test
-    public void createEvent_invalidDateFormat_exception() throws OwenException{
+    public void createEvent_invalidDateFormat_throwsException() throws OwenException{
         String input = "event eat death /from 2 Dec 2019 6pm /to 2 Dec 2020 8pm";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String [] parts = truncated.split(" ");
+        String[] parts = truncated.split(" ");
         parts = truncated.split("/from | /to");
         trimStringArray(parts);
-        String [] failedParts = parts;
+        String[] failedParts = parts;
         Exception exception = assertThrows(OwenException.class, () -> {
             Event event = Parser.createEvent(failedParts);
         });

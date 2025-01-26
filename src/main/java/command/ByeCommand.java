@@ -14,7 +14,7 @@ public class ByeCommand extends Command {
     @Override
     public void execute(Ui ui, Storage storage, TaskList taskList) {
         storage.overwriteTasklistData(taskList.getTaskList());
-        ui.showMessage("\nI am sure we will see each other soon. Goodbye.");
+        ui.goodbye();
     }
 
 
