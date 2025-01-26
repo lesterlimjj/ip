@@ -4,7 +4,12 @@ import storage.Storage;
 import task.TaskList;
 import ui.Ui;
 
+/**
+ * Represents a command to lists all tasks from the task list.
+ */
 public class ListCommand extends Command {
+
+    /** Key word for list command. */
     public static final String KEY_WORD = "list";
 
     @Override

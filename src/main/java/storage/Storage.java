@@ -16,10 +16,20 @@ import java.time.LocalDateTime;
 import java.util.List;
 import parser.Parser;
 
+/**
+ * Represents the storage that handles the writing and loading of data.
+ */
 public class Storage {
+    /** Path to the task list data file. */
     private static final Path taskListPath = Paths.get("./","data", "taskList.txt");
-    private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
+    /**
+     * Reads the text file data, parses the data into tasks and adds the tasks to the task list.
+     * If the file does not exist, it creates a new file.
+     *
+     * @param taskList The tasklist to add the tasks to.
+     * @throws OwenException If there is an error reading the file.
+     */
     public void loadTasklistData(TaskList taskList) {
         try {
             if (Files.exists(taskListPath)){
@@ -75,6 +85,12 @@ public class Storage {
 
     }
 
+    /**
+     * Overwrites the current tasklist data with the new tasklist data.
+     * This method is used to update the tasklist data in the file when a task is deleted or modified.
+     *
+     * @param taskList the new tasklist to be written to the file.
+     */
     public void overwriteTasklistData(List<Task> taskList) {
         StringBuilder linesToWrite = new StringBuilder();
         for (int i = 0; i < taskList.size(); i++) {
@@ -93,6 +109,12 @@ public class Storage {
         }
     }
 
+    /**
+     * Appends a new task to the tasklist data.
+     * This method is only used when adding a new task to the tasklist data in the file.
+     *
+     * @param task the new task to be added to the tasklist data.
+     */
     public void appendToTasklistData(Task task) {
         String line = task.convertToDataFormat();
         try {

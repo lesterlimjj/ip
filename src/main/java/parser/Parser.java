@@ -10,9 +10,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Parses the input from the user and determines the command to be executed.
+ */
 public class Parser {
+
+    /** accepted formats for localDatetime */
     private static final String [] localDateTimePatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
-    private static final String [] outputPatterns = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
+
+    /**
+     * Parses the user input and call checks for validity
+     *
+     * @param input the user input provided
+     * @return the command created from the input
+     * @throws OwenException if the input fails a check
+     */
     public static Command parse(String input) throws OwenException {
         String [] parts = input.split(" ");
         String keyWord = parts[0];
@@ -66,12 +78,24 @@ public class Parser {
         }
     }
 
+    /**
+     * checks if todo format is valid
+     *
+     * @param parts the string array of user input
+     * @throws OwenException if input is missing description
+     */
     public static void checkValidTodo(String [] parts) throws OwenException{
         if (parts.length == 1) {
             throw new OwenException("You forgot your description. Try again.");
         }
     }
 
+    /**
+     * checks if deadline format is valid
+     *
+     * @param parts the string array of user input
+     * @throws OwenException if input is missing start or end date or both
+     */
     public static void checkValidEvent(String [] parts) throws OwenException{
         Boolean fromPresent = false;
         Boolean toPresent = false;
@@ -92,6 +116,12 @@ public class Parser {
         }
     }
 
+    /**
+     * checks if deadline format is valid
+     *
+     * @param parts the string array of user input
+     * @throws OwenException if input is missing date
+     */
     public static void checkValidDeadline(String [] parts) throws OwenException{
         Boolean byPresent = false;
         for (int i = 0; i < parts.length; i++) {
@@ -105,6 +135,12 @@ public class Parser {
         }
     }
 
+    /**
+     * checks if mark format is valid
+     *
+     * @param parts the string array of user input
+     * @throws OwenException if index is missing or parameters > 2
+     */
     public static void checkValidMark(String [] parts) throws OwenException {
         if (parts.length == 1) {
             throw new OwenException("Please specify an index. Try again.");
@@ -113,6 +149,13 @@ public class Parser {
         }
     }
 
+    /**
+     * process string array to get LocalDateTime and creates new deadline
+     *
+     * @param parts the string array of user input
+     * @return the deadline to be added
+     * @throws OwenException if date is in wrong format, it will be null
+     */
     public static Deadline createDeadline(String[] parts) throws OwenException {
         LocalDateTime date = processLocalDateTime(parts[1].trim());
         if (date == null) {
@@ -122,6 +165,13 @@ public class Parser {
         return newDeadline;
     }
 
+    /**
+     * process string array to get LocalDateTime and creates new event
+     *
+     * @param parts the string array of user input
+     * @return the event to be added
+     * @throws OwenException if start or end date is in wrong format, they will be null
+     */
     public static Event createEvent(String[] parts) throws OwenException{
         LocalDateTime date1 = processLocalDateTime(parts[1].trim());
         LocalDateTime date2 = processLocalDateTime(parts[2].trim());
@@ -132,13 +182,23 @@ public class Parser {
         return newEvent;
     }
 
+    /**
+     * remove all lead and trailing whitespaces from elements of string array
+     *
+     * @param array the string array to be trimmed
+     */
     public static void trimStringArray(String[] array) {
-        // remove all lead and trailing whitespaces
         for (int j = 0; j < array.length; j++) {
             array[j] = array[j].trim();
         }
     }
 
+    /**
+     * process string to get LocalDateTime in specified patterns
+     *
+     * @param dateString the date string to be processed
+     * @return the LocalDateTime to be used in deadline or event
+     */
     public static LocalDateTime processLocalDateTime(String dateString) {
         LocalDateTime date = null;
         for (int i = 0; i < localDateTimePatterns.length; i++) {
@@ -153,6 +213,12 @@ public class Parser {
         return date;
     }
 
+    /**
+     * process LocalDateTime to get date string in specified patterns
+     *
+     * @param dateTime the LocalDateTime to be processed
+     * @return the date string to be saved in file
+     */
     public static String convertLocalDateToPattern(LocalDateTime dateTime) {
        String dateString = "";
         for (int i = 0; i < localDateTimePatterns.length; i++) {
