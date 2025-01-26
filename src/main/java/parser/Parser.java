@@ -11,6 +11,7 @@ import command.AddTodoCommand;
 import command.ByeCommand;
 import command.Command;
 import command.DeleteCommand;
+import command.FindCommand;
 import command.ListCommand;
 import command.MarkCommand;
 import command.UnmarkCommand;
@@ -83,6 +84,10 @@ public class Parser {
         case ByeCommand.KEY_WORD:
             ByeCommand byeCommand = new ByeCommand();
             return byeCommand;
+        case FindCommand.KEY_WORD:
+            parts = input.split(" ", 2);
+            FindCommand findCommand = new FindCommand(parts[1]);
+            return findCommand;
         default:
             throw new OwenException("I have not seen that command before. Maybe in another life?");
         }

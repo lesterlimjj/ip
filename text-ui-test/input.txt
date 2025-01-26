@@ -1,14 +1,9 @@
-echo
-Message1
-Message2
-exit
-tasklist
 todo eat apples
 mark 1
 list
 unmark 1
-deadline fulfil slayer oath /by 13 Jan
-event play games /from Mon 10am /to 1pm
+event eat death /from 2/12/2019 1800 /to 2/12/2020 2000
+deadline dream /by 10/3/2020 2000
 delete 2
 list
 todo
@@ -22,5 +17,5 @@ mark 1 2
 unmark 1 2
 delete 1 2
 trello
-exit
+bye
 trello

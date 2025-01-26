@@ -65,4 +65,21 @@ public class TaskList {
         tasks.get(index).setAsNotDone();
     }
 
+    /**
+     * searches for tasks based on a word.
+     *
+     * @param searchWord the word to search for in task list
+     * @return a list of matched tasks
+     */
+    public ArrayList<Task> searchTasks(String searchWord) {
+        ArrayList<Task> foundTasks = new ArrayList<>();
+
+        for (int i = 0; i < tasks.size(); i++) {
+            if (tasks.get(i).getDescription().contains(searchWord)) {
+                foundTasks.add(tasks.get(i));
+            }
+        }
+        return foundTasks;
+    }
+
 }

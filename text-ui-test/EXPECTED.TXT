@@ -1,72 +1,86 @@
 Greetings! I am Owen.
 What would you ask of me?
 <07=======================================================07>
-In echo mode!
 <07=======================================================07>
-Message1
-<07=======================================================07>
-Message2
-<07=======================================================07>
-Exited current mode!
-<07=======================================================07>
-In tasklist mode!
-<07=======================================================07>
-The following Todo has been added:
+The following task.Todo has been added:
 [T][ ] eat apples
-
-A quick check reviews we have 1 tasks!
-<07=======================================================07>
-The following is now done:
-[T][X] eat apples
-<07=======================================================07>
-Friend, here is your list of tasks:
-1.[T][X] eat apples
-<07=======================================================07>
-The following is now no longer done:
-[T][ ] eat apples
-<07=======================================================07>
-The following deadline has been added:
-[D][ ] fulfil slayer oath (by: 13 Jan)
 
 A quick check reviews we have 2 tasks!
 <07=======================================================07>
-The following deadline has been added:
-[E][ ] play games (from: Mon 10am to: 1pm)
+<07=======================================================07>
+The following is now done:
+[E][X] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+<07=======================================================07>
+<07=======================================================07>
+Friend, here is your list of tasks:
+1.[E][X] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+2.[T][ ] eat apples
+<07=======================================================07>
+<07=======================================================07>
+The following is now not done:
+[E][ ] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+<07=======================================================07>
+<07=======================================================07>
+The following event has been added:
+[E][ ] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
 
 A quick check reviews we have 3 tasks!
 <07=======================================================07>
-The following task has been deleted:
-[D][ ] fulfil slayer oath (by: 13 Jan)
+<07=======================================================07>
+The following deadline has been added:
+[D][ ] dream (by: Mar 10 2020 8:00pm)
 
-A quick check reviews we have 2 tasks!
+A quick check reviews we have 4 tasks!
+<07=======================================================07>
+<07=======================================================07>
+The following is now deleted:
+[T][ ] eat apples
+A quick check reviews we have 3 tasks!
+<07=======================================================07>
 <07=======================================================07>
 Friend, here is your list of tasks:
-1.[T][ ] eat apples
-2.[E][ ] play games (from: Mon 10am to: 1pm)
+1.[E][ ] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+2.[E][ ] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+3.[D][ ] dream (by: Mar 10 2020 8:00pm)
+<07=======================================================07>
 <07=======================================================07>
 You forgot your description. Try again.
 <07=======================================================07>
+<07=======================================================07>
 We cannot find a date. Please add a /by <date/time>
+<07=======================================================07>
 <07=======================================================07>
 Missing start and end date. Please add a /from <date/time> and add a /to <date/time>
 <07=======================================================07>
+<07=======================================================07>
 Missing end date. Please add a /to <date/time>
+<07=======================================================07>
 <07=======================================================07>
 Missing start date. Please add a /from <date/time>
 <07=======================================================07>
-The given index does not exist in the task list. Use list command to review the valid indexes.
+<07=======================================================07>
+The following is now deleted:
+[D][ ] dream (by: Mar 10 2020 8:00pm)
+A quick check reviews we have 2 tasks!
+<07=======================================================07>
 <07=======================================================07>
 The given index does not exist in the task list. Use list command to review the valid indexes.
+<07=======================================================07>
 <07=======================================================07>
 Too many parameters for a mark. Limit it to just one index.
 <07=======================================================07>
-Too many parameters for an unmark. Limit it to just one index.
 <07=======================================================07>
-Too many parameters for a delete. Limit it to just one index.
+Too many parameters for a mark. Limit it to just one index.
+<07=======================================================07>
+<07=======================================================07>
+The following is now deleted:
+[E][ ] eat death (from: Dec 02 2019 6:00pm to: Dec 02 2020 8:00pm)
+A quick check reviews we have 1 tasks!
+<07=======================================================07>
 <07=======================================================07>
 I have not seen that command before. Maybe in another life?
 <07=======================================================07>
-Exited current mode!
 <07=======================================================07>
-I have not seen that command before. Maybe in another life?
+
+I am sure we will see each other soon. Goodbye.
 <07=======================================================07>
