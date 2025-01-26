@@ -1,5 +1,6 @@
 package storage;
 
+import exception.OwenException;
 import task.Deadline;
 import task.Event;
 import task.Task;
@@ -54,6 +55,8 @@ public class Storage {
                             Event loadedEvent = new Event(description, isDone, startDateTime, endDateTime);
                             taskList.addTask(loadedEvent);
                             break;
+                        default:
+                            throw new OwenException("invalid data format in file");
                     }
                 }
             } else {

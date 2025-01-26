@@ -3,7 +3,7 @@ package task;
 import java.util.ArrayList;
 
 public class TaskList {
-    private static ArrayList<Task> tasks = new ArrayList<>();
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {
         tasks.add(task);
