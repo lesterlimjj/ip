@@ -7,11 +7,26 @@ import storage.Storage;
 import task.TaskList;
 import ui.Ui;
 
+
+/**
+ * Represents the main class of Owen.
+ * It is responsible for the overall flow of the program.
+ */
 public class Owen {
+
+    /** Represents the storage of Owen. */
     private Storage storage;
+
+    /** Represents the task list of Owen. */
     private TaskList tasks;
+
+    /** Represents the user interface of Owen. */
     private Ui ui;
 
+    /**
+     * Constructs an Owen object.
+     * loads the tasklist data from the storage into tasklist.
+     */
     public Owen() {
         ui = new Ui();
         tasks = new TaskList();
@@ -19,6 +34,9 @@ public class Owen {
         storage.loadTasklistData(tasks);
     }
 
+    /**
+     * Runs the program until the user exits.
+     */
     public void run() {
         ui.welcome();
         ui.showSeparator();
@@ -45,6 +63,10 @@ public class Owen {
         }
     }
 
+    /**
+     * The main method of Owen.
+     * @param args default java main method parameter.
+     */
     public static void main(String[] args) {
         new Owen().run();
     }

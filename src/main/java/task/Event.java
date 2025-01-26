@@ -5,17 +5,38 @@ import java.time.format.DateTimeFormatter;
 
 import parser.Parser;
 
-
+/**
+ * Represents a task with a start and end date.
+ */
 public class Event extends Task {
+
+    /** Start date of the event. */
     private LocalDateTime startDate;
+
+    /** End date of the event. */
     private LocalDateTime endDate;
 
+    /**
+     * Constructor for Event with specified description, start date, and end date.
+     *
+     * @param description Description of the event.
+     * @param startDate Start date of the event.
+     * @param endDate End date of the event.
+     */
     public Event(String description, LocalDateTime startDate, LocalDateTime endDate) {
         super(description);
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
+    /**
+     * Constructor for Event with specified description, status, start date, and end date.
+     *
+     * @param description Description of the event.
+     * @param isDone Whether the event is done.
+     * @param startDate Start date of the event.
+     * @param endDate End date of the event.
+     */
     public Event(String description, boolean isDone, LocalDateTime startDate, LocalDateTime endDate) {
         super(description, isDone);
         this.startDate = startDate;
