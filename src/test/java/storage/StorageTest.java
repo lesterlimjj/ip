@@ -1,10 +1,8 @@
 package storage;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import parser.Parser;
-import task.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,10 +10,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import parser.Parser;
+import task.Deadline;
+import task.Event;
+import task.Task;
+import task.TaskList;
+import task.Todo;
 
 public class StorageTest {
-    private static final Path TEST_FILE_PATH = Paths.get("./","data", "taskList.txt");
+    private static final Path TEST_FILE_PATH = Paths.get("./", "data", "taskList.txt");
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -32,9 +39,9 @@ public class StorageTest {
 
     @Test
     public void loadTasklistData_fileExists_validData() throws IOException {
-        String data = "T | 1 | Sample Todo\n" +
-                "D | 0 | Submit Assignment | 3/12/2019 1800\n" +
-                "E | 1 | Meeting | 3/12/2019 1800-3/12/2019 2000";
+        String data = "T | 1 | Sample Todo\n"
+                + "D | 0 | Submit Assignment | 3/12/2019 1800\n"
+                + "E | 1 | Meeting | 3/12/2019 1800-3/12/2019 2000";
         Files.writeString(TEST_FILE_PATH, data);
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
@@ -59,7 +66,6 @@ public class StorageTest {
     public void overwriteTasklistData_validTasks_fileUpdated() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
-        // Arrange: Add tasks to the task list
         taskList.addTask(new Todo("Sample Todo", true));
         taskList.addTask(new Deadline("Submit Assignment", false,
                 Parser.processLocalDateTime("3/12/2019 1800")));
@@ -67,10 +73,8 @@ public class StorageTest {
                 Parser.processLocalDateTime("3/12/2019 1800"),
                 Parser.processLocalDateTime("3/12/2019 2000")));
 
-        // Act: Overwrite data
         storage.overwriteTasklistData(taskList.getTaskList());
 
-        // Assert: Check file contents
         List<String> lines = Files.readAllLines(TEST_FILE_PATH);
         assertEquals(3, lines.size());
         assertEquals("T | 1 | Sample Todo", lines.get(0));
@@ -105,5 +109,4 @@ public class StorageTest {
         // Act & Assert: Exception expected
         assertThrows(RuntimeException.class, () -> storage.loadTasklistData(taskList));
     }
-    
 }
