@@ -1,16 +1,29 @@
 package parser;
 
-import command.*;
-import exception.OwenException;
-import org.junit.jupiter.api.Test;
-import task.Deadline;
-import task.Event;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static parser.Parser.trimStringArray;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static parser.Parser.trimStringArray;
+import org.junit.jupiter.api.Test;
+
+import command.AddDeadlineCommand;
+import command.AddEventCommand;
+import command.AddTodoCommand;
+import command.ByeCommand;
+import command.Command;
+import command.DeleteCommand;
+import command.ListCommand;
+import command.MarkCommand;
+import command.UnmarkCommand;
+import exception.OwenException;
+import task.Deadline;
+import task.Event;
 
 public class ParserTest {
     @Test
@@ -129,7 +142,8 @@ public class ParserTest {
             Parser.checkValidEvent(parts1);
         });
 
-        assertEquals("Missing start and end date. Please add a /from <date/time> and add a /to <date/time>", exception.getMessage());
+        assertEquals("Missing start and end date. "
+                + "Please add a /from <date/time> and add a /to <date/time>", exception.getMessage());
 
         input = "event eat death /from 2/12/2019 1800 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
@@ -151,7 +165,7 @@ public class ParserTest {
     }
 
     @Test
-    public void createDeadline_validDateFormat_success() throws OwenException{
+    public void createDeadline_validDateFormat_success() throws OwenException {
         String input = "deadline dream /by 10/3/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
@@ -162,7 +176,7 @@ public class ParserTest {
     }
 
     @Test
-    public void createDeadline_invalidDateFormat_throwsException() throws OwenException{
+    public void createDeadline_invalidDateFormat_throwsException() throws OwenException {
         String input = "deadline dream /by 10 Mar 2020 8pm";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
@@ -173,11 +187,12 @@ public class ParserTest {
             Deadline deadline = Parser.createDeadline(failedParts);
         });
 
-        assertEquals("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
+        assertEquals("Given datetime is in wrong format. "
+                + "Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
     }
 
     @Test
-    public void createEvent_validDateFormat_success() throws OwenException{
+    public void createEvent_validDateFormat_success() throws OwenException {
         String input = "event eat death /from 2/12/2019 1800 /to 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
@@ -188,7 +203,7 @@ public class ParserTest {
     }
 
     @Test
-    public void createEvent_invalidDateFormat_throwsException() throws OwenException{
+    public void createEvent_invalidDateFormat_throwsException() throws OwenException {
         String input = "event eat death /from 2 Dec 2019 6pm /to 2 Dec 2020 8pm";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
@@ -199,7 +214,8 @@ public class ParserTest {
             Event event = Parser.createEvent(failedParts);
         });
 
-        assertEquals("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
+        assertEquals("Given datetime is in wrong format. "
+                + "Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
     }
 
     @Test
