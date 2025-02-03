@@ -1,8 +1,8 @@
-package command;
+package owen.command;
 
-import storage.Storage;
-import task.TaskList;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.TaskList;
+import owen.ui.GuiController;
 
 /**
  * Represents an action for interacting with ui, storage and task list.
@@ -12,11 +12,11 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param ui the ui for text display
+     * @param gui the ui for text display
      * @param storage the storage for saving and loading tasks
      * @param taskList the task list to be modified
      */
-    public abstract void execute(Ui ui, Storage storage, TaskList taskList);
+    public abstract void execute(GuiController gui, Storage storage, TaskList taskList);
 
     /**
      * Returns whether the command is an exit command.

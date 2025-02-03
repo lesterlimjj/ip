@@ -1,9 +1,9 @@
-package command;
+package owen.command;
 
-import storage.Storage;
-import task.TaskList;
-import task.Todo;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.TaskList;
+import owen.task.Todo;
+import owen.ui.GuiController;
 
 /**
  * Represents a command to add a todo to the task list.
@@ -26,11 +26,13 @@ public class AddTodoCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Storage storage, TaskList taskList) {
+    public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         taskList.addTask(pendingTodo);
         storage.appendToTasklistData(pendingTodo);
-        ui.showMessage("The following task.Todo has been added: \n" + pendingTodo.toString() + "\n");
-        ui.showNumberOfTasks(taskList.getTaskList());
+        guiController.addUserDialog();
+        String response = "The following Todo has been added: \n" + pendingTodo.toString() + "\n";
+        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
+        guiController.addOwenDialog(response);
     }
 
 }

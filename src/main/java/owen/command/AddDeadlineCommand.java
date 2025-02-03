@@ -1,9 +1,9 @@
-package command;
+package owen.command;
 
-import storage.Storage;
-import task.Deadline;
-import task.TaskList;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.Deadline;
+import owen.task.TaskList;
+import owen.ui.GuiController;
 
 /**
  * Represents a command to add a deadline to the task list.
@@ -26,11 +26,13 @@ public class AddDeadlineCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Storage storage, TaskList taskList) {
+    public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         taskList.addTask(pendingDeadline);
         storage.appendToTasklistData(pendingDeadline);
-        ui.showMessage("The following deadline has been added: \n" + pendingDeadline.toString() + "\n");
-        ui.showNumberOfTasks(taskList.getTaskList());
+        guiController.addUserDialog();
+        String response = "The following deadline has been added: \n" + pendingDeadline.toString() + "\n";
+        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
+        guiController.addOwenDialog(response);
     }
 
 }

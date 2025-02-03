@@ -1,11 +1,11 @@
-package command;
+package owen.command;
 
 import java.util.ArrayList;
 
-import storage.Storage;
-import task.Task;
-import task.TaskList;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.Task;
+import owen.task.TaskList;
+import owen.ui.GuiController;
 
 /**
  * Represents a command to find tasks that contain a certain word.
@@ -27,7 +27,7 @@ public class FindCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Storage storage, TaskList taskList) {
+    public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         ArrayList<Task> searchResults = taskList.searchTasks(searchWord);
         StringBuilder output = new StringBuilder("Friend, here are the results of your search: \n");
         for (int i = 0; i < searchResults.size(); i++) {
@@ -35,7 +35,9 @@ public class FindCommand extends Command {
             Task currentTask = searchResults.get(i);
             output.append(index + "." + currentTask.toString() + "\n");
         }
-        ui.showMessage(output.toString());
+        guiController.addUserDialog();
+        String response = output.toString();
+        guiController.addOwenDialog(response);
 
     }
 }

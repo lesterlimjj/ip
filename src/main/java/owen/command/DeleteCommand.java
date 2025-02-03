@@ -1,8 +1,8 @@
-package command;
+package owen.command;
 
-import storage.Storage;
-import task.TaskList;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.TaskList;
+import owen.ui.GuiController;
 
 
 /**
@@ -26,11 +26,13 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Storage storage, TaskList taskList) {
+    public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         String taskStatus = taskList.getTaskStatus(pendingTaskIndex);
         taskList.deleteTask(pendingTaskIndex);
         storage.overwriteTasklistData(taskList.getTaskList());
-        ui.showMessage("The following is now deleted: \n" + taskStatus);
-        ui.showNumberOfTasks(taskList.getTaskList());
+        guiController.addUserDialog();
+        String response = "The following is now deleted: \n" + taskStatus;
+        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
+        guiController.addOwenDialog(response);
     }
 }

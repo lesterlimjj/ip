@@ -1,8 +1,8 @@
-package command;
+package owen.command;
 
-import storage.Storage;
-import task.TaskList;
-import ui.Ui;
+import owen.storage.Storage;
+import owen.task.TaskList;
+import owen.ui.GuiController;
 
 /**
  * Represents a command to mark a task from the task list.
@@ -25,9 +25,11 @@ public class MarkCommand extends Command {
     }
 
     @Override
-    public void execute(Ui ui, Storage storage, TaskList taskList) {
+    public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         taskList.markTaskAsDone(pendingTaskIndex);
         storage.overwriteTasklistData(taskList.getTaskList());
-        ui.showMessage("The following is now done: \n" + taskList.getTaskStatus(pendingTaskIndex));
+        guiController.addUserDialog();
+        String response = "The following is now done: \n" + taskList.getTaskStatus(pendingTaskIndex);
+        guiController.addOwenDialog(response);
     }
 }
