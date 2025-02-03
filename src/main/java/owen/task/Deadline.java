@@ -1,11 +1,11 @@
-package task;
+package owen.task;
 
 
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import parser.Parser;
+import owen.parser.Parser;
 
 /**
  * Represents a task with a specified deadline.
@@ -30,7 +30,7 @@ public class Deadline extends Task {
     /**
      * Constructs a Deadline object with the specified description, completion status, and date.
      *
-     * @param description the description of the task
+     * @param description the description of the deadline
      * @param isDone the completion status of the deadline
      * @param date  the date and time of the deadline
      */

@@ -1,4 +1,4 @@
-package task;
+package owen.task;
 
 /**
  * Represents a task

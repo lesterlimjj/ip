@@ -1,31 +1,31 @@
-package parser;
-
+package owen.parser;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static parser.Parser.trimStringArray;
 
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-import command.AddDeadlineCommand;
-import command.AddEventCommand;
-import command.AddTodoCommand;
-import command.ByeCommand;
-import command.Command;
-import command.DeleteCommand;
-import command.ListCommand;
-import command.MarkCommand;
-import command.UnmarkCommand;
-import exception.OwenException;
-import task.Deadline;
-import task.Event;
+import owen.command.AddDeadlineCommand;
+import owen.command.AddEventCommand;
+import owen.command.AddTodoCommand;
+import owen.command.ByeCommand;
+import owen.command.Command;
+import owen.command.DeleteCommand;
+import owen.command.ListCommand;
+import owen.command.MarkCommand;
+import owen.command.UnmarkCommand;
+import owen.exception.OwenException;
+import owen.task.Deadline;
+import owen.task.Event;
+
 
 public class ParserTest {
+
     @Test
     public void parse_listCommand_success() throws OwenException {
         Command command = Parser.parse("list");
@@ -170,7 +170,7 @@ public class ParserTest {
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
         parts = truncated.split("/by");
-        trimStringArray(parts);
+        Parser.trimStringArray(parts);
         Deadline deadline = Parser.createDeadline(parts);
         assertEquals(Deadline.class, deadline.getClass());
     }
@@ -181,7 +181,7 @@ public class ParserTest {
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
         parts = truncated.split("/by");
-        trimStringArray(parts);
+        Parser.trimStringArray(parts);
         String[] failedParts = parts;
         Exception exception = assertThrows(OwenException.class, () -> {
             Deadline deadline = Parser.createDeadline(failedParts);
@@ -197,7 +197,7 @@ public class ParserTest {
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
         parts = truncated.split("/from | /to");
-        trimStringArray(parts);
+        Parser.trimStringArray(parts);
         Event event = Parser.createEvent(parts);
         assertEquals(Event.class, event.getClass());
     }
@@ -208,7 +208,7 @@ public class ParserTest {
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
         String[] parts = truncated.split(" ");
         parts = truncated.split("/from | /to");
-        trimStringArray(parts);
+        Parser.trimStringArray(parts);
         String[] failedParts = parts;
         Exception exception = assertThrows(OwenException.class, () -> {
             Event event = Parser.createEvent(failedParts);

@@ -1,4 +1,4 @@
-package exception;
+package owen.exception;
 
 /**
  * Custom exception class for catching user input errors

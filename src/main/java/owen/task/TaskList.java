@@ -1,4 +1,4 @@
-package task;
+package owen.task;
 
 import java.util.ArrayList;
 
@@ -59,7 +59,7 @@ public class TaskList {
     /**
      * marks the task at the given index as not done.
      *
-     * @param index the index of the task.
+     * @param index the index of the Owen.task.
      */
     public void markTaskAsUndone(int index) {
         tasks.get(index).setAsNotDone();

@@ -1,4 +1,4 @@
-package storage;
+package owen.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,12 +14,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import parser.Parser;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.TaskList;
-import task.Todo;
+import owen.parser.Parser;
+import owen.task.Deadline;
+import owen.task.Event;
+import owen.task.Task;
+import owen.task.TaskList;
+import owen.task.Todo;
 
 public class StorageTest {
     private static final Path TEST_FILE_PATH = Paths.get("./", "data", "taskList.txt");

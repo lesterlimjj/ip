@@ -1,4 +1,4 @@
-package storage;
+package owen.storage;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,13 +8,13 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import exception.OwenException;
-import parser.Parser;
-import task.Deadline;
-import task.Event;
-import task.Task;
-import task.TaskList;
-import task.Todo;
+import owen.exception.OwenException;
+import owen.parser.Parser;
+import owen.task.Deadline;
+import owen.task.Event;
+import owen.task.Task;
+import owen.task.TaskList;
+import owen.task.Todo;
 
 
 /**
@@ -122,7 +122,11 @@ public class Storage {
     public void appendToTasklistData(Task task) {
         String line = task.convertToDataFormat();
         try {
-            Files.writeString(TASKLIST_PATH, "\n" + line, StandardOpenOption.APPEND);
+            if (Files.size(TASKLIST_PATH) != 0) {
+                line = "\n" + line;
+            }
+
+            Files.writeString(TASKLIST_PATH, line, StandardOpenOption.APPEND);
         } catch (IOException e) {
             System.out.println("We encountered an error while saving...");
         }
