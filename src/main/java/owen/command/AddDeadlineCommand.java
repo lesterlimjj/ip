@@ -23,6 +23,7 @@ public class AddDeadlineCommand extends Command {
      * */
     public AddDeadlineCommand(Deadline deadline) {
         pendingDeadline = deadline;
+        assert pendingDeadline != null : "pendingDeadline should not be null";
     }
 
     @Override

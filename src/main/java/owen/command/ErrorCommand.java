@@ -19,6 +19,7 @@ public class ErrorCommand extends Command {
      */
     public ErrorCommand(String errorMessage) {
         this.errorMessage = errorMessage;
+        assert errorMessage != null : "errorMessage should not be null";
     }
 
     @Override

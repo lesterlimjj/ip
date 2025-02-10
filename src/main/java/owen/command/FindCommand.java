@@ -24,6 +24,7 @@ public class FindCommand extends Command {
      */
     public FindCommand(String searchWord) {
         this.searchWord = searchWord;
+        assert searchWord != null : "searchWord should not be null";
     }
 
     @Override

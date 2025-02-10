@@ -23,6 +23,7 @@ public class DeleteCommand extends Command {
      */
     public DeleteCommand(int taskIndex) {
         pendingTaskIndex = taskIndex;
+        assert pendingTaskIndex >= 0 : "pendingTaskIndex should not be negative";
     }
 
     @Override

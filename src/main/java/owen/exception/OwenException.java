@@ -12,5 +12,6 @@ public class OwenException extends Exception {
      */
     public OwenException(String message) {
         super(message);
+        assert message != null : "Error message should not be null";
     }
 }
