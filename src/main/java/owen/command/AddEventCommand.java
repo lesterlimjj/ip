@@ -23,6 +23,7 @@ public class AddEventCommand extends Command {
      */
     public AddEventCommand(Event event) {
         pendingEvent = event;
+        assert pendingEvent != null : "pendingEvent should not be null";
     }
 
     @Override
