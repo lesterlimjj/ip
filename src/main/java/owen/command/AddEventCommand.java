@@ -30,9 +30,10 @@ public class AddEventCommand extends Command {
         taskList.addTask(pendingEvent);
         storage.appendToTasklistData(pendingEvent);
         guiController.addUserDialog();
-        String response = "The following event has been added: \n" + pendingEvent.toString() + "\n";
-        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following event has been added: ",
+                pendingEvent.toString(),
+                "You now have " + String.valueOf(taskList.getTaskList().size()) + " tasks in the list.");
+        guiController.addOwenDialog(completeResponse);
     }
 
 }

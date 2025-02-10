@@ -35,7 +35,7 @@ public class Owen {
         ui.setOwen(this);
         tasks = new TaskList();
         storage = new Storage();
-        storage.loadTasklistData(tasks);
+        storage.loadTaskListData(tasks);
     }
 
     /**

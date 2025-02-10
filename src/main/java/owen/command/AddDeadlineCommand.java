@@ -30,9 +30,10 @@ public class AddDeadlineCommand extends Command {
         taskList.addTask(pendingDeadline);
         storage.appendToTasklistData(pendingDeadline);
         guiController.addUserDialog();
-        String response = "The following deadline has been added: \n" + pendingDeadline.toString() + "\n";
-        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following deadline has been added:",
+                pendingDeadline.toString(),
+                "You now have " + String.valueOf(taskList.getTaskList().size()) + " tasks in the list.");
+        guiController.addOwenDialog(completeResponse);
     }
 
 }

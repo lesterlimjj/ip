@@ -219,14 +219,14 @@ public class ParserTest {
     }
 
     @Test
-    public void processLocalDateTime_validFormat_success() {
-        LocalDateTime dateTime = Parser.processLocalDateTime("2/12/2019 1800");
+    public void convertStringToLocalDateTime_validFormat_success() {
+        LocalDateTime dateTime = Parser.convertStringToLocalDateTime("2/12/2019 1800");
         assertNotNull(dateTime, "DateTime should be parsed successfully");
         assertEquals(2019, dateTime.getYear());
         assertEquals(12, dateTime.getMonthValue());
         assertEquals(2, dateTime.getDayOfMonth());
 
-        dateTime = Parser.processLocalDateTime("3/31/2019 1800");
+        dateTime = Parser.convertStringToLocalDateTime("3/31/2019 1800");
         assertNotNull(dateTime, "DateTime should be parsed successfully");
         assertEquals(2019, dateTime.getYear());
         assertEquals(3, dateTime.getMonthValue());
@@ -234,14 +234,14 @@ public class ParserTest {
     }
 
     @Test
-    public void processLocalDateTime_invalidFormat_returnsNull() {
-        LocalDateTime dateTime = Parser.processLocalDateTime("invalid date");
+    public void convertStringToLocalDateTime_invalidFormat_returnsNull() {
+        LocalDateTime dateTime = Parser.convertStringToLocalDateTime("invalid date");
         assertNull(dateTime);
     }
 
     @Test
     public void convertLocalDateToPattern_validFormat_success() {
-        LocalDateTime dateTime = Parser.processLocalDateTime("2/12/2019 1800");
+        LocalDateTime dateTime = Parser.convertStringToLocalDateTime("2/12/2019 1800");
         String dateString = Parser.convertLocalDateToPattern(dateTime);
 
         assertEquals("2/12/2019 1800", dateString);

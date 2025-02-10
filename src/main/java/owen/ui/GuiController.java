@@ -79,12 +79,27 @@ public class GuiController {
     /**
      * add owen dialog box to dialog container
      *
-     * @param response response from processed command
+     * @param response given from processed command
      */
     public void addOwenDialog(String response) {
         dialogContainer.getChildren().addAll(
                 DialogBox.getOwenDialog(response, owenImage)
         );
+    }
+
+    /**
+     * append responses from processed command into one string
+     * each response is separated by a newline
+     *
+     * @param responses given array of responses from processed command
+     */
+    public String formatResponses(String... responses) {
+        StringBuilder completeResponse = new StringBuilder();
+        for (String response : responses) {
+            completeResponse.append(response);
+            completeResponse.append("\n");
+        }
+        return completeResponse.toString();
     }
 
     /**
