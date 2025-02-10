@@ -27,7 +27,7 @@ public class MarkCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         taskList.markTaskAsDone(pendingTaskIndex);
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
         String response = "The following is now done: \n" + taskList.getTaskStatus(pendingTaskIndex);
         guiController.addOwenDialog(response);

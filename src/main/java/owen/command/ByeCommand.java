@@ -14,7 +14,7 @@ public class ByeCommand extends Command {
 
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
         String response = "I am sure we will see each other soon. Goodbye.";
         guiController.addOwenDialog(response);

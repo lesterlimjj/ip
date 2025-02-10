@@ -33,7 +33,7 @@ public class Storage {
      * @param taskList The tasklist to add the tasks to.
      * @throws OwenException If there is an error reading the file.
      */
-    public void loadTasklistData(TaskList taskList) {
+    public void loadTaskListData(TaskList taskList) {
         try {
             if (Files.exists(TASKLIST_PATH)) {
                 List<String> lines = Files.readAllLines(TASKLIST_PATH);
@@ -95,7 +95,7 @@ public class Storage {
      *
      * @param taskList the new tasklist to be written to the file.
      */
-    public void overwriteTasklistData(List<Task> taskList) {
+    public void overwriteTaskListData(List<Task> taskList) {
         StringBuilder linesToWrite = new StringBuilder();
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
