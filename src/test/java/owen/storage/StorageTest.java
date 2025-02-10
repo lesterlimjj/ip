@@ -38,14 +38,14 @@ public class StorageTest {
     }
 
     @Test
-    public void loadTasklistData_fileExists_validData() throws IOException {
+    public void loadTaskListData_fileExists_validData() throws IOException {
         String data = "T | 1 | Sample Todo\n"
                 + "D | 0 | Submit Assignment | 3/12/2019 1800\n"
                 + "E | 1 | Meeting | 3/12/2019 1800-3/12/2019 2000";
         Files.writeString(TEST_FILE_PATH, data);
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
-        storage.loadTasklistData(taskList);
+        storage.loadTaskListData(taskList);
         assertEquals(3, taskList.getTaskList().size());
         assertEquals(Todo.class, taskList.getTaskList().get(0).getClass());
         assertEquals(Deadline.class, taskList.getTaskList().get(1).getClass());
@@ -53,27 +53,27 @@ public class StorageTest {
     }
 
     @Test
-    public void loadTasklistData_fileNotExists_fileCreated() throws IOException {
+    public void loadTaskListData_fileNotExists_fileCreated() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
-        storage.loadTasklistData(taskList);
+        storage.loadTaskListData(taskList);
 
         assertTrue(Files.exists(TEST_FILE_PATH));
         assertTrue(taskList.getTaskList().isEmpty());
     }
 
     @Test
-    public void overwriteTasklistData_validTasks_fileUpdated() throws IOException {
+    public void overwriteTaskListData_validTasks_fileUpdated() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
         taskList.addTask(new Todo("Sample Todo", true));
         taskList.addTask(new Deadline("Submit Assignment", false,
-                Parser.processLocalDateTime("3/12/2019 1800")));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800")));
         taskList.addTask(new Event("Meeting", true,
-                Parser.processLocalDateTime("3/12/2019 1800"),
-                Parser.processLocalDateTime("3/12/2019 2000")));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800"),
+                Parser.convertStringToLocalDateTime("3/12/2019 2000")));
 
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
 
         List<String> lines = Files.readAllLines(TEST_FILE_PATH);
         assertEquals(3, lines.size());
@@ -89,7 +89,7 @@ public class StorageTest {
         Files.writeString(TEST_FILE_PATH, initialData);
 
         Task newTask = new Deadline("Submit Assignment", false,
-                Parser.processLocalDateTime("3/12/2019 1800"));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800"));
 
         storage.appendToTasklistData(newTask);
 
@@ -100,13 +100,13 @@ public class StorageTest {
     }
 
     @Test
-    public void loadTasklistData_invalidFileContent_throwsRuntimeException() throws IOException {
+    public void loadTaskListData_invalidFileContent_throwsRuntimeException() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
         String invalidData = "Invalid | Data | Format";
         Files.writeString(TEST_FILE_PATH, invalidData);
 
         // Act & Assert: Exception expected
-        assertThrows(RuntimeException.class, () -> storage.loadTasklistData(taskList));
+        assertThrows(RuntimeException.class, () -> storage.loadTaskListData(taskList));
     }
 }

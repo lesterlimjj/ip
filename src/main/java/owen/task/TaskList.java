@@ -82,4 +82,22 @@ public class TaskList {
         return foundTasks;
     }
 
+    /**
+     * formats the tasks in a task list into a string.
+     * each line contains index and task description.
+     *
+     * @param tasks the list of tasks to be formatted
+     * @return
+     */
+    public String convertTaskListToFormattedString(ArrayList<Task> tasks) {
+        StringBuilder formattedTaskList = new StringBuilder();
+        for (int i = 0; i < tasks.size(); i++) {
+            formattedTaskList.append(i + 1);
+            formattedTaskList.append(". ");
+            formattedTaskList.append(tasks.get(i).toString());
+            formattedTaskList.append("\n");
+        }
+        return formattedTaskList.toString();
+    }
+
 }

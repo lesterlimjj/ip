@@ -29,10 +29,11 @@ public class DeleteCommand extends Command {
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         String taskStatus = taskList.getTaskStatus(pendingTaskIndex);
         taskList.deleteTask(pendingTaskIndex);
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
-        String response = "The following is now deleted: \n" + taskStatus;
-        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following is now deleted: ",
+                taskStatus,
+                "You now have " + String.valueOf(taskList.getTaskList().size()) + " tasks in the list.");
+        guiController.addOwenDialog(completeResponse);
     }
 }

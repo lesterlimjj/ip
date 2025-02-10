@@ -27,9 +27,10 @@ public class UnmarkCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         taskList.markTaskAsUndone(pendingTaskIndex);
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
-        String response = "The following is now not done: \n" + taskList.getTaskStatus(pendingTaskIndex);
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following is now not done: ",
+                taskList.getTaskStatus(pendingTaskIndex));
+        guiController.addOwenDialog(completeResponse);
     }
 }
