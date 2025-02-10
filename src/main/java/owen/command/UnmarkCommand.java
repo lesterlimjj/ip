@@ -22,6 +22,7 @@ public class UnmarkCommand extends Command {
       */
     public UnmarkCommand(int taskIndex) {
         pendingTaskIndex = taskIndex;
+        assert pendingTaskIndex >= 0 : "Task index should be non-negative";
     }
 
     @Override

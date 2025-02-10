@@ -22,6 +22,7 @@ public class MarkCommand extends Command {
      */
     public MarkCommand(int taskIndex) {
         pendingTaskIndex = taskIndex;
+        assert pendingTaskIndex >= 0 : "pendingTaskIndex should not be negative";
     }
 
     @Override
