@@ -31,9 +31,10 @@ public class AddTodoCommand extends Command {
         taskList.addTask(pendingTodo);
         storage.appendToTasklistData(pendingTodo);
         guiController.addUserDialog();
-        String response = "The following Todo has been added: \n" + pendingTodo.toString() + "\n";
-        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following todo has been added: ",
+                pendingTodo.toString(),
+                "You now have " + String.valueOf(taskList.getTaskList().size()) + " tasks in the list.");
+        guiController.addOwenDialog(completeResponse);
     }
 
 }

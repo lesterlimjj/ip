@@ -62,11 +62,8 @@ public class Event extends Task {
 
     @Override
     public String convertToDataFormat() {
-        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("m/dd/yyyy HHmm");
         String combinedDates = Parser.convertLocalDateToPattern(getStartDate()) + "-"
                 + Parser.convertLocalDateToPattern(getEndDate());
         return "E" + " | " + super.convertToDataFormat() + " | " + combinedDates;
     }
-
-
 }

@@ -24,9 +24,9 @@ public class ErrorCommand extends Command {
 
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
-        storage.overwriteTasklistData(taskList.getTaskList());
+        storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
-        String response = errorMessage;
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses(errorMessage);
+        guiController.addOwenDialog(completeResponse);
     }
 }

@@ -30,15 +30,10 @@ public class FindCommand extends Command {
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
         ArrayList<Task> searchResults = taskList.searchTasks(searchWord);
-        StringBuilder output = new StringBuilder("Friend, here are the results of your search: \n");
-        for (int i = 0; i < searchResults.size(); i++) {
-            int index = i + 1;
-            Task currentTask = searchResults.get(i);
-            output.append(index + "." + currentTask.toString() + "\n");
-        }
+        String formattedSearchResults = taskList.convertTaskListToFormattedString(searchResults);
+        String completeResponse = guiController.formatResponses("Friend, here are the results of your search: ",
+                formattedSearchResults);
         guiController.addUserDialog();
-        String response = output.toString();
-        guiController.addOwenDialog(response);
-
+        guiController.addOwenDialog(completeResponse);
     }
 }
