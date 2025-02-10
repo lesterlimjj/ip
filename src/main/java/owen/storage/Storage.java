@@ -35,58 +35,106 @@ public class Storage {
      */
     public void loadTaskListData(TaskList taskList) {
         try {
-            if (Files.exists(TASKLIST_PATH)) {
-                List<String> lines = Files.readAllLines(TASKLIST_PATH);
-                for (int i = 0; i < lines.size(); i++) {
-                    String[] parts = lines.get(i).split("\\|");
-                    for (int j = 0; j < parts.length; j++) {
-                        parts[j] = parts[j].trim();
-                    }
-                    boolean isDone;
-                    String description;
-
-                    switch (parts[0]) {
-                    case "T":
-                        isDone = parts[1].equals("1");
-                        description = parts[2];
-                        Todo loadedTodo = new Todo(description, isDone);
-                        taskList.addTask(loadedTodo);
-                        break;
-                    case "D":
-                        isDone = parts[1].equals("1");
-                        description = parts[2];
-                        LocalDateTime date = Parser.processLocalDateTime(parts[3]);
-                        Deadline loadedDeadline = new Deadline(description, isDone, date);
-                        taskList.addTask(loadedDeadline);
-                        break;
-                    case "E":
-                        isDone = parts[1].equals("1");
-                        description = parts[2];
-                        String startDate = parts[3].split("-")[0];
-                        String endDate = parts[3].split("-")[1];
-                        LocalDateTime startDateTime = Parser.processLocalDateTime(startDate);
-                        LocalDateTime endDateTime = Parser.processLocalDateTime(endDate);
-                        Event loadedEvent = new Event(description, isDone, startDateTime, endDateTime);
-                        taskList.addTask(loadedEvent);
-                        break;
-                    default:
-                        throw new OwenException("invalid data format in file");
-                    }
+            createTaskListFileAndDirectoryIfNeeded();
+            List<String> lines = Files.readAllLines(TASKLIST_PATH);
+            for (int i = 0; i < lines.size(); i++) {
+                String[] dataSegments = splitAndTrimLine(lines.get(i));
+                switch (dataSegments[0]) {
+                case "T":
+                    addTodoFromDataSegment(dataSegments, taskList);
+                    break;
+                case "D":
+                    addDeadlineFromDataSegment(dataSegments, taskList);
+                    break;
+                case "E":
+                    addEventFromDataSegment(dataSegments, taskList);
+                    break;
+                default:
+                    throw new OwenException("invalid data format in file");
                 }
-            } else {
-                if (!Files.exists(TASKLIST_PATH.getParent())) {
-                    Files.createDirectory(TASKLIST_PATH.getParent());
-                }
-
-                if (!Files.exists(TASKLIST_PATH)) {
-                    Files.createFile(TASKLIST_PATH);
-                }
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
 
+    /**
+     * Creates the task list file and directory if they do not exist.
+     *
+     * @throws IOException If there is an error creating the file or directory.
+     */
+    public void createTaskListFileAndDirectoryIfNeeded() throws IOException {
+        if (!Files.exists(TASKLIST_PATH.getParent())) {
+            Files.createDirectory(TASKLIST_PATH.getParent());
+        }
+
+        if (!Files.exists(TASKLIST_PATH)) {
+            Files.createFile(TASKLIST_PATH);
+        }
+    }
+
+    /**
+     * Splits a line into segments and trims each segment.
+     *
+     * @param line The line to split and trim.
+     * @return An array of trimmed segments.
+     */
+    public String[] splitAndTrimLine(String line) {
+        String[] parts = line.split("\\|");
+        for (int j = 0; j < parts.length; j++) {
+            parts[j] = parts[j].trim();
+        }
+        return parts;
+    }
+
+    /**
+     * Adds a Todo task from a data segment.
+     *
+     * @param dataSegments The data segments containing the Todo information.
+     * @param taskList The task list to add the task to.
+     */
+    public void addTodoFromDataSegment(String[] dataSegments, TaskList taskList) {
+        boolean isDone = dataSegments[1].equals("1");
+        String description = dataSegments[2];
+
+        Todo loadedTodo = new Todo(description, isDone);
+        taskList.addTask(loadedTodo);
+    }
+
+    /**
+     * Adds a Deadline task from a data segment.
+     *
+     * @param dataSegments The data segments containing the Deadline information.
+     * @param taskList The task list to add the task to.
+     */
+    public void addDeadlineFromDataSegment(String[] dataSegments, TaskList taskList) {
+        boolean isDone = dataSegments[1].equals("1");
+        String description = dataSegments[2];
+        String date = dataSegments[3];
+
+        LocalDateTime deadline = Parser.convertStringToLocalDateTime(date);
+
+        Deadline loadedDeadline = new Deadline(description, isDone, deadline);
+        taskList.addTask(loadedDeadline);
+    }
+
+    /**
+     * Adds an Event task from a data segment.
+     *
+     * @param dataSegments The data segments containing the Event information.
+     * @param taskList The task list to add the task to.
+     */
+    public void addEventFromDataSegment(String[] dataSegments, TaskList taskList) {
+        boolean isDone = dataSegments[1].equals("1");
+        String description = dataSegments[2];
+        String startDate = dataSegments[3].split("-")[0];
+        String endDate = dataSegments[3].split("-")[1];
+
+        LocalDateTime startDateTime = Parser.convertStringToLocalDateTime(startDate);
+        LocalDateTime endDateTime = Parser.convertStringToLocalDateTime(endDate);
+
+        Event loadedEvent = new Event(description, isDone, startDateTime, endDateTime);
+        taskList.addTask(loadedEvent);
     }
 
     /**
@@ -101,6 +149,9 @@ public class Storage {
             Task task = taskList.get(i);
             String line = task.convertToDataFormat();
             linesToWrite.append(line);
+
+            // the last added task should not have newline
+            // since if appended to after overwrite, file format will break due to empty line
             if (i != taskList.size() - 1) {
                 linesToWrite.append(System.lineSeparator());
             }
@@ -122,6 +173,7 @@ public class Storage {
     public void appendToTasklistData(Task task) {
         String line = task.convertToDataFormat();
         try {
+            // adding a newline for the first added task will break file format
             if (Files.size(TASKLIST_PATH) != 0) {
                 line = "\n" + line;
             }

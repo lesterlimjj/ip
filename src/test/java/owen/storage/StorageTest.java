@@ -68,10 +68,10 @@ public class StorageTest {
         TaskList taskList = new TaskList();
         taskList.addTask(new Todo("Sample Todo", true));
         taskList.addTask(new Deadline("Submit Assignment", false,
-                Parser.processLocalDateTime("3/12/2019 1800")));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800")));
         taskList.addTask(new Event("Meeting", true,
-                Parser.processLocalDateTime("3/12/2019 1800"),
-                Parser.processLocalDateTime("3/12/2019 2000")));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800"),
+                Parser.convertStringToLocalDateTime("3/12/2019 2000")));
 
         storage.overwriteTaskListData(taskList.getTaskList());
 
@@ -89,7 +89,7 @@ public class StorageTest {
         Files.writeString(TEST_FILE_PATH, initialData);
 
         Task newTask = new Deadline("Submit Assignment", false,
-                Parser.processLocalDateTime("3/12/2019 1800"));
+                Parser.convertStringToLocalDateTime("3/12/2019 1800"));
 
         storage.appendToTasklistData(newTask);
 
