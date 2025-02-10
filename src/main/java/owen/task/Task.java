@@ -1,5 +1,7 @@
 package owen.task;
 
+import java.util.ArrayList;
+
 /**
  * Represents a task
  */
@@ -10,6 +12,7 @@ public class Task {
 
     /** Status of the task */
     private boolean isDone;
+    private ArrayList<String> tags = new ArrayList<String>();
 
     /**
      * Constructor for Task
@@ -55,7 +58,7 @@ public class Task {
      */
     @Override
     public String toString() {
-        return getDoneIcon() + " " + getDescription();
+        return getDoneIcon() + " " + getDescription() + " " + convertTagsToString();
     }
 
     /**
@@ -65,6 +68,49 @@ public class Task {
      */
     public String convertToDataFormat() {
         String doneStatus = isDone ? "1" : "0";
-        return doneStatus + " | " + getDescription();
+        return doneStatus + " | " + getDescription() + " | " + convertTagsToDataFormat();
+    }
+
+    /**
+     * adds a tag to the list of tags for a task
+     *
+     * @param tag the provided tag
+     */
+    public void addTag(String tag) {
+        tags.add(tag);
+    }
+
+    /**
+     * converts the list of tags to a string
+     *
+     * @return the string representation of the tags
+     */
+    public String convertTagsToString() {
+        String tagsString = "";
+        for (int i = 0; i < tags.size(); i++) {
+            tagsString += "#" + tags.get(i);
+
+            if (i != tags.size() - 1) {
+                tagsString += " ";
+            }
+        }
+        return tagsString;
+    }
+
+    /**
+     * converts the list of tags to a string in data format
+     *
+     * @return the string representation of the tags in data format
+     */
+    public String convertTagsToDataFormat() {
+        String tagsString = "";
+        for (int i = 0; i < tags.size(); i++) {
+            tagsString += tags.get(i);
+
+            if (i != tags.size() - 1) {
+                tagsString += " ";
+            }
+        }
+        return tagsString;
     }
 }

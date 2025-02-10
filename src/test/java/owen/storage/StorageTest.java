@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import owen.parser.Parser;
 import owen.task.Deadline;
 import owen.task.Event;
-import owen.task.Task;
 import owen.task.TaskList;
 import owen.task.Todo;
 
@@ -39,9 +38,9 @@ public class StorageTest {
 
     @Test
     public void loadTaskListData_fileExists_validData() throws IOException {
-        String data = "T | 1 | Sample Todo\n"
-                + "D | 0 | Submit Assignment | 3/12/2019 1800\n"
-                + "E | 1 | Meeting | 3/12/2019 1800-3/12/2019 2000";
+        String data = "T | 1 | Sample Todo | \n"
+                + "D | 0 | Submit Assignment | | 3/12/2019 1800 | \n"
+                + "E | 1 | Meeting | | 3/12/2019 1800-3/12/2019 2000 | ";
         Files.writeString(TEST_FILE_PATH, data);
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
@@ -66,20 +65,32 @@ public class StorageTest {
     public void overwriteTaskListData_validTasks_fileUpdated() throws IOException {
         Storage storage = new Storage();
         TaskList taskList = new TaskList();
-        taskList.addTask(new Todo("Sample Todo", true));
-        taskList.addTask(new Deadline("Submit Assignment", false,
-                Parser.convertStringToLocalDateTime("3/12/2019 1800")));
-        taskList.addTask(new Event("Meeting", true,
+        Todo todo = new Todo("Sample Todo", true);
+        todo.addTag("tag1");
+        todo.addTag("tag2");
+        Deadline deadline = new Deadline("Submit Assignment", false,
+                Parser.convertStringToLocalDateTime("3/12/2019 1800"));
+        deadline.addTag("tag1");
+        deadline.addTag("tag2");
+        Event event = new Event("Meeting", true,
                 Parser.convertStringToLocalDateTime("3/12/2019 1800"),
-                Parser.convertStringToLocalDateTime("3/12/2019 2000")));
+                Parser.convertStringToLocalDateTime("3/12/2019 2000"));
+        event.addTag("tag1");
+        event.addTag("tag2");
+        event.addTag("tag3");
+
+
+        taskList.addTask(todo);
+        taskList.addTask(deadline);
+        taskList.addTask(event);
 
         storage.overwriteTaskListData(taskList.getTaskList());
 
         List<String> lines = Files.readAllLines(TEST_FILE_PATH);
         assertEquals(3, lines.size());
-        assertEquals("T | 1 | Sample Todo", lines.get(0));
-        assertEquals("D | 0 | Submit Assignment | 3/12/2019 1800", lines.get(1));
-        assertEquals("E | 1 | Meeting | 3/12/2019 1800-3/12/2019 2000", lines.get(2));
+        assertEquals("T | 1 | Sample Todo | tag1 tag2", lines.get(0));
+        assertEquals("D | 0 | Submit Assignment | tag1 tag2 | 3/12/2019 1800", lines.get(1));
+        assertEquals("E | 1 | Meeting | tag1 tag2 tag3 | 3/12/2019 1800-3/12/2019 2000", lines.get(2));
     }
 
     @Test
@@ -88,15 +99,17 @@ public class StorageTest {
         String initialData = "T | 1 | Sample Todo";
         Files.writeString(TEST_FILE_PATH, initialData);
 
-        Task newTask = new Deadline("Submit Assignment", false,
+        Deadline deadline = new Deadline("Submit Assignment", false,
                 Parser.convertStringToLocalDateTime("3/12/2019 1800"));
+        deadline.addTag("tag1");
+        deadline.addTag("tag2");
 
-        storage.appendToTasklistData(newTask);
+        storage.appendToTasklistData(deadline);
 
         List<String> lines = Files.readAllLines(TEST_FILE_PATH);
         assertEquals(2, lines.size());
         assertEquals("T | 1 | Sample Todo", lines.get(0));
-        assertEquals("D | 0 | Submit Assignment | 3/12/2019 1800", lines.get(1));
+        assertEquals("D | 0 | Submit Assignment | tag1 tag2 | 3/12/2019 1800", lines.get(1));
     }
 
     @Test

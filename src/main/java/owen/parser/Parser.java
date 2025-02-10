@@ -7,6 +7,7 @@ import java.time.format.DateTimeParseException;
 
 import owen.command.AddDeadlineCommand;
 import owen.command.AddEventCommand;
+import owen.command.AddTagCommand;
 import owen.command.AddTodoCommand;
 import owen.command.ByeCommand;
 import owen.command.Command;
@@ -59,16 +60,32 @@ public class Parser {
             return new ByeCommand();
         case FindCommand.KEY_WORD:
             return processInputforFindCommand(input);
+        case AddTagCommand.KEY_WORD:
+            return processInputforAddTagCommand(input);
         default:
             throw new OwenException("I have not seen that command before. Maybe in another life?");
         }
     }
 
     /**
+     * processes the input for the add tag command
+     *
+     * @param input the user input provided
+     * @return the AddTagCommand created from the input
+     */
+    public static AddTagCommand processInputforAddTagCommand(String input) {
+        String[] inputSplitBySpace = input.split(" ", 3);
+        int index = Integer.parseInt(inputSplitBySpace[1]) - 1;
+        String tag = inputSplitBySpace[2];
+        AddTagCommand addTagCommand = new AddTagCommand(index, tag);
+        return addTagCommand;
+    }
+
+    /**
      * processes the input for the add todo command
      *
      * @param input the user input provided
-     * @return the TodoCommand created from the input
+     * @return the AddTodoCommand created from the input
      * @throws OwenException if the input format fails a check
      */
     public static AddTodoCommand processInputforAddTodoCommand(String input) throws OwenException {
@@ -86,7 +103,7 @@ public class Parser {
      * processes the input for the add deadline command
      *
      * @param input the user input provided
-     * @return the DeadlineCommand created from the input
+     * @return the AddDeadlineCommand created from the input
      * @throws OwenException if the input format fails a check
      */
     public static AddDeadlineCommand processInputforAddDeadlineCommand(String input) throws OwenException {
@@ -108,7 +125,7 @@ public class Parser {
      * processes the input for the add event command
      *
      * @param input the user input provided
-     * @return the EventCommand created from the input
+     * @return the AddEventCommand created from the input
      * @throws OwenException if the input format fails a check or if the date format is wrong
      */
     public static AddEventCommand processInputforAddEventCommand(String input) throws OwenException {

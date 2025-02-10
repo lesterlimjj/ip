@@ -41,8 +41,8 @@ public class Event extends Task {
         super(description, isDone);
         this.startDate = startDate;
         this.endDate = endDate;
-        assert startDate != null :  "Start date should not be null";
-        assert endDate != null :  "End date should not be null";
+        assert startDate != null : "Start date should not be null";
+        assert endDate != null : "End date should not be null";
     }
 
     public LocalDateTime getStartDate() {

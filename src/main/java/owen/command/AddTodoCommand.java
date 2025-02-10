@@ -23,7 +23,7 @@ public class AddTodoCommand extends Command {
      */
     public AddTodoCommand(Todo todo) {
         pendingTodo = todo;
-        assert pendingTodo != null :  "pendingTodo should not be null";
+        assert pendingTodo != null : "pendingTodo should not be null";
     }
 
     @Override

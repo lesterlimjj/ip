@@ -12,7 +12,7 @@ public class Todo extends Task {
      */
     public Todo(String description) {
         super(description);
-        assert description != null :  "Description cannot be null";
+        assert description != null : "Description cannot be null";
     }
 
     /**

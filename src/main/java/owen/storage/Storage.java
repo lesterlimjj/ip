@@ -96,8 +96,10 @@ public class Storage {
     public void addTodoFromDataSegment(String[] dataSegments, TaskList taskList) {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
+        String[] tags = dataSegments[3].split(" ");
 
         Todo loadedTodo = new Todo(description, isDone);
+        addTagsToTaskFromDataSegment(dataSegments[3], loadedTodo);
         taskList.addTask(loadedTodo);
     }
 
@@ -110,11 +112,12 @@ public class Storage {
     public void addDeadlineFromDataSegment(String[] dataSegments, TaskList taskList) {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
-        String date = dataSegments[3];
+        String date = dataSegments[4];
 
         LocalDateTime deadline = Parser.convertStringToLocalDateTime(date);
 
         Deadline loadedDeadline = new Deadline(description, isDone, deadline);
+        addTagsToTaskFromDataSegment(dataSegments[3], loadedDeadline);
         taskList.addTask(loadedDeadline);
     }
 
@@ -127,14 +130,30 @@ public class Storage {
     public void addEventFromDataSegment(String[] dataSegments, TaskList taskList) {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
-        String startDate = dataSegments[3].split("-")[0];
-        String endDate = dataSegments[3].split("-")[1];
+        String startDate = dataSegments[4].split("-")[0];
+        String endDate = dataSegments[4].split("-")[1];
 
         LocalDateTime startDateTime = Parser.convertStringToLocalDateTime(startDate);
         LocalDateTime endDateTime = Parser.convertStringToLocalDateTime(endDate);
 
         Event loadedEvent = new Event(description, isDone, startDateTime, endDateTime);
+        addTagsToTaskFromDataSegment(dataSegments[3], loadedEvent);
         taskList.addTask(loadedEvent);
+    }
+
+    /**
+     * Adds tags to a task from a data segment.
+     *
+     * @param dataSegment The data segment containing the tags.
+     * @param task The task to add the tags to.
+     */
+    public void addTagsToTaskFromDataSegment(String dataSegment, Task task) {
+        String[] tags = dataSegment.split(" ");
+        for (int i = 0; i < tags.length; i++) {
+            if (!tags[i].trim().isEmpty()) {
+                task.addTag(tags[i]);
+            }
+        }
     }
 
     /**
