@@ -29,7 +29,8 @@ public class MarkCommand extends Command {
         taskList.markTaskAsDone(pendingTaskIndex);
         storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
-        String response = "The following is now done: \n" + taskList.getTaskStatus(pendingTaskIndex);
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following is now done: ",
+                taskList.getTaskStatus(pendingTaskIndex));
+        guiController.addOwenDialog(completeResponse);
     }
 }

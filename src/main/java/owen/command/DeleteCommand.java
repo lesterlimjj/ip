@@ -31,8 +31,9 @@ public class DeleteCommand extends Command {
         taskList.deleteTask(pendingTaskIndex);
         storage.overwriteTaskListData(taskList.getTaskList());
         guiController.addUserDialog();
-        String response = "The following is now deleted: \n" + taskStatus;
-        response += "You now have " + taskList.getTaskList().size() + " tasks in the list.";
-        guiController.addOwenDialog(response);
+        String completeResponse = guiController.formatResponses("The following is now deleted: ",
+                taskStatus,
+                "You now have " + String.valueOf(taskList.getTaskList().size()) + " tasks in the list.");
+        guiController.addOwenDialog(completeResponse);
     }
 }

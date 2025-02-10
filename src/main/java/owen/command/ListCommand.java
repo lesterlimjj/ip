@@ -17,15 +17,11 @@ public class ListCommand extends Command {
 
     @Override
     public void execute(GuiController guiController, Storage storage, TaskList taskList) {
-        ArrayList<Task> tasklist = taskList.getTaskList();
-        StringBuilder output = new StringBuilder("Friend, here is your list of tasks:\n");
-        for (int i = 0; i < tasklist.size(); i++) {
-            int index = i + 1;
-            Task currentTask = tasklist.get(i);
-            output.append("\n" + index + "." + currentTask.toString());
-        }
+        ArrayList<Task> tasks = taskList.getTaskList();
         guiController.addUserDialog();
-        String response = output.toString();
-        guiController.addOwenDialog(response);
+        String formattedSearchResults = taskList.convertTaskListToFormattedString(tasks);
+        String completeResponse = guiController.formatResponses("Friend, here is your list of tasks: ",
+                formattedSearchResults);
+        guiController.addOwenDialog(completeResponse);
     }
 }
