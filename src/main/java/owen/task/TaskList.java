@@ -100,4 +100,14 @@ public class TaskList {
         return formattedTaskList.toString();
     }
 
+    /**
+     * adds a tag to the task at the given index.
+     *
+     * @param index the index of the task to add tag to
+     * @param tag the tag to be added
+     */
+    public void addTagToTask(int index, String tag) {
+        tasks.get(index).addTag(tag);
+    }
+
 }
