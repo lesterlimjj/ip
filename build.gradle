@@ -48,11 +48,12 @@ test {
 }
 
 application {
-    mainClass.set("Owen")
+    mainClass.set("owen.Owen")
 }
 
 shadowJar {
     archiveBaseName = "owen"
+    archiveVersion = "0.2"
     archiveClassifier = null
 }
 

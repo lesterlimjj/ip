@@ -345,7 +345,7 @@ public class Parser {
             throw new OwenException("Please specify an index and a tag. Do try again.");
         } else if (parts.length == 2) {
             throw new OwenException("Please specify a tag. Please try again.");
-        } else if (parts[2].isEmpty()) {
+        } else if (parts[2].trim().isEmpty()) {
             throw new OwenException("The given tag cannot be empty. Try again.");
         }
     }
