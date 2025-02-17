@@ -29,6 +29,7 @@ public class Parser {
 
     /** Accepted formats for localDatetime */
     private static final String[] LOCAL_DATETIME_PATTERNS = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
+    public static final int INDEX_NOT_FOUND = -1;
 
     /**
      * Parses the user input based on given command.
@@ -242,7 +243,7 @@ public class Parser {
                 return i;
             }
         }
-        return -1; // Return -1 if keyword is not found
+        return INDEX_NOT_FOUND; // Return -1 if keyword is not found
     }
 
     /**
@@ -253,11 +254,11 @@ public class Parser {
      * @throws OwenException If input is missing start or end date or both.
      */
     private static void checkForMissingKeywordsForEvent(int fromIndex, int toIndex) throws OwenException {
-        if (fromIndex == -1 && toIndex == -1) {
+        if (fromIndex == INDEX_NOT_FOUND && toIndex == INDEX_NOT_FOUND) {
             throw new OwenException("Missing start and end date. Please add a /from <date/time> and /to <date/time>.");
-        } else if (fromIndex == -1) {
+        } else if (fromIndex == INDEX_NOT_FOUND) {
             throw new OwenException("Missing start date. Please add a /from <date/time>.");
-        } else if (toIndex == -1) {
+        } else if (toIndex == INDEX_NOT_FOUND) {
             throw new OwenException("Missing end date. Please add a /to <date/time>.");
         }
     }
@@ -301,7 +302,7 @@ public class Parser {
      * @throws OwenException If input is missing deadline keyword.
      */
     private static void checkForMissingKeywordsForDeadline(int byIndex) throws OwenException {
-        if (byIndex == -1) {
+        if (byIndex == INDEX_NOT_FOUND) {
             throw new OwenException("Invalid deadline format. Please add a /by <date/time>");
         }
     }
