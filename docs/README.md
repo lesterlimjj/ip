@@ -200,7 +200,7 @@ Example unmark Command:
 tag 1 yummy
 ```
 
-For the response, Owen will reply you with the details of the deleted task:
+For the response, Owen will reply you with the details of the tagged task:
 
 ```
 The following is now tagged:
@@ -221,7 +221,7 @@ Example unmark Command:
 find lunch
 ```
 
-For the response, Owen will reply you with the details of the deleted task:
+For the response, Owen will reply you with the results of the search:
 
 ```
 Friend, here are the results of your search:
@@ -237,7 +237,7 @@ Expected Command Format:
 bye
 ```
 
-For the response, Owen will reply you with a sincere goodbye message:
+For the response, Owen will reply you with a sincere goodbye message before closing the application:
 
 ```
 I am sure we will see each other soon. Goodbye.
