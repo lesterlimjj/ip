@@ -8,28 +8,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 /**
- * class that represents main window UI Component
+ * Represents the main window UI component.
  */
 public class OwenWindow extends AnchorPane {
 
-    /** vertical scrollbar for dialog container */
+    /** Vertical scrollbar for dialog container */
     @FXML
     private ScrollPane scrollPane;
 
-    /** container for dialogs */
+    /** Container for dialogs */
     @FXML
     private VBox dialogContainer;
 
-    /** text field for user input */
+    /** Text field for user input */
     @FXML
     private TextField userInput;
 
-    /** button for sending user input */
+    /** Button for sending user input */
     @FXML
     private Button sendButton;
 
     /**
-     * binds guiController to textField and VBox
+     * Binds guiController to textField and VBox.
      */
     @FXML
     public void initialize() {
@@ -41,8 +41,7 @@ public class OwenWindow extends AnchorPane {
 
 
     /**
-     * called when user clicks send button
-     * tells guiController to evaluate user input
+     * Calls guiController to evaluate user input.
      */
     @FXML
     private void handleUserInput() {

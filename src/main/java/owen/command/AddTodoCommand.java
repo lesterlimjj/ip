@@ -10,14 +10,14 @@ import owen.ui.GuiController;
  */
 public class AddTodoCommand extends Command {
 
-    /** The key word to trigger this command. */
+    /** The key word to trigger this command */
     public static final String KEY_WORD = "todo";
 
-    /** The todo to be added to the task list. */
+    /** The todo to be added to the task list */
     private Todo pendingTodo;
 
     /**
-     * Creates an AddTodoCommand object.
+     * Constructs an AddTodoCommand object.
      *
      * @param todo The todo to be added to the task list.
      */

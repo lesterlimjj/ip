@@ -7,69 +7,69 @@ import java.util.ArrayList;
  */
 public class TaskList {
 
-    /** ArrayList of tasks. */
+    /** ArrayList of tasks */
     private ArrayList<Task> tasks = new ArrayList<>();
 
     /**
-     * adds a task to the task list.
+     * Adds a task to the task list.
      *
-     * @param task the task to be added.
+     * @param task The task to be added.
      * */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
     /**
-     * deletes a task from the task list.
+     * Deletes a task from the task list.
      *
-     * @param index the index of the task to be deleted.
+     * @param index The index of the task to be deleted.
      * */
     public void deleteTask(int index) {
         tasks.remove(index);
     }
 
     /**
-     * returns a copy of the task list.
+     * Returns a copy of the task list.
      *
-     * @return copy of the task list.
+     * @return Copy of the task list.
      * */
     public ArrayList<Task> getTaskList() {
         return new ArrayList<>(tasks);
     }
 
     /**
-     * returns the status of the task at the given index.
+     * Returns the status of the task at the given index.
      *
-     * @param index the index of the task.
-     * @return the status of the task.
+     * @param index The index of the task.
+     * @return The status of the task.
      * */
     public String getTaskStatus(int index) {
         return tasks.get(index).toString();
     }
 
     /**
-     * marks the task at the given index as done.
+     * Marks the task at the given index as done.
      *
-     * @param index the index of the task.
+     * @param index The index of the task.
      */
     public void markTaskAsDone(int index) {
         tasks.get(index).setAsDone();
     }
 
     /**
-     * marks the task at the given index as not done.
+     * Marks the task at the given index as not done.
      *
-     * @param index the index of the Owen.task.
+     * @param index The index of the task.
      */
     public void markTaskAsUndone(int index) {
         tasks.get(index).setAsNotDone();
     }
 
     /**
-     * searches for tasks based on a word.
+     * Searches for tasks based on a word.
      *
-     * @param searchWord the word to search for in task list
-     * @return a list of matched tasks
+     * @param searchWord The word to search for in task list.
+     * @return A list of matched tasks.
      */
     public ArrayList<Task> searchTasks(String searchWord) {
         ArrayList<Task> foundTasks = new ArrayList<>();
@@ -83,11 +83,11 @@ public class TaskList {
     }
 
     /**
-     * formats the tasks in a task list into a string.
-     * each line contains index and task description.
+     * Formats the tasks in a task list into a string.
+     * Each line contains index and task description.
      *
-     * @param tasks the list of tasks to be formatted
-     * @return
+     * @param tasks The list of tasks to be formatted.
+     * @return A string containing the formatted tasks in the list.
      */
     public String convertTaskListToFormattedString(ArrayList<Task> tasks) {
         StringBuilder formattedTaskList = new StringBuilder();
@@ -101,10 +101,10 @@ public class TaskList {
     }
 
     /**
-     * adds a tag to the task at the given index.
+     * Adds a tag to the task at the given index.
      *
-     * @param index the index of the task to add tag to
-     * @param tag the tag to be added
+     * @param index The index of the task to add tag to.
+     * @param tag The tag to be added.
      */
     public void addTagToTask(int index, String tag) {
         tasks.get(index).addTag(tag);

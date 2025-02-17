@@ -9,14 +9,14 @@ import owen.ui.GuiController;
  */
 public class UnmarkCommand extends Command {
 
-    /** The keyword to identify this Owen.command. */
+    /** The keyword to identify this command. */
     public static final String KEY_WORD = "unmark";
 
     /** The index of the task to be unmarked. */
     private int pendingTaskIndex;
 
     /**
-      * Creates a new UnmarkCommand object.
+      * Constructs an UnmarkCommand object.
       *
       * @param taskIndex The index of the task to be unmarked.
       */

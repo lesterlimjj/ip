@@ -10,14 +10,14 @@ import owen.parser.Parser;
  */
 public class Event extends Task {
 
-    /** Start date of the event. */
+    /** Start date of the event */
     private LocalDateTime startDate;
 
-    /** End date of the event. */
+    /** End date of the event */
     private LocalDateTime endDate;
 
     /**
-     * Constructor for Event with specified description, start date, and end date.
+     * Constructs an event object with specified description, start date, and end date.
      *
      * @param description Description of the event.
      * @param startDate Start date of the event.
@@ -30,7 +30,7 @@ public class Event extends Task {
     }
 
     /**
-     * Constructor for Event with specified description, status, start date, and end date.
+     * Constructs an event object with specified description, status, start date, and end date.
      *
      * @param description Description of the event.
      * @param isDone Whether the event is done.

@@ -88,7 +88,7 @@ public class Storage {
     }
 
     /**
-     * Adds a Todo task from a data segment.
+     * Adds a todo task from a data segment.
      *
      * @param dataSegments The data segments containing the Todo information.
      * @param taskList The task list to add the task to.
@@ -104,7 +104,7 @@ public class Storage {
     }
 
     /**
-     * Adds a Deadline task from a data segment.
+     * Adds a deadline task from a data segment.
      *
      * @param dataSegments The data segments containing the Deadline information.
      * @param taskList The task list to add the task to.
@@ -122,7 +122,7 @@ public class Storage {
     }
 
     /**
-     * Adds an Event task from a data segment.
+     * Adds an event task from a data segment.
      *
      * @param dataSegments The data segments containing the Event information.
      * @param taskList The task list to add the task to.
@@ -160,7 +160,7 @@ public class Storage {
      * Overwrites the current tasklist data with the new tasklist data.
      * This method is used to update the tasklist data in the file when a task is deleted or modified.
      *
-     * @param taskList the new tasklist to be written to the file.
+     * @param taskList The new tasklist to be written to the file.
      */
     public void overwriteTaskListData(List<Task> taskList) {
         StringBuilder linesToWrite = new StringBuilder();
@@ -187,7 +187,7 @@ public class Storage {
      * Appends a new task to the tasklist data.
      * This method is only used when adding a new task to the tasklist data in the file.
      *
-     * @param task the new task to be added to the tasklist data.
+     * @param task The new task to be added to the tasklist data.
      */
     public void appendToTasklistData(Task task) {
         String line = task.convertToDataFormat();

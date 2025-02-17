@@ -12,16 +12,16 @@ public abstract class Command {
     /**
      * Executes the command.
      *
-     * @param gui the ui for text display
-     * @param storage the storage for saving and loading tasks
-     * @param taskList the task list to be modified
+     * @param gui The ui for text display.
+     * @param storage The storage for saving and loading tasks.
+     * @param taskList The task list to be modified.
      */
     public abstract void execute(GuiController gui, Storage storage, TaskList taskList);
 
     /**
      * Returns whether the command is an exit command.
      *
-     * @return a boolean indicating if the command is an exit command
+     * @return a boolean indicating if the command is an exit command.
      */
     public boolean isBye() {
         return false;

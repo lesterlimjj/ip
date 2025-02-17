@@ -5,17 +5,17 @@ import owen.task.TaskList;
 import owen.ui.GuiController;
 
 /**
- * Represents a command to show an error message
+ * Represents a command to show an error message.
  */
 public class ErrorCommand extends Command {
 
-    /** The error message to be shown to the user. */
+    /** The error message to be shown to the user */
     private String errorMessage;
 
     /**
-     * Constructor for DeleteCommand.
+     * Constructs an ErrorCommand object.
      *
-     * @param errorMessage error message to be shown.
+     * @param errorMessage Error message to be shown.
      */
     public ErrorCommand(String errorMessage) {
         this.errorMessage = errorMessage;

@@ -28,7 +28,7 @@ public class Owen {
 
     /**
      * Constructs an Owen object.
-     * loads the tasklist data from the storage into tasklist.
+     * Loads the tasklist data from the storage into tasklist.
      */
     public Owen() {
         ui = GuiController.getInstance();
@@ -46,8 +46,9 @@ public class Owen {
     }
 
     /**
-     * The main method of Owen.
-     * @param args default java main method parameter.
+     * Represents the entry point of the program.
+     *
+     * @param args Default java main method parameter.
      */
     public static void main(String[] args) {
         new Owen().run(args);
@@ -56,7 +57,7 @@ public class Owen {
     /**
      * Evaluates the input and executes the corresponding command.
      *
-     * @param input the text in the textfield
+     * @param input The text in the textfield.
      */
     public void evaluateInput(String input) {
         try {

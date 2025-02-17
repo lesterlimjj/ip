@@ -20,11 +20,11 @@ import javafx.scene.layout.HBox;
  */
 public class DialogBox extends HBox {
 
-    /** holds the text to be displayed in the dialog box. */
+    /** Holds the text to be displayed in the dialog box. */
     @FXML
     private Label dialog;
 
-    /** holds the image to be displayed in the dialog box. */
+    /** Holds the image to be displayed in the dialog box. */
     @FXML
     private ImageView displayPicture;
 
@@ -61,9 +61,9 @@ public class DialogBox extends HBox {
     /**
      * Returns a DialogBox for the user.
      *
-     * @param text the text to be shown on user side
-     * @param img the image of the user
-     * @return a DialogBox for the user
+     * @param text The text to be shown on user side.
+     * @param img The image of the user.
+     * @return A DialogBox for the user.
      */
     public static DialogBox getUserDialog(String text, Image img) {
         return new DialogBox(text, img);
@@ -72,9 +72,9 @@ public class DialogBox extends HBox {
     /**
      * Returns a DialogBox for chatbot Owen.
      *
-     * @param text the text to be shown on chatbot side
-     * @param img the image of the chatbot
-     * @return a DialogBox for chatbot Owen
+     * @param text The text to be shown on chatbot side.
+     * @param img The image of the chatbot.
+     * @return A DialogBox for chatbot Owen.
      */
     public static DialogBox getOwenDialog(String text, Image img) {
         var db = new DialogBox(text, img);

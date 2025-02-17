@@ -12,7 +12,7 @@ import owen.ui.GuiController;
  */
 public class ListCommand extends Command {
 
-    /** Key word for list Owen.command. */
+    /** Key word for list command */
     public static final String KEY_WORD = "list";
 
     @Override

@@ -3,7 +3,7 @@ package owen.task;
 import java.util.ArrayList;
 
 /**
- * Represents a task
+ * Represents a task.
  */
 public class Task {
 
@@ -15,9 +15,9 @@ public class Task {
     private ArrayList<String> tags = new ArrayList<String>();
 
     /**
-     * Constructor for Task
+     * Constructs a task object with specified description.
      *
-     * @param description Description of the task
+     * @param description Description of the task.
      */
     public Task(String description) {
         this.description = description;
@@ -25,10 +25,10 @@ public class Task {
     }
 
     /**
-     * Constructor for Task
+     * Constructs a task object with specified description and status.
      *
-     * @param description Description of the task
-     * @param isDone Status of the task
+     * @param description Description of the task.
+     * @param isDone Status of the task.
      */
     public Task(String description, boolean isDone) {
         this.description = description;
@@ -52,9 +52,9 @@ public class Task {
     }
 
     /**
-     * Returns the string representation of the task
+     * Returns the string representation of the task.
      *
-     * @return String representation of the task
+     * @return String representation of the task.
      */
     @Override
     public String toString() {
@@ -62,9 +62,9 @@ public class Task {
     }
 
     /**
-     * Returns the string representation of the task in data format
+     * Returns the string representation of the task in data format.
      *
-     * @return String representation of the task in data format
+     * @return String representation of the task in data format.
      */
     public String convertToDataFormat() {
         String doneStatus = isDone ? "1" : "0";
@@ -72,18 +72,18 @@ public class Task {
     }
 
     /**
-     * adds a tag to the list of tags for a task
+     * Adds a tag to the list of tags for a task.
      *
-     * @param tag the provided tag
+     * @param tag The provided tag.
      */
     public void addTag(String tag) {
         tags.add(tag);
     }
 
     /**
-     * converts the list of tags to a string
+     * converts the list of tags to a string.
      *
-     * @return the string representation of the tags
+     * @return the string representation of the tags.
      */
     public String convertTagsToString() {
         String tagsString = "";
@@ -98,9 +98,9 @@ public class Task {
     }
 
     /**
-     * converts the list of tags to a string in data format
+     * converts the list of tags to a string in data format.
      *
-     * @return the string representation of the tags in data format
+     * @return the string representation of the tags in data format.
      */
     public String convertTagsToDataFormat() {
         String tagsString = "";

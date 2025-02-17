@@ -27,15 +27,15 @@ import owen.task.Todo;
  */
 public class Parser {
 
-    /** accepted formats for localDatetime */
+    /** Accepted formats for localDatetime */
     private static final String[] LOCAL_DATETIME_PATTERNS = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
 
     /**
-     * Parses the user input and call checks for validity
+     * Parses the user input based on given command.
      *
-     * @param input the user input provided
-     * @return the command created from the input
-     * @throws OwenException if the input fails a check
+     * @param input The user input provided.
+     * @return The command created from the input.
+     * @throws OwenException If the input fails a check.
      */
     public static Command parse(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -68,10 +68,10 @@ public class Parser {
     }
 
     /**
-     * processes the input for the add tag command
+     * Processes the input for the add tag command.
      *
-     * @param input the user input provided
-     * @return the AddTagCommand created from the input
+     * @param input The user input provided.
+     * @return The AddTagCommand created from the input.
      */
     public static AddTagCommand processInputforAddTagCommand(String input) {
         String[] inputSplitBySpace = input.split(" ", 3);
@@ -82,11 +82,11 @@ public class Parser {
     }
 
     /**
-     * processes the input for the add todo command
+     * Processes the input for the add todo command.
      *
-     * @param input the user input provided
-     * @return the AddTodoCommand created from the input
-     * @throws OwenException if the input format fails a check
+     * @param input The user input provided.
+     * @return The AddTodoCommand created from the input.
+     * @throws OwenException If the input format fails a check.
      */
     public static AddTodoCommand processInputforAddTodoCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -100,11 +100,11 @@ public class Parser {
     }
 
     /**
-     * processes the input for the add deadline command
+     * Processes the input for the add deadline command.
      *
-     * @param input the user input provided
-     * @return the AddDeadlineCommand created from the input
-     * @throws OwenException if the input format fails a check
+     * @param input The user input provided.
+     * @return The AddDeadlineCommand created from the input.
+     * @throws OwenException If the input format fails a check.
      */
     public static AddDeadlineCommand processInputforAddDeadlineCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -122,11 +122,11 @@ public class Parser {
     }
 
     /**
-     * processes the input for the add event command
+     * Processes the input for the add event command.
      *
-     * @param input the user input provided
-     * @return the AddEventCommand created from the input
-     * @throws OwenException if the input format fails a check or if the date format is wrong
+     * @param input The user input provided.
+     * @return The AddEventCommand created from the input.
+     * @throws OwenException If the input format fails a check or if the date format is wrong.
      */
     public static AddEventCommand processInputforAddEventCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -144,11 +144,11 @@ public class Parser {
     }
 
     /**
-     * processes the input for the mark command
+     * Processes the input for the mark command.
      *
-     * @param input the user input provided
-     * @return the MarkCommand created from the input
-     * @throws OwenException if the input format is wrong or if the date format is wrong
+     * @param input The user input provided.
+     * @return The MarkCommand created from the input.
+     * @throws OwenException If the input format is wrong or if the date format is wrong.
      */
     public static MarkCommand processInputforMarkCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -159,11 +159,11 @@ public class Parser {
     }
 
     /**
-     * processes the input for the unmark command
+     * Processes the input for the unmark command.
      *
-     * @param input the user input provided
-     * @return the UnmarkCommand created from the input
-     * @throws OwenException if the input format is wrong
+     * @param input The user input provided.
+     * @return The UnmarkCommand created from the input.
+     * @throws OwenException If the input format is wrong.
      */
     public static UnmarkCommand processInputforUnmarkCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
@@ -174,10 +174,10 @@ public class Parser {
     }
 
     /**
-     * processes the input for the delete command
+     * Processes the input for the delete command.
      *
-     * @param input the user input provided
-     * @return the DeleteCommand created from the input
+     * @param input The user input provided.
+     * @return The DeleteCommand created from the input.
      */
     public static DeleteCommand processInputforDeleteCommand(String input) {
         String[] inputSplitBySpace = input.split(" ");
@@ -187,10 +187,10 @@ public class Parser {
     }
 
     /**
-     * processes the input for the find command
+     * Processes the input for the find command.
      *
-     * @param input the user input provided
-     * @return the FindCommand created from the input
+     * @param input The user input provided.
+     * @return The FindCommand created from the input.
      */
     public static FindCommand processInputforFindCommand(String input) {
         String[] inputSplitBySpace = input.split(" ", 2);
@@ -199,10 +199,10 @@ public class Parser {
     }
 
     /**
-     * checks if todo format is valid
+     * Checks if todo format is valid.
      *
-     * @param parts the string array of user input
-     * @throws OwenException if input is missing description
+     * @param parts The string array of user input.
+     * @throws OwenException If input is missing description.
      */
     public static void checkValidTodo(String[] parts) throws OwenException {
         if (parts.length == 1) {
@@ -212,10 +212,10 @@ public class Parser {
 
 
     /**
-     * checks if deadline format is valid
+     * Checks if deadline format is valid.
      *
-     * @param parts the string array of user input
-     * @throws OwenException if input is missing start or end date or both
+     * @param parts The string array of user input.
+     * @throws OwenException If input is missing start or end date or both.
      */
     public static void checkValidEvent(String[] parts) throws OwenException {
         Boolean hasFrom = false;
@@ -242,29 +242,29 @@ public class Parser {
 
 
     /**
-     * checks if deadline format is valid
+     * Checks if deadline format is valid.
      *
-     * @param parts the string array of user input
-     * @throws OwenException if input is missing date
+     * @param parts The string array of user input.
+     * @throws OwenException If input is missing date.
      */
     public static void checkValidDeadline(String[] parts) throws OwenException {
-        Boolean byPresent = false;
+        Boolean hasBy = false;
         for (int i = 0; i < parts.length; i++) {
             if (parts[i].equals("/by")) {
-                byPresent = true;
+                hasBy = true;
                 break;
             }
         }
-        if (byPresent == false) {
+        if (hasBy == false) {
             throw new OwenException("We cannot find a date. Please add a /by <date/time>");
         }
     }
 
     /**
-     * checks if mark format is valid
+     * Checks if mark format is valid.
      *
-     * @param parts the string array of user input
-     * @throws OwenException if index is missing or parameters > 2
+     * @param parts the string array of user input.
+     * @throws OwenException If index is missing or parameters > 2.
      */
     public static void checkValidMark(String[] parts) throws OwenException {
         if (parts.length == 1) {
@@ -275,42 +275,42 @@ public class Parser {
     }
 
     /**
-     * process string array to get LocalDateTime and creates new deadline
+     * Processes the string array to get LocalDateTime and creates new deadline.
      *
-     * @param parts the string array of user input
-     * @return the deadline to be added
-     * @throws OwenException if date is in wrong format, it will be null
+     * @param parts The string array of user input.
+     * @return The deadline to be added.
+     * @throws OwenException If date is in wrong format, it will be null.
      */
     public static Deadline createDeadline(String[] parts) throws OwenException {
-        LocalDateTime date = convertStringToLocalDateTime(parts[1].trim());
-        if (date == null) {
+        LocalDateTime dateline = convertStringToLocalDateTime(parts[1].trim());
+        if (dateline == null) {
             throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
         }
-        Deadline newDeadline = new Deadline(parts[0], date);
+        Deadline newDeadline = new Deadline(parts[0], dateline);
         return newDeadline;
     }
 
     /**
-     * process string array to get LocalDateTime and creates new event
+     * Processes the string array to get LocalDateTime and creates new event.
      *
-     * @param parts the string array of user input
-     * @return the event to be added
-     * @throws OwenException if start or end date is in wrong format, they will be null
+     * @param parts The string array of user input.
+     * @return The event to be added.
+     * @throws OwenException If start or end date is in wrong format, they will be null.
      */
     public static Event createEvent(String[] parts) throws OwenException {
-        LocalDateTime date1 = convertStringToLocalDateTime(parts[1].trim());
-        LocalDateTime date2 = convertStringToLocalDateTime(parts[2].trim());
-        if (date1 == null || date2 == null) {
+        LocalDateTime startDate = convertStringToLocalDateTime(parts[1].trim());
+        LocalDateTime endDate = convertStringToLocalDateTime(parts[2].trim());
+        if (startDate == null || endDate == null) {
             throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
         }
-        Event newEvent = new Event(parts[0], date1, date2);
+        Event newEvent = new Event(parts[0], startDate, endDate);
         return newEvent;
     }
 
     /**
-     * remove all lead and trailing whitespaces from elements of string array
+     * Removes all lead and trailing whitespaces from elements of string array.
      *
-     * @param array the string array to be trimmed
+     * @param array The string array to be trimmed.
      */
     public static void trimStringArray(String[] array) {
         for (int j = 0; j < array.length; j++) {
@@ -319,10 +319,10 @@ public class Parser {
     }
 
     /**
-     * convert string to get LocalDateTime in specified patterns
+     * Converts string to get LocalDateTime in specified patterns.
      *
-     * @param dateString the date string to be processed
-     * @return the LocalDateTime to be used in deadline or event
+     * @param dateString The date string to be processed.
+     * @return The LocalDateTime to be used in deadline or event.
      */
     public static LocalDateTime convertStringToLocalDateTime(String dateString) {
         LocalDateTime date = null;
@@ -339,10 +339,10 @@ public class Parser {
     }
 
     /**
-     * process LocalDateTime to get date string in specified patterns
+     * Processes the LocalDateTime to get date string in specified patterns.
      *
-     * @param dateTime the LocalDateTime to be processed
-     * @return the date string to be saved in file
+     * @param dateTime The LocalDateTime to be processed.
+     * @return The date string to be saved in file.
      */
     public static String convertLocalDateToPattern(LocalDateTime dateTime) {
         String dateString = "";

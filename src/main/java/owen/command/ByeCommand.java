@@ -9,7 +9,7 @@ import owen.ui.GuiController;
  */
 public class ByeCommand extends Command {
 
-    /** The key word to trigger this command. */
+    /** The key word to trigger this command */
     public static final String KEY_WORD = "bye";
 
     @Override

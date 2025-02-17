@@ -10,14 +10,14 @@ import owen.ui.GuiController;
  */
 public class AddEventCommand extends Command {
 
-    /** The key word to trigger this Owen.command. */
+    /** The key word to trigger this command */
     public static final String KEY_WORD = "event";
 
-    /** The event to be added to the task list. */
+    /** The event to be added to the task list */
     private Event pendingEvent;
 
     /**
-     * Creates an AddEventCommand object.
+     * Constructs an AddEventCommand object.
      *
      * @param event The event to be added to the task list.
      */

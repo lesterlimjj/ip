@@ -10,14 +10,14 @@ import owen.ui.GuiController;
  */
 public class DeleteCommand extends Command {
 
-    /** Keyword for delete command. */
+    /** Keyword for delete command */
     public static final String KEY_WORD = "delete";
 
-    /** Index of the task to be deleted. */
+    /** Index of the task to be deleted */
     private int pendingTaskIndex;
 
     /**
-     * Constructor for DeleteCommand.
+     * Constructs a DeleteCommand object.
      *
      * @param taskIndex Index of the task to be deleted.
      */

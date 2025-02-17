@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Class that handles the JavaFX GUI setup for the application
+ * Represents a class that handles the JavaFX GUI setup for the application.
  */
 public class OwenApplication extends Application {
     @Override

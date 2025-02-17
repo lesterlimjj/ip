@@ -10,14 +10,14 @@ import owen.ui.GuiController;
  */
 public class AddDeadlineCommand extends Command {
 
-    /** The key word to trigger this command. */
+    /** The key word to trigger this command */
     public static final String KEY_WORD = "deadline";
 
-    /** The deadline to be added to the task list. */
+    /** The deadline to be added to the task list */
     private Deadline pendingDeadline;
 
     /**
-     * Creates an AddDeadlineCommand object.
+     * Constructs an AddDeadlineCommand object.
      *
      * @param deadline The deadline to be added to the task list.
      * */

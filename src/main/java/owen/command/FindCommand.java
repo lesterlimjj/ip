@@ -19,7 +19,8 @@ public class FindCommand extends Command {
     private String searchWord;
 
     /**
-     * Constructor for FindCommand.
+     * Constructs a FindCommand object.
+     *
      * @param searchWord Word to search for in tasks.
      */
     public FindCommand(String searchWord) {

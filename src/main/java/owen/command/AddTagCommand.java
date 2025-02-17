@@ -14,14 +14,14 @@ public class AddTagCommand extends Command {
     /** Index of the task to be tagged */
     private int pendingTaskIndex;
 
-    /** The tag to be added to the task. */
+    /** The tag to be added to the task */
     private String tag;
 
     /**
-     * Creates an AddTagCommand object.
+     * Constructs an AddTagCommand object.
      *
-     * @param taskIndex the index of the task to tag
-     * @param providedTag the tag to be added to the task
+     * @param taskIndex The index of the task to tag.
+     * @param providedTag The tag to be added to the task.
      * */
     public AddTagCommand(int taskIndex, String providedTag) {
         pendingTaskIndex = taskIndex;

@@ -6,11 +6,11 @@ import javafx.scene.layout.VBox;
 import owen.Owen;
 
 /**
- * Controller class to manage GUI updates
+ * Represents a controller class to manage GUI updates
  */
 public class GuiController {
 
-    /** singleton instance for GUI controller */
+    /** Singleton instance for GUI controller */
     private static GuiController instance = null;
 
     /** Text field to get user input */
@@ -19,17 +19,17 @@ public class GuiController {
     /** The container for the dialog */
     private VBox dialogContainer;
 
-    /** instance of chatbot */
+    /** Instance of chatbot */
     private Owen owen;
 
-    /** images for user and owen */
+    /** Images for user and owen */
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
     private Image owenImage = new Image(this.getClass().getResourceAsStream("/images/DaOwen.png"));
 
     /**
-     * get singleton instance of GUI controller
+     * Gets singleton instance of GUI controller.
      *
-     * @return singleton instance of GUI controller
+     * @return Singleton instance of GUI controller.
      */
     public static GuiController getInstance() {
         if (instance == null) {
@@ -39,34 +39,34 @@ public class GuiController {
     }
 
     /**
-     * set instance of chatbot for GUI controller
+     * Sets instance of chatbot for GUI controller.
      *
-     * @param owen instance of chatbot
+     * @param owen Instance of chatbot.
      */
     public void setOwen(Owen owen) {
         this.owen = owen;
     }
 
     /**
-     * set user text field for GUI controller
+     * Sets user text field for GUI controller.
      *
-     * @param userTextField text field for user input
+     * @param userTextField Text field for user input.
      */
     public void setUserTextField(TextField userTextField) {
         this.userTextField = userTextField;
     }
 
     /**
-     * set dialog container for GUI controller
+     * Sets dialog container for GUI controller.
      *
-     * @param dialogContainer container for dialog
+     * @param dialogContainer Container for dialog.
      */
     public void setDialogContainer(VBox dialogContainer) {
         this.dialogContainer = dialogContainer;
     }
 
     /**
-     * add user dialog box to dialog container
+     * Adds user dialog box to dialog container.
      */
     public void addUserDialog() {
         String input = userTextField.getText();
@@ -77,9 +77,9 @@ public class GuiController {
     }
 
     /**
-     * add owen dialog box to dialog container
+     * Adds owen dialog box to dialog container.
      *
-     * @param response given from processed command
+     * @param response Given response from processed command.
      */
     public void addOwenDialog(String response) {
         dialogContainer.getChildren().addAll(
@@ -88,10 +88,11 @@ public class GuiController {
     }
 
     /**
-     * append responses from processed command into one string
-     * each response is separated by a newline
+     * Appends responses from processed command into one string.
+     * Each response is separated by a newline.
      *
-     * @param responses given array of responses from processed command
+     * @param responses Given array of responses from processed command.
+     * @return Complete string of responses.
      */
     public String formatResponses(String... responses) {
         StringBuilder completeResponse = new StringBuilder();
@@ -103,7 +104,7 @@ public class GuiController {
     }
 
     /**
-     * call chatbot to evaluate input given by user
+     * Calls chatbot to evaluate input given by user.
      */
     public void evaluateInput() {
         owen.evaluateInput(userTextField.getText());
