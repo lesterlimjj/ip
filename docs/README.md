@@ -1,13 +1,10 @@
 # Owen User Guide
 Owen is your friendly chatbot who manages your tasks for you! 
 Additionally, Owen only takes in typed commands, perfect for those who love typing fast!
+
 ![Screenshot of Owen in action](/docs/Ui.png)
 
-// Update the title above to match the actual product name
 
-// Product screenshot goes here
-
-// Product intro goes here
 
 ## Installation:
 
@@ -15,7 +12,7 @@ Additionally, Owen only takes in typed commands, perfect for those who love typi
 2. Open a terminal(e.g. Command Prompt) and navigate to the folder where the jar is located.
 3. Run the following command:
 ```bash
-java -jar Owen-<version>.jar
+java -jar owen-<version>.jar
 ```
 ## Owen's Great Features:
 Owen is apple to perform the following commands:
