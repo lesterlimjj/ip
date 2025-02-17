@@ -73,8 +73,9 @@ public class Parser {
      * @param input The user input provided.
      * @return The AddTagCommand created from the input.
      */
-    public static AddTagCommand processInputforAddTagCommand(String input) {
+    public static AddTagCommand processInputforAddTagCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ", 3);
+        checkValidTag(inputSplitBySpace);
         int index = Integer.parseInt(inputSplitBySpace[1]) - 1;
         String tag = inputSplitBySpace[2];
         AddTagCommand addTagCommand = new AddTagCommand(index, tag);
@@ -152,7 +153,7 @@ public class Parser {
      */
     public static MarkCommand processInputforMarkCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
-        checkValidMark(inputSplitBySpace);
+        checkValidMarkOrDelete(inputSplitBySpace);
         int index = Integer.parseInt(inputSplitBySpace[1]) - 1;
         MarkCommand markCommand = new MarkCommand(index);
         return markCommand;
@@ -167,7 +168,7 @@ public class Parser {
      */
     public static UnmarkCommand processInputforUnmarkCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
-        checkValidMark(inputSplitBySpace);
+        checkValidMarkOrDelete(inputSplitBySpace);
         int index = Integer.parseInt(inputSplitBySpace[1]) - 1;
         UnmarkCommand unmarkCommand = new UnmarkCommand(index);
         return unmarkCommand;
@@ -179,8 +180,9 @@ public class Parser {
      * @param input The user input provided.
      * @return The DeleteCommand created from the input.
      */
-    public static DeleteCommand processInputforDeleteCommand(String input) {
+    public static DeleteCommand processInputforDeleteCommand(String input) throws OwenException {
         String[] inputSplitBySpace = input.split(" ");
+        checkValidMarkOrDelete(inputSplitBySpace);
         int index = Integer.parseInt(inputSplitBySpace[1]) - 1;
         DeleteCommand deleteCommand = new DeleteCommand(index);
         return deleteCommand;
@@ -218,28 +220,91 @@ public class Parser {
      * @throws OwenException If input is missing start or end date or both.
      */
     public static void checkValidEvent(String[] parts) throws OwenException {
-        Boolean hasFrom = false;
-        Boolean hasTo = false;
+        int toIndex = findKeywordIndex(parts, "/to");
+        int fromIndex = findKeywordIndex(parts, "/from");
 
+        checkForMissingKeywordsForEvent(fromIndex, toIndex);
+        checkForEmptyStartDate(parts, fromIndex, toIndex);
+        checkForEmptyEndDate(parts, toIndex);
+    }
+
+    /**
+     * Returns the index of the provided keyword.
+     * Returns -1 if keyword cannot be found.
+     *
+     * @param parts The string array of user input.
+     * @param keyword The string to find index of.
+     * @return Index of string found.
+     */
+    private static int findKeywordIndex(String[] parts, String keyword) {
         for (int i = 0; i < parts.length; i++) {
-            if (parts[i].equals("/from")) {
-                hasFrom = true;
-            }
-            if (parts[i].equals("/to")) {
-                hasTo = true;
+            if (parts[i].equals(keyword)) {
+                return i;
             }
         }
+        return -1; // Return -1 if keyword is not found
+    }
 
-        if (hasFrom == false && hasTo == false) {
-            throw new OwenException("Missing start and end date. Please add a /from <date/time> and "
-                    + "add a /to <date/time>");
-        } else if (hasFrom == false) {
-            throw new OwenException("Missing start date. Please add a /from <date/time>");
-        } else if (hasTo == false) {
-            throw new OwenException("Missing end date. Please add a /to <date/time>");
+    /**
+     * Checks if the keywords for start and end date are present.
+     *
+     * @param fromIndex the index of the start date.
+     * @param toIndex the index of the end date.
+     * @throws OwenException If input is missing start or end date or both.
+     */
+    private static void checkForMissingKeywordsForEvent(int fromIndex, int toIndex) throws OwenException {
+        if (fromIndex == -1 && toIndex == -1) {
+            throw new OwenException("Missing start and end date. Please add a /from <date/time> and /to <date/time>.");
+        } else if (fromIndex == -1) {
+            throw new OwenException("Missing start date. Please add a /from <date/time>.");
+        } else if (toIndex == -1) {
+            throw new OwenException("Missing end date. Please add a /to <date/time>.");
         }
     }
 
+    /**
+     * Checks if the start date is empty.
+     *
+     * @param parts the string array of the input.
+     * @param fromIndex the index of the start date.
+     * @param toIndex the index of the end date.
+     * @throws OwenException If start date is empty.
+     */
+    private static void checkForEmptyStartDate(String[] parts, int fromIndex, int toIndex) throws OwenException {
+        boolean isToForStartDate = fromIndex + 1 == toIndex;
+        boolean isEmptyStartDate = parts[fromIndex + 1].isEmpty();
+        boolean isStartDateAbsent = isToForStartDate || isEmptyStartDate;
+        if (isStartDateAbsent) {
+            throw new OwenException("Start date is empty. Please provide a valid date after /from");
+        }
+    }
+
+    /**
+     * Checks if the end date is empty.
+     *
+     * @param parts the string array of the input.
+     * @param toIndex the index of the end date.
+     * @throws OwenException If end date is empty.
+     */
+    private static void checkForEmptyEndDate(String[] parts, int toIndex) throws OwenException {
+        boolean isEmptyEndDate = toIndex + 1 >= parts.length;
+        if (isEmptyEndDate) {
+            throw new OwenException("End date is empty. Please provide a valid date after /to for event "
+                    + "or /by for deadline.");
+        }
+    }
+
+    /**
+     * Checks if the keyword for deadline is present.
+     *
+     * @param byIndex the index of the deadline.
+     * @throws OwenException If input is missing deadline keyword.
+     */
+    private static void checkForMissingKeywordsForDeadline(int byIndex) throws OwenException {
+        if (byIndex == -1) {
+            throw new OwenException("Invalid deadline format. Please add a /by <date/time>");
+        }
+    }
 
     /**
      * Checks if deadline format is valid.
@@ -248,16 +313,10 @@ public class Parser {
      * @throws OwenException If input is missing date.
      */
     public static void checkValidDeadline(String[] parts) throws OwenException {
-        Boolean hasBy = false;
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].equals("/by")) {
-                hasBy = true;
-                break;
-            }
-        }
-        if (hasBy == false) {
-            throw new OwenException("We cannot find a date. Please add a /by <date/time>");
-        }
+        int byIndex = findKeywordIndex(parts, "/by");
+
+        checkForMissingKeywordsForDeadline(byIndex);
+        checkForEmptyEndDate(parts, byIndex);
     }
 
     /**
@@ -266,11 +325,27 @@ public class Parser {
      * @param parts the string array of user input.
      * @throws OwenException If index is missing or parameters > 2.
      */
-    public static void checkValidMark(String[] parts) throws OwenException {
+    public static void checkValidMarkOrDelete(String[] parts) throws OwenException {
         if (parts.length == 1) {
             throw new OwenException("Please specify an index. Try again.");
         } else if (parts.length > 2) {
-            throw new OwenException("Too many parameters for a mark. Limit it to just one index.");
+            throw new OwenException("Too many parameters for a mark or delete. Limit it to just one index.");
+        }
+    }
+
+    /**
+     * Checks if tag format is valid.
+     *
+     * @param parts The string array of user input.
+     * @throws OwenException If index or tag is missing or tag is empty.
+     */
+    public static void checkValidTag(String[] parts) throws OwenException {
+        if (parts.length == 1) {
+            throw new OwenException("Please specify an index and a tag. Do try again.");
+        } else if (parts.length == 2) {
+            throw new OwenException("Please specify a tag. Please try again.");
+        } else if (parts[2].isEmpty()) {
+            throw new OwenException("The given tag cannot be empty. Try again.");
         }
     }
 
@@ -303,6 +378,10 @@ public class Parser {
         if (startDate == null || endDate == null) {
             throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
         }
+
+        if (startDate.isAfter(endDate)) {
+            throw new OwenException("Start date cannot be after end date.");
+        }
         Event newEvent = new Event(parts[0], startDate, endDate);
         return newEvent;
     }
@@ -326,6 +405,7 @@ public class Parser {
      */
     public static LocalDateTime convertStringToLocalDateTime(String dateString) {
         LocalDateTime date = null;
+
         for (int i = 0; i < LOCAL_DATETIME_PATTERNS.length; i++) {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(LOCAL_DATETIME_PATTERNS[i]);
             try {

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import owen.command.AddDeadlineCommand;
 import owen.command.AddEventCommand;
+import owen.command.AddTagCommand;
 import owen.command.AddTodoCommand;
 import owen.command.ByeCommand;
 import owen.command.Command;
@@ -75,6 +76,12 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_addTagCommand_success() throws OwenException {
+        Command command = Parser.parse("tag 1 fun");
+        assertEquals(AddTagCommand.class, command.getClass());
+    }
+
+    @Test
     public void parse_invalidCommand_throwsException() {
         Exception exception = assertThrows(OwenException.class, () -> {
             Parser.parse("gibber");
@@ -120,7 +127,17 @@ public class ParserTest {
             Parser.checkValidDeadline(parts);
         });
 
-        assertEquals("We cannot find a date. Please add a /by <date/time>", exception.getMessage());
+        assertEquals("Invalid deadline format. Please add a /by <date/time>", exception.getMessage());
+
+        input = "deadline dream /by  ";
+        truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
+        String[] parts2 = truncated.split(" ");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidDeadline(parts2);
+        });
+
+        assertEquals("End date is empty. Please provide a valid date after /to for event "
+                + "or /by for deadline.", exception.getMessage());
     }
 
     @Test
@@ -143,7 +160,8 @@ public class ParserTest {
         });
 
         assertEquals("Missing start and end date. "
-                + "Please add a /from <date/time> and add a /to <date/time>", exception.getMessage());
+                + "Please add a /from <date/time> and /to <date/time>.",
+                 exception.getMessage());
 
         input = "event eat death /from 2/12/2019 1800 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
@@ -152,7 +170,7 @@ public class ParserTest {
             Parser.checkValidEvent(parts2);
         });
 
-        assertEquals("Missing end date. Please add a /to <date/time>", exception.getMessage());
+        assertEquals("Missing end date. Please add a /to <date/time>.", exception.getMessage());
 
         input = "event eat death  2/12/2019 1800 /to 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
@@ -161,7 +179,25 @@ public class ParserTest {
             Parser.checkValidEvent(parts3);
         });
 
-        assertEquals("Missing start date. Please add a /from <date/time>", exception.getMessage());
+        assertEquals("Missing start date. Please add a /from <date/time>.", exception.getMessage());
+
+        input = "event eat death /from 2/12/2019 1800 /to ";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] parts4 = truncated.split(" ");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(parts4);
+        });
+
+        assertEquals("End date is empty. Please provide a valid date after /to for event "
+                + "or /by for deadline.", exception.getMessage());
+
+        input = "event eat death /from /to 2/12/2020 2000";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] parts5 = truncated.split(" ");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(parts5);
+        });
+        assertEquals("Start date is empty. Please provide a valid date after /from", exception.getMessage());
     }
 
     @Test
@@ -247,4 +283,37 @@ public class ParserTest {
         assertEquals("2/12/2019 1800", dateString);
     }
 
+    @Test
+    public void checkValidMarkOrDelete_invalidMarkOrDelete_throwsException() throws OwenException {
+        String[] parts = "mark".split(" ");
+        Exception exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidMarkOrDelete(parts);
+        });
+
+        assertEquals("Please specify an index. Try again.", exception.getMessage());
+
+        String[] parts2 = "mark 1 2".split(" ");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidMarkOrDelete(parts2);
+        });
+
+        assertEquals("Too many parameters for a mark or delete. Limit it to just one index.", exception.getMessage());
+    }
+
+    @Test
+    public void checkValidTag_invalidTag_throwsException() throws OwenException {
+        String[] parts = "tag".split(" ");
+        Exception exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidTag(parts);
+        });
+
+        assertEquals("Please specify an index and a tag. Do try again.", exception.getMessage());
+
+        String[] parts2 = "tag 1".split(" ");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidTag(parts2);
+        });
+
+        assertEquals("Please specify a tag. Please try again.", exception.getMessage());
+    }
 }

@@ -73,7 +73,7 @@ public class Owen {
             errorCommand.execute(ui, storage, tasks);
         } catch (NumberFormatException exception) {
             ErrorCommand errorCommand = new ErrorCommand("please use a number for the index when "
-                    + "performing mark, unmark or delete.");
+                    + "performing mark, unmark, tagging or delete.");
             errorCommand.execute(ui, storage, tasks);
         } catch (IndexOutOfBoundsException exception) {
             ErrorCommand errorCommand = new ErrorCommand("The given index does not exist in the task list. "

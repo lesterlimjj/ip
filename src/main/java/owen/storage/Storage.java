@@ -109,7 +109,7 @@ public class Storage {
      * @param dataSegments The data segments containing the Deadline information.
      * @param taskList The task list to add the task to.
      */
-    public void addDeadlineFromDataSegment(String[] dataSegments, TaskList taskList) {
+    public void addDeadlineFromDataSegment(String[] dataSegments, TaskList taskList) throws OwenException {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
         String date = dataSegments[4];
@@ -127,7 +127,7 @@ public class Storage {
      * @param dataSegments The data segments containing the Event information.
      * @param taskList The task list to add the task to.
      */
-    public void addEventFromDataSegment(String[] dataSegments, TaskList taskList) {
+    public void addEventFromDataSegment(String[] dataSegments, TaskList taskList) throws OwenException {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
         String startDate = dataSegments[4].split("-")[0];

@@ -23,8 +23,8 @@ public class GuiController {
     private Owen owen;
 
     /** Images for user and owen */
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image owenImage = new Image(this.getClass().getResourceAsStream("/images/DaOwen.png"));
+    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.jpg"));
+    private Image owenImage = new Image(this.getClass().getResourceAsStream("/images/DaOwen.jpg"));
 
     /**
      * Gets singleton instance of GUI controller.
@@ -108,5 +108,14 @@ public class GuiController {
      */
     public void evaluateInput() {
         owen.evaluateInput(userTextField.getText());
+    }
+
+    /**
+     * Shows greeting message to user.
+     */
+    public void greetings() {
+        String completeGreeting = formatResponses("Greetings! I am Owen."
+                + "What would you ask of me?");
+        addOwenDialog(completeGreeting);
     }
 }
