@@ -37,7 +37,7 @@ public class OwenWindow extends AnchorPane {
         guiController.setDialogContainer(dialogContainer);
         guiController.setUserTextField(userInput);
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
-        guiController.greetings();
+        guiController.greetUser();
     }
 
 

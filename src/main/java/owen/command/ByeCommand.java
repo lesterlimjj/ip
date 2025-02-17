@@ -18,12 +18,7 @@ public class ByeCommand extends Command {
         guiController.addUserDialog();
         String completeResponse = guiController.formatResponses("I am sure we will see each other soon. Goodbye.");
         guiController.addOwenDialog(completeResponse);
-    }
-
-
-    @Override
-    public boolean isBye() {
-        return true;
+        guiController.exitApplicationWithDelay();
     }
 
 }

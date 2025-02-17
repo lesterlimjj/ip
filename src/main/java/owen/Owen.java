@@ -64,10 +64,6 @@ public class Owen {
             Command command = Parser.parse(input);
             command.execute(ui, storage, tasks);
 
-            if (command.isBye()) {
-                System.exit(0);
-            }
-
         } catch (OwenException exception) {
             ErrorCommand errorCommand = new ErrorCommand(exception.getMessage());
             errorCommand.execute(ui, storage, tasks);

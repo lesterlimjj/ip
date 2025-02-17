@@ -1,8 +1,12 @@
 package owen.ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import owen.Owen;
 
 /**
@@ -113,9 +117,18 @@ public class GuiController {
     /**
      * Shows greeting message to user.
      */
-    public void greetings() {
+    public void greetUser() {
         String completeGreeting = formatResponses("Greetings! I am Owen."
                 + "What would you ask of me?");
         addOwenDialog(completeGreeting);
+    }
+
+    /**
+     * Exits application after a delay of 1 second.
+     */
+    public void exitApplicationWithDelay() {
+        // Delay exit by 1 second
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> Platform.exit()));
+        timeline.play();
     }
 }

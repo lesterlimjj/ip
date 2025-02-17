@@ -18,12 +18,4 @@ public abstract class Command {
      */
     public abstract void execute(GuiController gui, Storage storage, TaskList taskList);
 
-    /**
-     * Returns whether the command is an exit command.
-     *
-     * @return a boolean indicating if the command is an exit command.
-     */
-    public boolean isBye() {
-        return false;
-    }
 }
