@@ -28,8 +28,8 @@ import owen.task.Todo;
 public class Parser {
 
     /** Accepted formats for localDatetime */
-    private static final String[] LOCAL_DATETIME_PATTERNS = {"d/M/yyyy HHmm", "M/d/yyyy HHmm"};
-    public static final int INDEX_NOT_FOUND = -1;
+    private static final String[] LOCAL_DATETIME_PATTERNS = {"d/M/yyyy HHmm"};
+    private static final int INDEX_NOT_FOUND = -1;
 
     /**
      * Parses the user input based on given command.
@@ -39,7 +39,7 @@ public class Parser {
      * @throws OwenException If the input fails a check.
      */
     public static Command parse(String input) throws OwenException {
-        String[] inputSplitBySpace = input.split(" ");
+        String[] inputSplitBySpace = input.trim().split(" ");
         String keyWord = inputSplitBySpace[0];
 
         switch (keyWord) {
@@ -112,10 +112,9 @@ public class Parser {
         String[] inputSplitBySpace = input.split(" ");
         String truncatedInput = input.replaceFirst(inputSplitBySpace[0] + " ", "");
         String[] truncatedSplitBySpace = truncatedInput.split(" ");
+        String[] truncatedSplitByBy = truncatedInput.split("/by", 2);
 
-        checkValidDeadline(truncatedSplitBySpace);
-
-        String[] truncatedSplitByBy = truncatedInput.split("/by");
+        checkValidDeadline(truncatedSplitBySpace, truncatedSplitByBy);
         trimStringArray(truncatedSplitByBy);
 
         Deadline deadline = createDeadline(truncatedSplitByBy);
@@ -134,10 +133,9 @@ public class Parser {
         String[] inputSplitBySpace = input.split(" ");
         String truncatedInput = input.replaceFirst(inputSplitBySpace[0] + " ", "");
         String[] truncatedSplitBySpace = truncatedInput.split(" ");
+        String[] truncatedSplitByFromTo = truncatedInput.split("/from|/to", 3);
 
-        checkValidEvent(truncatedSplitBySpace);
-
-        String[] truncatedSplitByFromTo = truncatedInput.split("/from | /to");
+        checkValidEvent(truncatedSplitBySpace, truncatedSplitByFromTo);
         trimStringArray(truncatedSplitByFromTo);
 
         Event event = createEvent(truncatedSplitByFromTo);
@@ -215,18 +213,20 @@ public class Parser {
 
 
     /**
-     * Checks if deadline format is valid.
+     * Checks if event format is valid.
      *
-     * @param parts The string array of user input.
+     * @param partsFromSpaceSplit The string array from splitting the input by " "
+     * @param partsFromFromToSplit The string array from splitting the input by "/from" or "/to"
      * @throws OwenException If input is missing start or end date or both.
      */
-    public static void checkValidEvent(String[] parts) throws OwenException {
-        int toIndex = findKeywordIndex(parts, "/to");
-        int fromIndex = findKeywordIndex(parts, "/from");
+    public static void checkValidEvent(String[] partsFromSpaceSplit, String[] partsFromFromToSplit)
+            throws OwenException {
+        int toIndex = findKeywordIndex(partsFromSpaceSplit, "/to");
+        int fromIndex = findKeywordIndex(partsFromSpaceSplit, "/from");
 
         checkForMissingKeywordsForEvent(fromIndex, toIndex);
-        checkForEmptyStartDate(parts, fromIndex, toIndex);
-        checkForEmptyEndDate(parts, toIndex);
+        checkForMissingDataForEvent(partsFromFromToSplit);
+
     }
 
     /**
@@ -255,44 +255,85 @@ public class Parser {
      */
     private static void checkForMissingKeywordsForEvent(int fromIndex, int toIndex) throws OwenException {
         if (fromIndex == INDEX_NOT_FOUND && toIndex == INDEX_NOT_FOUND) {
-            throw new OwenException("Missing start and end date. Please add a /from <date/time> and /to <date/time>.");
+            throw new OwenException("Missing start and end date indicators. "
+                    + "Please add a /from <date/time> and /to <date/time>.");
         } else if (fromIndex == INDEX_NOT_FOUND) {
-            throw new OwenException("Missing start date. Please add a /from <date/time>.");
+            throw new OwenException("Missing start date indicator. Please add a /from <date/time>.");
         } else if (toIndex == INDEX_NOT_FOUND) {
-            throw new OwenException("Missing end date. Please add a /to <date/time>.");
+            throw new OwenException("Missing end date indicator. Please add a /to <date/time>.");
         }
     }
 
     /**
-     * Checks if the start date is empty.
+     * Checks if the description, start date and end date are present.
      *
-     * @param parts the string array of the input.
-     * @param fromIndex the index of the start date.
-     * @param toIndex the index of the end date.
-     * @throws OwenException If start date is empty.
+     * @param parts the parts of the input string.
+     * @throws OwenException If input is missing description, start date or end date.
      */
-    private static void checkForEmptyStartDate(String[] parts, int fromIndex, int toIndex) throws OwenException {
-        boolean isToForStartDate = fromIndex + 1 == toIndex;
-        boolean isEmptyStartDate = parts[fromIndex + 1].isEmpty();
-        boolean isStartDateAbsent = isToForStartDate || isEmptyStartDate;
-        if (isStartDateAbsent) {
-            throw new OwenException("Start date is empty. Please provide a valid date after /from");
+    private static void checkForMissingDataForEvent(String[] parts) throws OwenException {
+        boolean isDescriptionEmpty = parts[0].trim().isBlank();
+        boolean isStartDateEmpty = parts[1].trim().isBlank();
+        boolean isEndDateEmpty = parts[2].trim().isBlank();
+        boolean isDescriptionAndStartDateEmpty = isDescriptionEmpty && isStartDateEmpty;
+        boolean isDescriptionAndEndDateEmpty = isDescriptionEmpty && isEndDateEmpty;
+        boolean isStartDateAndEndDateEmpty = isStartDateEmpty && isEndDateEmpty;
+        boolean isAllEmpty = isDescriptionEmpty && isStartDateEmpty && isEndDateEmpty;
+
+        if (isAllEmpty) {
+            throw new OwenException("We seem to have forgotten the description, start date and end date for our event. "
+                    + "Do specify them.");
+        } else if (isStartDateAndEndDateEmpty) {
+            throw new OwenException("We seem to have forgotten the start date and end date for our event. "
+                    + "Do specify them.");
+        } else if (isDescriptionAndEndDateEmpty) {
+            throw new OwenException("We seem to have forgotten the description and end date for our event. "
+                    + "Do specify them.");
+        } else if (isDescriptionAndStartDateEmpty) {
+            throw new OwenException("We seem to have forgotten the description and start date for our event. "
+                    + "Do specify them.");
+        } else if (isDescriptionEmpty) {
+            throw new OwenException("We seem to have forgotten the description for our event. Do specify it.");
+        } else if (isStartDateEmpty) {
+            throw new OwenException("We seem to have forgotten the start date for our event. Do specify it.");
+        } else if (isEndDateEmpty) {
+            throw new OwenException("We seem to have forgotten the end date for our event. Do specify it.");
         }
     }
 
     /**
-     * Checks if the end date is empty.
+     * Checks if deadline format is valid.
      *
-     * @param parts the string array of the input.
-     * @param toIndex the index of the end date.
-     * @throws OwenException If end date is empty.
+     * @param partsFromSpaceSplit The string array from splitting the input by " "
+     * @param partsFromBySplit The string array from splitting the input by "/by"
+     * @throws OwenException If input is missing date.
      */
-    private static void checkForEmptyEndDate(String[] parts, int toIndex) throws OwenException {
-        boolean isEmptyEndDate = toIndex + 1 >= parts.length;
-        if (isEmptyEndDate) {
-            throw new OwenException("End date is empty. Please provide a valid date after /to for event "
-                    + "or /by for deadline.");
+    public static void checkValidDeadline(String[] partsFromSpaceSplit, String[] partsFromBySplit)
+            throws OwenException {
+        int byIndex = findKeywordIndex(partsFromSpaceSplit, "/by");
+
+        checkForMissingKeywordsForDeadline(byIndex);
+        checkForMissingDataForDeadline(partsFromBySplit);
+    }
+
+    /**
+     * Checks if the description or end date for deadline is present
+     *
+     * @param parts the parts of the input string.
+     * @throws OwenException If input is missing description or date.
+     */
+    public static void checkForMissingDataForDeadline(String[] parts) throws OwenException {
+        boolean isDescriptionEmpty = parts[0].trim().isBlank();
+        boolean isDateEmpty = parts[1].trim().isBlank();
+
+        if (isDescriptionEmpty && isDateEmpty) {
+            throw new OwenException("We seem to have forgotten the description and date for our deadline. "
+                    + "Do specify them.");
+        } else if (isDescriptionEmpty) {
+            throw new OwenException("We seem to have forgotten the description for our deadline. Do specify it.");
+        } else if (isDateEmpty) {
+            throw new OwenException("We seem to have forgotten the date for our deadline. Do specify it.");
         }
+
     }
 
     /**
@@ -303,22 +344,10 @@ public class Parser {
      */
     private static void checkForMissingKeywordsForDeadline(int byIndex) throws OwenException {
         if (byIndex == INDEX_NOT_FOUND) {
-            throw new OwenException("Invalid deadline format. Please add a /by <date/time>");
+            throw new OwenException("Missing date indicator for deadline. Please add a /by <date/time>.");
         }
     }
 
-    /**
-     * Checks if deadline format is valid.
-     *
-     * @param parts The string array of user input.
-     * @throws OwenException If input is missing date.
-     */
-    public static void checkValidDeadline(String[] parts) throws OwenException {
-        int byIndex = findKeywordIndex(parts, "/by");
-
-        checkForMissingKeywordsForDeadline(byIndex);
-        checkForEmptyEndDate(parts, byIndex);
-    }
 
     /**
      * Checks if mark format is valid.
@@ -360,7 +389,7 @@ public class Parser {
     public static Deadline createDeadline(String[] parts) throws OwenException {
         LocalDateTime dateline = convertStringToLocalDateTime(parts[1].trim());
         if (dateline == null) {
-            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+            throw new OwenException("Given datetime is in wrong format. Please use d/M/yyyy HHmm");
         }
         Deadline newDeadline = new Deadline(parts[0], dateline);
         return newDeadline;
@@ -377,7 +406,7 @@ public class Parser {
         LocalDateTime startDate = convertStringToLocalDateTime(parts[1].trim());
         LocalDateTime endDate = convertStringToLocalDateTime(parts[2].trim());
         if (startDate == null || endDate == null) {
-            throw new OwenException("Given datetime is in wrong format. Please use M/d/yyyy HHmm or d/M/yyyy HHmm");
+            throw new OwenException("Given datetime is in wrong format. Please use d/M/yyyy HHmm");
         }
 
         if (startDate.isAfter(endDate)) {

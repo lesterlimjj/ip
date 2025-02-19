@@ -112,9 +112,10 @@ public class ParserTest {
     public void checkValidDeadline_validDeadline_success() throws OwenException {
         String input = "deadline dream /by 10/3/2020 2000";
         String truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
-        String[] parts = truncated.split(" ");
+        String[] partsSplitBySpace = truncated.split(" ");
+        String[] partsSplitByBy = truncated.split("/by");
         assertDoesNotThrow(() -> {
-            Parser.checkValidDeadline(parts);
+            Parser.checkValidDeadline(partsSplitBySpace, partsSplitByBy);
         });
     }
 
@@ -122,31 +123,56 @@ public class ParserTest {
     public void checkValidDeadline_invalidDeadline_throwsException() throws OwenException {
         String input = "deadline dream 10/3/2020 2000";
         String truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
-        String[] parts = truncated.split(" ");
+        String[] partsSplitBySpace = truncated.split(" ");
+        String[] partsSplitByBy = truncated.split("/by");
         Exception exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidDeadline(parts);
+            Parser.checkValidDeadline(partsSplitBySpace, partsSplitByBy);
         });
 
-        assertEquals("Invalid deadline format. Please add a /by <date/time>", exception.getMessage());
+        assertEquals("Missing date indicator for deadline. Please add a /by <date/time>.", exception.getMessage());
 
-        input = "deadline dream /by  ";
+        input = "deadline  /by  ";
         truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
-        String[] parts2 = truncated.split(" ");
+        String[] partsSplitBySpace2 = truncated.split(" ");
+        String[] partsSplitByBy2 = truncated.split("/by");
         exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidDeadline(parts2);
+            Parser.checkValidDeadline(partsSplitBySpace2, partsSplitByBy2);
         });
 
-        assertEquals("End date is empty. Please provide a valid date after /to for event "
-                + "or /by for deadline.", exception.getMessage());
+        assertEquals("We seem to have forgotten the description and date for our deadline. "
+                + "Do specify them.", exception.getMessage());
+
+        input = "deadline   /by 10/3/2020 2000";
+        truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
+        String[] partsSplitBySpace3 = truncated.split(" ");
+        String[] partsSplitByBy3 = truncated.split("/by");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidDeadline(partsSplitBySpace3, partsSplitByBy3);
+        });
+
+        assertEquals("We seem to have forgotten the description for our deadline. "
+                + "Do specify it.", exception.getMessage());
+
+        input = "deadline dream /by   ";
+        truncated = input.replaceFirst(AddDeadlineCommand.KEY_WORD + " ", "");
+        String[] partsSplitBySpace4 = truncated.split(" ");
+        String[] partsSplitByBy4 = truncated.split("/by");
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidDeadline(partsSplitBySpace4, partsSplitByBy4);
+        });
+
+        assertEquals("We seem to have forgotten the date for our deadline. "
+                + "Do specify it.", exception.getMessage());
     }
 
     @Test
     public void checkValidEvent_validEvent_success() throws OwenException {
         String input = "event eat death /from 2/12/2019 1800 /to 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts = truncated.split(" ");
+        String[] truncatedSplitBySpace = truncated.split(" ");
+        String[] truncatedSplitByFromTo = truncated.split("/from|/to", 3);
         assertDoesNotThrow(() -> {
-            Parser.checkValidEvent(parts);
+            Parser.checkValidEvent(truncatedSplitBySpace, truncatedSplitByFromTo);
         });
     }
 
@@ -154,50 +180,106 @@ public class ParserTest {
     public void checkValidEvent_invalidEvent_throwsException() throws OwenException {
         String input = "event eat death  2/12/2019 1800 2/12/2020 2000";
         String truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts1 = truncated.split(" ");
+        String[] truncatedSplitBySpace2 = truncated.split(" ");
+        String[] truncatedSplitByFromTo2 = truncated.split("/from|/to", 3);
         Exception exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidEvent(parts1);
+            Parser.checkValidEvent(truncatedSplitBySpace2, truncatedSplitByFromTo2);
         });
 
-        assertEquals("Missing start and end date. "
+        assertEquals("Missing start and end date indicators. "
                 + "Please add a /from <date/time> and /to <date/time>.",
                  exception.getMessage());
 
         input = "event eat death /from 2/12/2019 1800 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts2 = truncated.split(" ");
+        String[] truncatedSplitBySpace3 = truncated.split(" ");
+        String[] truncatedSplitByFromTo3 = truncated.split("/from|/to", 3);
         exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidEvent(parts2);
+            Parser.checkValidEvent(truncatedSplitBySpace3, truncatedSplitByFromTo3);
         });
 
-        assertEquals("Missing end date. Please add a /to <date/time>.", exception.getMessage());
+        assertEquals("Missing end date indicator. Please add a /to <date/time>.", exception.getMessage());
 
         input = "event eat death  2/12/2019 1800 /to 2/12/2020 2000";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts3 = truncated.split(" ");
+        String[] truncatedSplitBySpace4 = truncated.split(" ");
+        String[] truncatedSplitByFromTo4 = truncated.split("/from|/to", 3);
         exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidEvent(parts3);
+            Parser.checkValidEvent(truncatedSplitBySpace4, truncatedSplitByFromTo4);
         });
 
-        assertEquals("Missing start date. Please add a /from <date/time>.", exception.getMessage());
+        assertEquals("Missing start date indicator. Please add a /from <date/time>.", exception.getMessage());
 
-        input = "event eat death /from 2/12/2019 1800 /to ";
+        input = "event   /from   /to   ";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts4 = truncated.split(" ");
+        String[] truncatedSplitBySpace5 = truncated.split(" ");
+        String[] truncatedSplitByFromTo5 = truncated.split("/from|/to", 3);
         exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidEvent(parts4);
+            Parser.checkValidEvent(truncatedSplitBySpace5, truncatedSplitByFromTo5);
         });
 
-        assertEquals("End date is empty. Please provide a valid date after /to for event "
-                + "or /by for deadline.", exception.getMessage());
+        assertEquals("We seem to have forgotten the description, start date and end date for our event. "
+                + "Do specify them.", exception.getMessage());
 
-        input = "event eat death /from /to 2/12/2020 2000";
+        input = "event eat death /from  /to  ";
         truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
-        String[] parts5 = truncated.split(" ");
+        String[] truncatedSplitBySpace6 = truncated.split(" ");
+        String[] truncatedSplitByFromTo6 = truncated.split("/from|/to", 3);
         exception = assertThrows(OwenException.class, () -> {
-            Parser.checkValidEvent(parts5);
+            Parser.checkValidEvent(truncatedSplitBySpace6, truncatedSplitByFromTo6);
         });
-        assertEquals("Start date is empty. Please provide a valid date after /from", exception.getMessage());
+        assertEquals("We seem to have forgotten the start date and end date for our event. "
+                + "Do specify them.", exception.getMessage());
+
+        input = "event  /from    /to 2/12/2020 2000";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] truncatedSplitBySpace7 = truncated.split(" ");
+        String[] truncatedSplitByFromTo7 = truncated.split("/from|/to", 3);
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(truncatedSplitBySpace7, truncatedSplitByFromTo7);
+        });
+        assertEquals("We seem to have forgotten the description and start date for our event. "
+                + "Do specify them.", exception.getMessage());
+
+        input = "event   /from 2/12/2020 1800 /to   ";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] truncatedSplitBySpace8 = truncated.split(" ");
+        String[] truncatedSplitByFromTo8 = truncated.split("/from|/to", 3);
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(truncatedSplitBySpace8, truncatedSplitByFromTo8);
+        });
+        assertEquals("We seem to have forgotten the description and end date for our event. "
+                + "Do specify them.", exception.getMessage());
+
+        input = "event project meeting /from 2/12/2020 1800 /to ";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] truncatedSplitBySpace9 = truncated.split(" ");
+        String[] truncatedSplitByFromTo9 = truncated.split("/from|/to", 3);
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(truncatedSplitBySpace9, truncatedSplitByFromTo9);
+        });
+        assertEquals("We seem to have forgotten the end date for our event. "
+                + "Do specify it.", exception.getMessage());
+
+        input = "event project meeting /from  /to 2/12/2020 2000";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] truncatedSplitBySpace10 = truncated.split(" ");
+        String[] truncatedSplitByFromTo10 = truncated.split("/from|/to", 3);
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(truncatedSplitBySpace10, truncatedSplitByFromTo10);
+        });
+        assertEquals("We seem to have forgotten the start date for our event. "
+                + "Do specify it.", exception.getMessage());
+
+        input = "event   /from 2/12/2020 1800  /to 2/12/2020 2000";
+        truncated = input.replaceFirst(AddEventCommand.KEY_WORD + " ", "");
+        String[] truncatedSplitBySpace11 = truncated.split(" ");
+        String[] truncatedSplitByFromTo11 = truncated.split("/from|/to", 3);
+        exception = assertThrows(OwenException.class, () -> {
+            Parser.checkValidEvent(truncatedSplitBySpace11, truncatedSplitByFromTo11);
+        });
+        assertEquals("We seem to have forgotten the description for our event. "
+                + "Do specify it.", exception.getMessage());
     }
 
     @Test
@@ -224,7 +306,7 @@ public class ParserTest {
         });
 
         assertEquals("Given datetime is in wrong format. "
-                + "Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
+                + "Please use d/M/yyyy HHmm", exception.getMessage());
     }
 
     @Test
@@ -251,7 +333,7 @@ public class ParserTest {
         });
 
         assertEquals("Given datetime is in wrong format. "
-                + "Please use M/d/yyyy HHmm or d/M/yyyy HHmm", exception.getMessage());
+                + "Please use d/M/yyyy HHmm", exception.getMessage());
     }
 
     @Test
@@ -262,11 +344,6 @@ public class ParserTest {
         assertEquals(12, dateTime.getMonthValue());
         assertEquals(2, dateTime.getDayOfMonth());
 
-        dateTime = Parser.convertStringToLocalDateTime("3/31/2019 1800");
-        assertNotNull(dateTime, "DateTime should be parsed successfully");
-        assertEquals(2019, dateTime.getYear());
-        assertEquals(3, dateTime.getMonthValue());
-        assertEquals(31, dateTime.getDayOfMonth());
     }
 
     @Test

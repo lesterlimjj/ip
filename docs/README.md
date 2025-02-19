@@ -58,7 +58,7 @@ Expected Command Format:
 deadline (description of task) /by (end date)
 ```
 
-<b>Dates need to be either M/d/yyyy HHmm or d/M/yyyy HHmm.</b>
+<b>Dates need to be in d/M/yyyy HHmm.</b>
 
 Example Deadline Command:
 ```text
@@ -83,7 +83,7 @@ Expected Command Format:
 event (description of task) /from (start date) /to (end date)
 ```
 
-<b>Dates need to be either M/d/yyyy HHmm or d/M/yyyy HHmm.</b>
+<b>Dates need to be in d/M/yyyy HHmm.</b>
 
 Example Event Command:
 ```text
