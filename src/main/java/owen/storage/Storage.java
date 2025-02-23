@@ -96,7 +96,6 @@ public class Storage {
     public void addTodoFromDataSegment(String[] dataSegments, TaskList taskList) {
         boolean isDone = dataSegments[1].equals("1");
         String description = dataSegments[2];
-        String[] tags = dataSegments[3].split(" ");
 
         Todo loadedTodo = new Todo(description, isDone);
         addTagsToTaskFromDataSegment(dataSegments[3], loadedTodo);
