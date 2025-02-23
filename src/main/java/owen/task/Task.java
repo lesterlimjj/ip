@@ -81,9 +81,9 @@ public class Task {
     }
 
     /**
-     * converts the list of tags to a string.
+     * Converts the list of tags to a string.
      *
-     * @return the string representation of the tags.
+     * @return The string representation of the tags.
      */
     public String convertTagsToString() {
         String tagsString = "";
@@ -98,9 +98,9 @@ public class Task {
     }
 
     /**
-     * converts the list of tags to a string in data format.
+     * Converts the list of tags to a string in data format.
      *
-     * @return the string representation of the tags in data format.
+     * @return The string representation of the tags in data format.
      */
     public String convertTagsToDataFormat() {
         String tagsString = "";

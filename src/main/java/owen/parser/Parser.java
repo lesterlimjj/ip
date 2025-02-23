@@ -316,7 +316,7 @@ public class Parser {
     }
 
     /**
-     * Checks if the description or end date for deadline is present
+     * Checks if the description or end date for deadline is present.
      *
      * @param parts the parts of the input string.
      * @throws OwenException If input is missing description or date.
